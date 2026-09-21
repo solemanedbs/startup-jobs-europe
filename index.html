@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offres — startups européennes financées par le capital-risque</title>
+<meta name="description" content="Toutes les offres d'emploi ouvertes dans les startups européennes financées par des fonds de capital-risque, mises à jour chaque matin. Sans compte, sans inscription.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Offres dans les startups européennes VC-backed</h1>
+    <p class="sub"><span id="meta-total">…</span> offres ouvertes chez <span id="meta-startups">…</span> startups financées par <span id="meta-fonds">…</span> fonds. Mis à jour le <span id="meta-date">…</span>. Lien direct vers la candidature, sans compte.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <form class="filters" id="filters" onsubmit="return false">
+    <input type="search" id="q" placeholder="Rechercher un poste, une startup, un fonds…" autocomplete="off">
+    <select id="cat">
+      <option value="sales">Sales / Business development</option>
+      <option value="finance">Finance</option>
+      <option value="ops">Opérations / Stratégie / People</option>
+      <option value="produit_marketing">Produit / Marketing / Design</option>
+      <option value="tech">Tech / Data</option>
+      <option value="autre">Autres</option>
+      <option value="all">Toutes les catégories</option>
+    </select>
+    <select id="pays"><option value="europe">Europe + Remote</option></select>
+    <select id="ville"><option value="">Toutes les villes</option></select>
+    <select id="age">
+      <option value="7">Publiées depuis 7 jours</option>
+      <option value="30" selected>Publiées depuis 30 jours</option>
+      <option value="60">Publiées depuis 60 jours</option>
+      <option value="999">Toutes (dates inconnues incluses)</option>
+    </select>
+    <select id="fonds"><option value="">Tous les fonds</option></select>
+  </form>
+
+  <div class="bar"><span id="count">…</span><span class="hint">Cliquez sur une offre pour postuler sur le site de la startup.</span></div>
+  <ol class="list" id="list"></ol>
+  <div class="pager"><button id="more" type="button" hidden>Afficher 50 offres de plus</button></div>
+</main>
+
+<footer class="wrap foot">
+  <p>Les offres proviennent des pages carrière officielles des startups (Greenhouse, Lever, Ashby, Teamtailor, Personio, Workable, Recruitee…), relues chaque matin. Les startups sont issues des portefeuilles de 1 036 fonds de capital-risque européens. Aucune donnée n'est collectée sur vous.</p>
+  <p>Une erreur, une offre pourvue, une startup manquante ? <a href="mailto:solemanedobbels@gmail.com">Écrivez-moi</a>.</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
