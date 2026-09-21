@@ -38,3 +38,7 @@ h1{margin:0 0 6px;font-size:22px;letter-spacing:-.01em}
 .job .tags .tag.loc{background:var(--acc-bg);color:var(--acc)}
 .legal h2{font-size:15px;margin:20px 0 4px}.legal p{color:var(--muted);font-size:14px}
 @media (max-width:760px){.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}.check{grid-column:span 1}}
+.job .r .sal{color:var(--fg);font-weight:600}
+.crumb{margin:0 0 8px;font-size:13px}.crumb a{color:var(--muted);text-decoration:none}.crumb a:hover{color:var(--acc)}
+.meta{color:var(--muted);font-size:13.5px;margin:14px 0}
+.list.plain li{padding:4px 0}.list.plain a{color:var(--acc);text-decoration:none;text-transform:capitalize}

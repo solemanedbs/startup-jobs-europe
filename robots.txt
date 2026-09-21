@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://solemanedbs.github.io/startup-jobs-europe/sitemap.xml
