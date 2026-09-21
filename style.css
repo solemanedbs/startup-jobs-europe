@@ -28,3 +28,13 @@ h1{margin:0 0 6px;font-size:22px;letter-spacing:-.01em}
 .empty{padding:40px 0;text-align:center;color:var(--muted)}
 @media (max-width:760px){.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}.job{grid-template-columns:1fr}.job .r{text-align:left}}
 @media (prefers-color-scheme:dark){:root{--bg:#141414;--fg:#ececec;--muted:#a3a3a3;--line:#2a2a2a;--card:#1c1c1c;--acc:#7aa2ff;--acc-bg:#1e2a4a;--tag:#262626}}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.lang{font:inherit;font-size:13px;font-weight:600;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer;color:var(--muted)}
+.lang:hover{border-color:var(--acc);color:var(--acc)}
+.filters{grid-template-columns:2fr 1fr 1fr 1fr 1fr}
+.check{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);padding:6px 2px;cursor:pointer}
+.check input{width:16px;height:16px;margin:0}
+.minor{grid-column:span 1}
+.job .tags .tag.loc{background:var(--acc-bg);color:var(--acc)}
+.legal h2{font-size:15px;margin:20px 0 4px}.legal p{color:var(--muted);font-size:14px}
+@media (max-width:760px){.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}.check{grid-column:span 1}}
