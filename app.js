@@ -107,16 +107,22 @@
     let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
     $("#q").addEventListener("change", () => { if ($("#q").value.trim()) track("search"); });
     $("#more").addEventListener("click", more);
-    // ---- suivi de candidature : on retient l'offre ouverte, on demande au retour sur l'onglet
-    let pending = null, asked = new Set();
-    try { asked = new Set(JSON.parse(sessionStorage.getItem("sj.asked") || "[]")); } catch (e) {}
+    // ---- suivi de candidature : on retient l'offre ouverte, puis on demande dès que la personne revient sur la page
+    let asked = new Set(), pending = null;
+    try { asked = new Set(JSON.parse(localStorage.getItem("sj.asked") || "[]")); } catch (e) {}
+    try { const p0 = JSON.parse(sessionStorage.getItem("sj.pending") || "null"); if (p0) pending = p0; } catch (e) {}
+    const savePending = () => { try { pending ? sessionStorage.setItem("sj.pending", JSON.stringify(pending)) : sessionStorage.removeItem("sj.pending"); } catch (e) {} };
+    const saveAsked = () => { try { localStorage.setItem("sj.asked", JSON.stringify([...asked].slice(-400))); } catch (e) {} };
     $("#list").addEventListener("click", e => {
       const a = e.target.closest("a.job"); if (!a) return;
-      const r = rows.find(x => x.u === a.getAttribute("href")); if (!r || asked.has(r.u)) return;
-      pending = r;
+      const href = a.getAttribute("href"); const r = rows.find(x => x.u === href);
+      if (!r || asked.has(r.u)) return;
+      pending = { u: r.u, s: r.s, t: r.t, l: r.l || r.p, at: Date.now() }; savePending();
+      clearTimeout(window.__sjT); window.__sjT = setTimeout(askBar, 12000);   // filet : si l'onglet n'a jamais perdu le focus
     });
     function askBar() {
-      if (!pending || document.querySelector(".ask")) return;
+      if (!pending || document.hidden || document.querySelector(".ask")) return;
+      if (Date.now() - (pending.at || 0) < 2500) { clearTimeout(window.__sjT); window.__sjT = setTimeout(askBar, 2500); return; }
       const r = pending, t = T();
       const bar = document.createElement("div"); bar.className = "ask";
       bar.innerHTML = `<span>${t.ask} <b>${esc(r.s)}</b> — ${esc(r.t)} ?</span>
@@ -125,16 +131,18 @@
       bar.addEventListener("click", ev => {
         const a = ev.target.dataset && ev.target.dataset.a; if (!a) return;
         if (a === "y" && window.SJ) {
-          SJ.addApp({ co: r.s, po: r.t, u: r.u, lieu: r.l || r.p });
+          SJ.addApp({ co: r.s, po: r.t, u: r.u, lieu: r.l });
           bar.innerHTML = `<span>${t.added} ✓ <a href="moi.html#crm">${t.space} →</a></span>`;
-          setTimeout(() => bar.remove(), 3500);
-        } else bar.remove();
-        if (a !== "l") { asked.add(r.u); try { sessionStorage.setItem("sj.asked", JSON.stringify([...asked])); } catch (e) {} }
-        pending = null;
+          setTimeout(() => bar.remove(), 4000); track("apply/yes");
+        } else { bar.remove(); track("apply/" + a); }
+        if (a !== "l") { asked.add(r.u); saveAsked(); }
+        pending = null; savePending(); clearTimeout(window.__sjT);
       });
     }
-    document.addEventListener("visibilitychange", () => { if (!document.hidden) setTimeout(askBar, 400); });
-    window.addEventListener("focus", () => setTimeout(askBar, 400));
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) setTimeout(askBar, 500); });
+    window.addEventListener("focus", () => setTimeout(askBar, 500));
+    ["pointerdown", "keydown", "wheel"].forEach(ev => window.addEventListener(ev, () => { if (pending) setTimeout(askBar, 150); }, { passive: true }));
+    if (pending) setTimeout(askBar, 1200);   // retour sur le site plus tard : on demande encore
     $("#lang").addEventListener("click", () => { lang = lang === "fr" ? "en" : "fr"; applyLang(); apply(); track("lang/" + lang); });
     await refresh();
   })();
