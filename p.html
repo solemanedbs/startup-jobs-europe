@@ -1,0 +1,41 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Profil</title><meta name="robots" content="noindex"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="moi.css">
+<style>
+.prof{max-width:780px;margin:0 auto;padding:0 18px}
+.phead{text-align:center;padding:30px 0 4px}.phead h1{font-size:27px;margin:0 0 4px}.phead .h{color:var(--muted);font-size:15px;margin:0 0 10px}
+.phead a{color:var(--acc);font-size:13.5px;text-decoration:none;margin:0 5px}
+.psec{margin:26px 0 0}.psec h2{font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:5px;margin:0 0 12px}
+.xp{margin-bottom:16px}.xp .l1{display:flex;justify-content:space-between;gap:12px;font-weight:600}.xp .l2{color:var(--muted);font-size:13.5px;font-style:italic;margin-bottom:5px}
+.xp ul{margin:0;padding-left:18px}.xp li{margin-bottom:3px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+.pcard h3{margin:0 0 5px;font-size:15px}.pcard p{margin:0 0 8px;color:var(--muted);font-size:13.5px;line-height:1.45;white-space:pre-wrap}
+.pcard a{color:var(--acc);font-size:13px;text-decoration:none;word-break:break-all}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.bandeau{background:var(--acc-bg);border:1px solid var(--acc);border-radius:10px;padding:11px 14px;margin:18px 0;font-size:13.5px}
+@media(max-width:700px){.cards{grid-template-columns:1fr}}
+</style></head>
+<body><div class="prof" id="out"><p class="empty">Chargement…</p></div>
+<script src="store.js"></script>
+<script>
+(async () => {
+  const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const out = document.getElementById("out"); const raw = location.hash.slice(1);
+  if (!raw) { out.innerHTML = `<p class="empty">Ce lien ne contient pas de profil.<br><a href="moi.html">Créer le mien →</a></p>`; return; }
+  let d; try { d = await SJ.unpack(raw); } catch (e) { out.innerHTML = `<p class="empty">Lien illisible ou tronqué. Demandez à la personne de le renvoyer en entier.</p>`; return; }
+  const link = u => /^https?:/.test(u) ? u : "https://" + u;
+  const H = [];
+  H.push(`<div class="phead"><h1>${esc(d.id.n)}</h1>${d.id.h ? `<p class="h">${esc(d.id.h)}</p>` : ""}<p>
+    ${d.id.mail ? `<a href="mailto:${esc(d.id.mail)}">${esc(d.id.mail)}</a>` : ""}
+    ${d.id.li ? `<a href="${esc(link(d.id.li))}" target="_blank" rel="noopener">LinkedIn</a>` : ""}
+    ${d.id.site ? `<a href="${esc(link(d.id.site))}" target="_blank" rel="noopener">${esc(d.id.site)}</a>` : ""}</p></div>`);
+  H.push(`<div class="bandeau">Ce profil est contenu dans le lien lui-même. Rien n'est stocké sur ce site : ni compte, ni base de données, ni cookie. <a href="moi.html">Créer le vôtre →</a></div>`);
+  if ((d.pr || []).length) H.push(`<div class="psec"><h2>Projets</h2><div class="cards">` + d.pr.map(p => `<div class="pcard"><h3>${esc(p.t)}</h3><p>${esc(p.d)}</p>${p.u ? `<a href="${esc(link(p.u))}" target="_blank" rel="noopener">${esc(p.u.replace(/^https?:\/\//, "").slice(0, 46))} →</a>` : ""}${(p.k || []).length ? `<div class="chips">${p.k.map(k => `<span class="tag">${esc(k)}</span>`).join("")}</div>` : ""}</div>`).join("") + `</div></div>`);
+  if ((d.x || []).length) H.push(`<div class="psec"><h2>Expériences</h2>` + d.x.map(x => `<div class="xp"><div class="l1"><span>${esc(x.e)}</span><span>${esc(x.d)}</span></div>${x.t ? `<div class="l2">${esc(x.t)}</div>` : ""}<ul>${(x.p || []).map(p => `<li>${esc(p)}</li>`).join("")}</ul></div>`).join("") + `</div>`);
+  if ((d.f || []).length) H.push(`<div class="psec"><h2>Formation</h2>` + d.f.map(f => `<div class="xp"><div class="l1"><span>${esc(f.t)}</span><span>${esc(f.d)}</span></div></div>`).join("") + `</div>`);
+  if ((d.s || []).length) H.push(`<div class="psec"><h2>Compétences</h2><div class="chips">` + d.s.map(s => `<span class="tag">${esc(s)}</span>`).join("") + `</div></div>`);
+  H.push(`<footer class="foot" style="margin-top:34px"><p>Page générée depuis le lien · <a href="./">Offres dans les startups européennes</a></p></footer>`);
+  out.innerHTML = H.join("");
+  document.title = (d.id.n || "Profil") + (d.id.h ? " — " + d.id.h : "");
+})();
+</script></body></html>

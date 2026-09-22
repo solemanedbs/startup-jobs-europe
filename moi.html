@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mon espace — profil, projets, candidatures</title>
+<meta name="description" content="Votre banque de faits pour générer des CV adaptés, vos projets, et le suivi de vos candidatures. Tout reste dans votre navigateur.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="moi.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <p class="crumb"><a href="./">← Toutes les offres</a></p>
+  <h1>Mon espace</h1>
+  <p class="sub">Votre banque de faits, vos projets et vos candidatures. <b>Tout reste dans ce navigateur</b> : aucun compte, aucun serveur, aucune donnée envoyée. Pensez à exporter un fichier de sauvegarde.</p>
+</div></header>
+
+<nav class="wrap tabs" id="tabs">
+  <button class="tab on" data-t="profil">Mon profil</button>
+  <button class="tab" data-t="projets">Mes projets</button>
+  <button class="tab" data-t="cv">Générer un CV</button>
+  <button class="tab" data-t="crm">Mes candidatures <span class="pill" id="nApps">0</span></button>
+  <span class="grow"></span>
+  <button class="mini" id="exp">Exporter</button>
+  <label class="mini" for="imp">Importer</label><input type="file" id="imp" accept="application/json" hidden>
+</nav>
+
+<main class="wrap">
+  <!-- PROFIL -->
+  <section id="s-profil">
+    <div class="block">
+      <h2>Identité</h2>
+      <div class="grid2">
+        <label>Nom et prénom<input id="i-n" placeholder="Prénom Nom"></label>
+        <label>Titre court<input id="i-h" placeholder="Business developer junior · Paris"></label>
+        <label>E-mail<input id="i-mail" placeholder="vous@exemple.com"></label>
+        <label>LinkedIn<input id="i-li" placeholder="linkedin.com/in/votre-profil"></label>
+        <label>Site / portfolio<input id="i-site" placeholder="(optionnel)"></label>
+      </div>
+    </div>
+    <div class="block">
+      <h2>Expériences <span class="hint">une puce = un fait vérifiable, avec un chiffre si possible</span></h2>
+      <div id="xs"></div><button class="add" id="addx">+ Ajouter une expérience</button>
+    </div>
+    <div class="block">
+      <h2>Formation</h2><div id="fs"></div><button class="add" id="addf">+ Ajouter une formation</button>
+    </div>
+    <div class="block">
+      <h2>Compétences et outils <span class="hint">une par ligne</span></h2>
+      <textarea id="i-s" rows="5" placeholder="Prospection sortante&#10;Excel avancé&#10;Salesforce, Apollo, Lemlist&#10;Anglais courant"></textarea>
+    </div>
+    <div class="block share">
+      <h2>Partager mon profil</h2>
+      <p class="hint">Le lien contient votre profil (identité, expériences, projets, formation, compétences — <b>pas vos candidatures</b>). Rien n'est stocké sur ce site. Si vous modifiez votre profil, regénérez le lien.</p>
+      <div class="row"><button class="primary" id="mklink">Obtenir mon lien</button><a id="preview" class="mini" href="#" hidden target="_blank">Aperçu</a></div>
+      <input id="link" readonly hidden>
+    </div>
+  </section>
+
+  <!-- PROJETS -->
+  <section id="s-projets" hidden>
+    <div class="block">
+      <h2>Mes projets</h2>
+      <p class="hint">Ce que vous avez produit : un script, une séquence d'e-mails, une automatisation, une analyse, un site. Le lien est ce qui rend la chose vérifiable — <b>vérifiez qu'il est accessible sans autorisation</b> (Drive : Partager → Tous les utilisateurs disposant du lien → Lecteur).</p>
+      <div id="prs"></div><button class="add" id="addpr">+ Ajouter un projet</button>
+    </div>
+  </section>
+
+  <!-- CV -->
+  <section id="s-cv" hidden>
+    <div class="block">
+      <h2>Générer un CV adapté à une offre</h2>
+      <p class="hint">Collez l'offre ci-dessous, copiez le bloc, collez-le dans l'IA de votre choix (Claude, ChatGPT, Mistral…). Vos faits ne sortent d'ici que par votre copier-coller.</p>
+      <textarea id="offre" rows="7" placeholder="Collez ici l'intitulé, l'entreprise et la description complète de l'offre…"></textarea>
+      <div class="row"><button class="primary" id="copy">Copier le texte pour l'IA</button><span id="copied" class="ok" hidden>Copié ✓</span></div>
+      <details><summary>Voir le texte</summary><pre id="prompt"></pre></details>
+    </div>
+  </section>
+
+  <!-- CRM -->
+  <section id="s-crm" hidden>
+    <div class="block">
+      <h2>Mes candidatures</h2>
+      <p class="hint">Quand vous ouvrez une offre depuis ce site, on vous demande au retour si vous avez postulé. Vous pouvez aussi ajouter une ligne à la main.</p>
+      <div class="row"><button class="add" id="addapp">+ Ajouter une candidature</button><button class="mini" id="csv">Exporter en CSV</button></div>
+      <div class="tablewrap"><table id="apps"><thead><tr><th>Date</th><th>Entreprise</th><th>Poste</th><th>Statut</th><th>Note</th><th>Lien</th><th></th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap foot"><p>Vos données sont enregistrées dans ce navigateur uniquement (localStorage). Effacer l'historique du navigateur ou changer d'appareil les fait disparaître : <b>exportez régulièrement</b>. <a href="mentions.html">Mentions légales</a></p></footer>
+<script src="store.js"></script><script src="moi.js"></script>
+</body></html>

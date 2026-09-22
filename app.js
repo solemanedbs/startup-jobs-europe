@@ -8,14 +8,14 @@
       hint: "Cliquez sur une offre pour postuler sur le site de la startup.", more: "Afficher 50 offres de plus", offers: n => n > 1 ? "offres" : "offre", empty: "Aucune offre avec ces filtres. Élargissez la période ou la zone.",
       today: "aujourd'hui", yesterday: "hier", days: n => `il y a ${n} j`, months: n => `il y a ${n} mois`, unknown: "date inconnue", seen: "vue", new: "nouveau", scale: "scale-up", remoteTag: "remote",
       foot1: "Les offres proviennent des pages carrière officielles des startups (Greenhouse, Lever, Ashby, Teamtailor, Personio, Workable, Recruitee…), relues chaque matin. Les startups sont issues des portefeuilles de plus de 1 000 fonds de capital-risque européens : ce sont des entreprises financées, qui recrutent réellement.",
-      foot2: "Un projet personnel de", contact: "Signaler une erreur ou une startup manquante", legal: "Mentions légales", pages: "Par métier et par pays", foot3: "Statistiques de fréquentation anonymes (GoatCounter, sans cookie). Aucune donnée personnelle n'est collectée.", dateFmt: "fr-FR", other: "EN" },
+      foot2: "Un projet personnel de", contact: "Signaler une erreur ou une startup manquante", legal: "Mentions légales", pages: "Par métier et par pays", space: "Mon espace", ask: "Vous avez postulé chez", askY: "Oui, ajouter au suivi", askN: "Non", askL: "Plus tard", added: "Ajouté à vos candidatures", foot3: "Statistiques de fréquentation anonymes (GoatCounter, sans cookie). Aucune donnée personnelle n'est collectée.", dateFmt: "fr-FR", other: "EN" },
     en: { title: "Jobs at European VC-backed startups", sub1: "open roles at", sub2: "startups backed by venture capital funds. Updated on", sub3: "Direct link to apply, no account needed.",
       q: "Search a role, a startup…", c_sales: "Sales & bizdev", c_finance: "Finance", c_ops: "Ops & strategy", c_pm: "Product & marketing", c_tech: "Tech & data", c_other: "Other", c_all: "All categories",
       p_eu: "Europe + remote", v_all: "All cities", a7: "Last 7 days", a30: "Last 30 days", a60: "Last 60 days", aall: "All dates", remote: "Remote only", noscale: "Hide scale-ups (100+ roles)", salary: "With salary only", f_all: "All investors",
       hint: "Click a role to apply on the startup's own site.", more: "Show 50 more", offers: n => n > 1 ? "roles" : "role", empty: "No role matches these filters. Widen the period or the area.",
       today: "today", yesterday: "yesterday", days: n => `${n} d ago`, months: n => `${n} mo ago`, unknown: "date unknown", seen: "seen", new: "new", scale: "scale-up", remoteTag: "remote",
       foot1: "Roles come from the startups' official career pages (Greenhouse, Lever, Ashby, Teamtailor, Personio, Workable, Recruitee…), re-read every morning. Startups are taken from the portfolios of 1,000+ European venture capital funds: funded companies that are actually hiring.",
-      foot2: "A personal project by", contact: "Report an error or a missing startup", legal: "Legal notice", pages: "By role and country", foot3: "Anonymous, cookie-free traffic statistics (GoatCounter). No personal data is collected.", dateFmt: "en-GB", other: "FR" }
+      foot2: "A personal project by", contact: "Report an error or a missing startup", legal: "Legal notice", pages: "By role and country", space: "My space", ask: "Did you apply at", askY: "Yes, track it", askN: "No", askL: "Later", added: "Added to your applications", foot3: "Anonymous, cookie-free traffic statistics (GoatCounter). No personal data is collected.", dateFmt: "en-GB", other: "FR" }
   };
   const COUNTRY_EN = { "France":"France","Royaume-Uni":"United Kingdom","Allemagne":"Germany","Pays-Bas":"Netherlands","Belgique":"Belgium","Luxembourg":"Luxembourg","Espagne":"Spain","Portugal":"Portugal","Italie":"Italy","Suisse":"Switzerland","Autriche":"Austria","Suède":"Sweden","Danemark":"Denmark","Norvège":"Norway","Finlande":"Finland","Irlande":"Ireland","Pologne":"Poland","Tchéquie":"Czechia","Hongrie":"Hungary","Roumanie":"Romania","Bulgarie":"Bulgaria","Grèce":"Greece","Estonie":"Estonia","Lettonie":"Latvia","Lituanie":"Lithuania","Croatie":"Croatia","Slovénie":"Slovenia","Slovaquie":"Slovakia","Israël":"Israel","Europe (non précisé)":"Europe (unspecified)","Remote":"Remote","Hors Europe":"Outside Europe","Non précisé":"Unspecified","Autre":"Other" };
   const SYN = [[/\b(biz ?dev|bizdev)\b/g, "business develop"], [/\bsdr\b/g, "sales development"], [/\bbdr\b/g, "business development representative"], [/\bae\b/g, "account executive"], [/\bcsm\b/g, "customer success"], [/\bkam\b/g, "key account"], [/\bcompta\b/g, "comptab"], [/\bpm\b/g, "product manager"]];
@@ -107,6 +107,34 @@
     let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
     $("#q").addEventListener("change", () => { if ($("#q").value.trim()) track("search"); });
     $("#more").addEventListener("click", more);
+    // ---- suivi de candidature : on retient l'offre ouverte, on demande au retour sur l'onglet
+    let pending = null, asked = new Set();
+    try { asked = new Set(JSON.parse(sessionStorage.getItem("sj.asked") || "[]")); } catch (e) {}
+    $("#list").addEventListener("click", e => {
+      const a = e.target.closest("a.job"); if (!a) return;
+      const r = rows.find(x => x.u === a.getAttribute("href")); if (!r || asked.has(r.u)) return;
+      pending = r;
+    });
+    function askBar() {
+      if (!pending || document.querySelector(".ask")) return;
+      const r = pending, t = T();
+      const bar = document.createElement("div"); bar.className = "ask";
+      bar.innerHTML = `<span>${t.ask} <b>${esc(r.s)}</b> — ${esc(r.t)} ?</span>
+        <button class="primary" data-a="y">${t.askY}</button><button class="mini" data-a="n">${t.askN}</button><button class="mini" data-a="l">${t.askL}</button>`;
+      document.body.appendChild(bar);
+      bar.addEventListener("click", ev => {
+        const a = ev.target.dataset && ev.target.dataset.a; if (!a) return;
+        if (a === "y" && window.SJ) {
+          SJ.addApp({ co: r.s, po: r.t, u: r.u, lieu: r.l || r.p });
+          bar.innerHTML = `<span>${t.added} ✓ <a href="moi.html#crm">${t.space} →</a></span>`;
+          setTimeout(() => bar.remove(), 3500);
+        } else bar.remove();
+        if (a !== "l") { asked.add(r.u); try { sessionStorage.setItem("sj.asked", JSON.stringify([...asked])); } catch (e) {} }
+        pending = null;
+      });
+    }
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) setTimeout(askBar, 400); });
+    window.addEventListener("focus", () => setTimeout(askBar, 400));
     $("#lang").addEventListener("click", () => { lang = lang === "fr" ? "en" : "fr"; applyLang(); apply(); track("lang/" + lang); });
     await refresh();
   })();

@@ -42,3 +42,5 @@ h1{margin:0 0 6px;font-size:22px;letter-spacing:-.01em}
 .crumb{margin:0 0 8px;font-size:13px}.crumb a{color:var(--muted);text-decoration:none}.crumb a:hover{color:var(--acc)}
 .meta{color:var(--muted);font-size:13.5px;margin:14px 0}
 .list.plain li{padding:4px 0}.list.plain a{color:var(--acc);text-decoration:none;text-transform:capitalize}
+.head-actions{display:flex;gap:6px;align-items:center}
+.lang{text-decoration:none;display:inline-block}
