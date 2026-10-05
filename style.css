@@ -7,9 +7,9 @@ body{margin:0;font-family:var(--f-ui);background:var(--bg);color:var(--fg);font-
 
 /* ---------- en-tête ---------- */
 .top{background:var(--card);border-bottom:1px solid var(--line);padding:var(--s8) 0 var(--s6)}
-.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s4)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:var(--s6)}
 h1{margin:0 0 var(--s2);font-family:var(--f-display);font-size:var(--t-2xl);line-height:var(--lh-tight);
-   font-weight:400;letter-spacing:-.015em;max-width:22ch}
+   font-weight:400;letter-spacing:-.015em;max-width:36ch;text-wrap:balance}
 .sub{margin:0;color:var(--muted);font-size:var(--t-sm);max-width:72ch;line-height:var(--lh)}
 .sub b{color:var(--fg);font-weight:600}
 

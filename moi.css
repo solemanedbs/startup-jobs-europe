@@ -26,7 +26,8 @@
 .hint{font-size:var(--t-sm);color:var(--muted);font-weight:400}
 .hint i{font-style:italic}
 
-label{display:block;font-size:var(--t-sm);color:var(--muted);margin-bottom:var(--s3)}
+label:not(.mini):not(.add):not(.primary):not(.btn):not(.check){display:block;font-size:var(--t-sm);color:var(--muted);margin-bottom:var(--s3)}
+.mini,.add,.primary,.btn{margin:0;vertical-align:middle}
 input,textarea,select{width:100%;padding:0 var(--s3);height:var(--ctl);border:1px solid var(--line-strong);border-radius:var(--r-sm);
   background:var(--bg);font:inherit;font-size:var(--t-sm);color:var(--fg);margin-top:var(--s1)}
 textarea{height:auto;padding:var(--s3);resize:vertical;line-height:var(--lh)}
@@ -119,7 +120,8 @@ td.max{font-size:var(--t-xs);color:var(--acc);white-space:nowrap}
 
 /* projets */
 .triggers{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s1)}
-.triggers button{font:inherit;font-size:var(--t-sm);text-align:left;padding:var(--s3) var(--s4);border:1px solid var(--line-strong);
+.triggers button{font:inherit;font-size:var(--t-sm);text-align:left;min-height:var(--ctl);padding:var(--s2) var(--s4);
+                 display:inline-flex;align-items:center;border:1px solid var(--line-strong);
                  border-radius:var(--r-pill);background:var(--bg);cursor:pointer;color:var(--fg);line-height:1.35;transition:all .12s}
 .triggers button:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-bg)}
 .ex{margin-top:var(--s4)}
