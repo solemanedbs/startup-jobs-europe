@@ -3,7 +3,7 @@
 <title>My space — profile, projects, applications</title>
 <meta name="description" content="Your own fact bank for tailoring CVs, your projects, and your application tracker. Everything stays in your browser.">
 <meta name="robots" content="noindex">
-<link rel="stylesheet" href="style.css?v=f002cd1c"><link rel="stylesheet" href="moi.css?v=8a0033a3">
+<link rel="stylesheet" href="style.css?v=f002cd1c"><link rel="stylesheet" href="moi.css?v=92c12318">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -13,18 +13,46 @@
 </div></header>
 
 <nav class="wrap tabs" id="tabs">
-  <button class="tab on" data-t="profil">Profile</button>
+  <button class="tab on" data-t="board">Overview</button>
+  <button class="tab" data-t="crm">Applications <span class="pill" id="nApps">0</span></button>
+  <button class="tab" data-t="profil">Profile</button>
   <button class="tab" data-t="projets">Projects</button>
   <button class="tab" data-t="cv">Tailor a CV</button>
-  <button class="tab" data-t="crm">Applications <span class="pill" id="nApps">0</span></button>
   <span class="grow"></span>
   <button class="mini" id="exp">Export</button>
   <label class="mini" for="imp">Import</label><input type="file" id="imp" accept="application/json" hidden>
 </nav>
 
 <main class="wrap">
+  <!-- OVERVIEW -->
+  <section id="s-board">
+    <div id="b-empty" class="block empty-state" hidden>
+      <h2>Nothing tracked yet</h2>
+      <p class="hint">Open a role from the job board and say yes when asked whether you applied — it lands here. You can also add one by hand from the Applications tab. Everything stays in this browser.</p>
+      <p class="row"><a class="primary" href="./">Browse open roles</a></p>
+    </div>
+
+    <div id="b-data" hidden>
+      <div class="block">
+        <h2>Your funnel <span class="hint">a rejection after an interview still counts as an interview</span></h2>
+        <div class="funnel" id="funnel"></div>
+      </div>
+
+      <div class="cards3">
+        <div class="block stat"><b id="s-week">0</b><span>applications this week</span></div>
+        <div class="block stat"><b id="s-month">0</b><span>in the last 30 days</span></div>
+        <div class="block stat"><b id="s-wait">0</b><span>still awaiting a reply</span></div>
+      </div>
+
+      <div class="block" id="fu-block">
+        <h2>Worth a follow-up <span class="hint">applied more than 10 days ago, no reply, never followed up</span></h2>
+        <ol class="list plain" id="fu"></ol>
+      </div>
+    </div>
+  </section>
+
   <!-- PROFILE -->
-  <section id="s-profil">
+  <section id="s-profil" hidden>
     <div class="block">
       <h2>Who you are</h2>
       <div class="grid2">
@@ -80,11 +108,11 @@
       <h2>Your applications</h2>
       <p class="hint">When you open a role from this site, we ask on your way back whether you applied. You can also add a row by hand.</p>
       <div class="row"><button class="add" id="addapp">+ Add an application</button><button class="mini" id="csv">Export as CSV</button></div>
-      <div class="tablewrap"><table id="apps"><thead><tr><th>Date</th><th>Company</th><th>Role</th><th>Status</th><th>Note</th><th>Link</th><th></th></tr></thead><tbody></tbody></table></div>
+      <div class="tablewrap"><table id="apps"><thead><tr><th>Date</th><th>Company</th><th>Role</th><th>Status</th><th>Furthest</th><th>Note</th><th>Link</th><th></th></tr></thead><tbody></tbody></table></div>
     </div>
   </section>
 </main>
 
 <footer class="wrap foot"><p>Your data is saved in this browser only (localStorage). Clearing your browsing data or switching device makes it disappear, so <b>export a backup regularly</b>. <a href="mentions.html">Legal notice</a></p></footer>
-<script src="store.js?v=060d43d8"></script><script src="moi.js?v=4e35e04e"></script>
+<script src="store.js?v=b43eea48"></script><script src="moi.js?v=cc204b67"></script>
 </body></html>

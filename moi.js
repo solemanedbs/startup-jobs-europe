@@ -101,30 +101,65 @@
   });
 
   /* ---- CRM ---- */
-  const STATUTS = ["Applied", "Followed up", "Interview 1", "Interview 2", "Offer", "Rejected", "No reply"];
+  const STATUTS = SJ.STAGES.concat(SJ.TERMINAL);
   function renderApps() {
     const tb = $("#apps tbody"); tb.innerHTML = "";
     D.apps.forEach((a, i) => {
       const tr = el(`<tr>
         <td><input type="date" class="dt"></td><td><input class="co" placeholder="Company"></td><td><input class="po" placeholder="Role"></td>
         <td><select class="st">${STATUTS.map(s => `<option>${s}</option>`).join("")}</select></td>
-        <td><input class="no" placeholder="—"></td><td class="lien"></td><td><button class="del">✕</button></td></tr>`);
+        <td class="max"></td><td><input class="no" placeholder="—"></td><td class="lien"></td><td><button class="del">✕</button></td></tr>`);
       tr.querySelector(".dt").value = a.date || ""; tr.querySelector(".co").value = a.co || ""; tr.querySelector(".po").value = a.po || "";
       tr.querySelector(".st").value = a.st || "Applied"; tr.querySelector(".no").value = a.note || "";
-      if (a.u) tr.querySelector(".lien").innerHTML = `<a href="${esc(a.u)}" target="_blank" rel="noopener">voir</a>`;
-      tr.addEventListener("input", () => { a.date = tr.querySelector(".dt").value; a.co = tr.querySelector(".co").value; a.po = tr.querySelector(".po").value; a.st = tr.querySelector(".st").value; a.note = tr.querySelector(".no").value; SJ.save(); });
-      tr.querySelector(".del").addEventListener("click", () => { D.apps.splice(i, 1); SJ.save(); renderApps(); });
+      tr.querySelector(".max").textContent = badge(a);
+      if (a.u) tr.querySelector(".lien").innerHTML = `<a href="${esc(a.u)}" target="_blank" rel="noopener">open</a>`;
+      tr.addEventListener("input", e => {
+        a.date = tr.querySelector(".dt").value; a.co = tr.querySelector(".co").value; a.po = tr.querySelector(".po").value; a.note = tr.querySelector(".no").value;
+        const st = tr.querySelector(".st").value;
+        if (st !== a.st) { SJ.setStatus(a, st); tr.querySelector(".max").textContent = badge(a); }
+        SJ.save(); if (e.target.classList.contains("st")) renderBoard();
+      });
+      tr.querySelector(".del").addEventListener("click", () => { D.apps.splice(i, 1); SJ.save(); renderApps(); renderBoard(); });
       tb.appendChild(tr);
     });
     $("#nApps").textContent = D.apps.length;
   }
-  $("#addapp").addEventListener("click", () => { D.apps.unshift({ date: new Date().toISOString().slice(0, 10), co: "", po: "", st: "Applied", note: "", u: "" }); SJ.save(); renderApps(); });
+  $("#addapp").addEventListener("click", () => { const t = new Date().toISOString().slice(0, 10); D.apps.unshift({ date: t, co: "", po: "", st: "Applied", max: 0, last: t, note: "", u: "" }); SJ.save(); renderApps(); renderBoard(); });
   $("#csv").addEventListener("click", () => {
     const q = s => `"${String(s || "").replace(/"/g, '""')}"`;
-    const csv = ["Date,Company,Role,Status,Note,Link"].concat(D.apps.map(a => [a.date, a.co, a.po, a.st, a.note, a.u].map(q).join(","))).join("\n");
+    const csv = ["Date,Company,Role,Status,Furthest stage,Note,Link"].concat(D.apps.map(a => [a.date, a.co, a.po, a.st, SJ.STAGES[a.max || 0], a.note, a.u].map(q).join(","))).join("\n");
     const b = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" }); const dl = document.createElement("a");
     dl.href = URL.createObjectURL(b); dl.download = "mes-candidatures.csv"; dl.click(); URL.revokeObjectURL(dl.href);
   });
+
+  /* ---- tableau de bord ---- */
+  const badge = a => (a.max || 0) >= 2 && a.st !== SJ.STAGES[a.max] ? SJ.STAGES[a.max] : "";
+  function renderBoard() {
+    const f = SJ.funnel();
+    $("#b-empty").hidden = f.sent > 0;
+    $("#b-data").hidden = f.sent === 0;
+    if (!f.sent) return;
+    const steps = [
+      { k: "Applications sent", n: f.sent, note: "" },
+      { k: "Companies that replied", n: f.replied, note: f.replyRate + "% of applications" },
+      { k: "Reached an interview", n: f.interviews, note: f.interviewRate + "% of applications" },
+      { k: "Offers", n: f.offers, note: "" }
+    ];
+    $("#funnel").innerHTML = steps.map(s => {
+      const w = f.sent ? Math.max(2, Math.round(100 * s.n / f.sent)) : 0;
+      return `<div class="fstep"><div class="flab">${s.k}</div>` +
+             `<div class="fbar"><span style="width:${w}%"></span></div>` +
+             `<div class="fval"><b>${s.n}</b>${s.note ? ` <i>${s.note}</i>` : ""}</div></div>`;
+    }).join("");
+    $("#s-week").textContent = f.week; $("#s-month").textContent = f.month; $("#s-wait").textContent = f.waiting;
+    const fu = f.followUps.slice(0, 12);
+    $("#fu-block").hidden = !fu.length;
+    $("#fu").innerHTML = fu.map(a => {
+      const d = Math.round((Date.now() - new Date(a.date).getTime()) / 864e5);
+      return `<li><b>${esc(a.co || "—")}</b> · ${esc(a.po || "")} <span class="hint">— ${d} days ago</span>` +
+             (a.u ? ` <a href="${esc(a.u)}" target="_blank" rel="noopener">open</a>` : "") + `</li>`;
+    }).join("");
+  }
 
   /* ---- export / import ---- */
   $("#exp").addEventListener("click", () => SJ.exportFile());
@@ -133,7 +168,7 @@
     try { await SJ.importFile(e.target.files[0]); location.reload(); } catch (err) { alert("Fichier illisible."); }
   });
 
-  renderX(); renderF(); renderPr(); renderApps(); renderPrompt();
+  renderX(); renderF(); renderPr(); renderApps(); renderPrompt(); renderBoard();
   const h = (location.hash || "").slice(1);
   if (h && $$(".tab").some(b => b.dataset.t === h)) $$(".tab").find(b => b.dataset.t === h).click();
 })();

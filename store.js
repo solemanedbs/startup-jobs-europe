@@ -2,6 +2,12 @@
    Encodage/décodage du profil partageable dans l'URL (deflate + base64url). */
 window.SJ = (() => {
   const KEY = "sj.v1";
+  /* Étapes d'une candidature. `st` = où ça en est, `max` = le plus loin jamais atteint.
+     Les deux sont nécessaires : un refus après entretien reste un entretien obtenu, et ne doit
+     pas disparaître des statistiques quand le statut passe à « Rejected ». */
+  const STAGES = ["Applied", "Followed up", "Interview 1", "Interview 2", "Final interview", "Offer"];
+  const TERMINAL = ["Rejected", "No reply"];
+  const RANK = Object.fromEntries(STAGES.map((s, i) => [s, i]));
   const empty = () => ({ id: { n: "", h: "", mail: "", li: "", site: "" }, x: [], pr: [], f: [], s: [], apps: [] });
   let data = null;
   function load() {
@@ -9,6 +15,13 @@ window.SJ = (() => {
     try { data = Object.assign(empty(), JSON.parse(localStorage.getItem(KEY) || "{}")); }
     catch (e) { data = empty(); }
     for (const k of ["x", "pr", "f", "s", "apps"]) if (!Array.isArray(data[k])) data[k] = [];
+    // migration : les candidatures d'avant n'ont pas de `max` — on le déduit du statut courant
+    let dirty = false;
+    data.apps.forEach(a => {
+      if (a.max === undefined) { a.max = RANK[a.st] !== undefined ? RANK[a.st] : 0; dirty = true; }
+      if (!a.last) { a.last = a.date || ""; dirty = true; }
+    });
+    if (dirty) try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
     return data;
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { alert("Sauvegarde impossible : espace de stockage plein ou navigation privée."); } return data; }
@@ -28,8 +41,42 @@ window.SJ = (() => {
     const buf = await new Response(new Blob([body]).stream().pipeThrough(ds)).arrayBuffer();
     return JSON.parse(new TextDecoder().decode(buf));
   }
+  /* À appeler à chaque changement de statut : met à jour le plus loin atteint et la date d'action. */
+  function setStatus(a, st) {
+    a.st = st;
+    const r = RANK[st];
+    if (r !== undefined && r > (a.max || 0)) a.max = r;
+    a.last = new Date().toISOString().slice(0, 10);
+    return a;
+  }
+
   return {
-    get: () => load(), save,
+    get: () => load(), save, STAGES, TERMINAL, RANK, setStatus,
+    /* Entonnoir. Une réponse = l'entreprise s'est manifestée (entretien atteint, offre, ou refus explicite).
+       « No reply » et « Applied » ne comptent pas comme une réponse. */
+    funnel() {
+      const d = load(), A = d.apps;
+      const reached = (a, r) => (a.max || 0) >= r;
+      const replied = a => reached(a, 2) || a.st === "Rejected" || a.st === "Offer";
+      const f = {
+        sent: A.length,
+        replied: A.filter(replied).length,
+        interviews: A.filter(a => reached(a, 2)).length,
+        offers: A.filter(a => reached(a, 5)).length,
+        rejected: A.filter(a => a.st === "Rejected").length,
+        waiting: A.filter(a => !replied(a) && a.st !== "No reply").length
+      };
+      f.replyRate = f.sent ? Math.round(100 * f.replied / f.sent) : 0;
+      f.interviewRate = f.sent ? Math.round(100 * f.interviews / f.sent) : 0;
+      // relances : toujours au stade « Applied », envoyées il y a plus de 10 jours
+      const lim = Date.now() - 10 * 864e5;
+      f.followUps = A.filter(a => (a.max || 0) === 0 && a.st === "Applied" && a.date && new Date(a.date).getTime() < lim);
+      // activité
+      const w = Date.now() - 7 * 864e5, m = Date.now() - 30 * 864e5;
+      f.week = A.filter(a => a.date && new Date(a.date).getTime() >= w).length;
+      f.month = A.filter(a => a.date && new Date(a.date).getTime() >= m).length;
+      return f;
+    },
     reset() { data = empty(); save(); },
     // profil public = tout sauf les candidatures (privées)
     publicProfile() { const d = load(); return { id: d.id, x: d.x, pr: d.pr, f: d.f, s: d.s }; },
@@ -47,7 +94,8 @@ window.SJ = (() => {
     addApp(app) {
       const d = load();
       if (d.apps.some(a => a.u === app.u)) return false;
-      d.apps.unshift(Object.assign({ date: new Date().toISOString().slice(0, 10), st: "Applied", note: "" }, app)); save(); return true;
+      const today = new Date().toISOString().slice(0, 10);
+      d.apps.unshift(Object.assign({ date: today, st: "Applied", max: 0, last: today, note: "" }, app)); save(); return true;
     },
     // texte prêt à coller dans une IA
     promptText(offre) {
