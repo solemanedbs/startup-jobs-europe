@@ -10,7 +10,8 @@
     askY: "Yes, I applied", askN: "No, don't ask again", askL: "Maybe later", added: "Added to your tracker", space: "My space"
   };
   const SYN = [[/\b(biz ?dev|bizdev)\b/g, "business develop"], [/\bsdr\b/g, "sales development"], [/\bbdr\b/g, "business development representative"], [/\bae\b/g, "account executive"], [/\bcsm\b/g, "customer success"], [/\bkam\b/g, "key account"], [/\bpm\b/g, "product manager"]];
-  const cache = {}; let meta, rows = [], all = [], shown = 0;
+  const cache = {}; let meta, rows = [], all = [], shown = 0, lastGrp = null;
+  const GRP = n => n === null ? "Date unknown" : n <= 0 ? "Today" : n <= 7 ? "This week" : n <= 30 ? "This month" : "Earlier";
   const today = new Date(); const daysAgo = d => d ? Math.round((today - new Date(d)) / 86400000) : null;
   const fmtDate = d => { const n = daysAgo(d); if (n === null) return T.unknown; if (n <= 0) return T.today; if (n === 1) return T.yesterday; if (n < 30) return T.days(n); return T.months(Math.round(n / 30)); };
   const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -62,37 +63,63 @@
   }
   function norm(s) { let x = (s || "").toLowerCase(); SYN.forEach(([re, to]) => x = x.replace(re, to)); return x; }
 
+  // prédicat unique : la liste et les compteurs du pouls passent par là, donc un chiffre annoncé
+  // est toujours exactement ce que le clic donnera
+  function matches(r, st, q, maxAge) {
+    if (st.region && r.g !== st.region) return false;
+    if (st.country && r.p !== st.country) return false;
+    if (st.city && r.v !== st.city) return false;
+    if (st.remote && !r.r) return false;
+    if (st.noscale && r.b) return false;
+    if (st.salary && !r["$"]) return false;
+    if (st.fonds && !r.f.split(" ; ").includes(st.fonds)) return false;
+    if (maxAge < 999) { const n = daysAgo(r.d || r.n); if (n === null || n > maxAge) return false; }
+    if (q && !norm(r.t + " " + r.s + " " + r.l).includes(q)) return false;
+    return true;
+  }
+  const countIf = (st, q, over) => {
+    const s2 = Object.assign({}, st, over);
+    return all.reduce((n, r) => n + (matches(r, s2, q, +s2.age) ? 1 : 0), 0);
+  };
+  function pulse(st, q) {
+    $("#p-today").textContent = num(countIf(st, q, { age: "0" }));
+    $("#p-week").textContent  = num(countIf(st, q, { age: "7" }));
+    $("#p-sal").textContent   = num(countIf(st, q, { salary: true }));
+    $("#p-rem").textContent   = num(countIf(st, q, { remote: true }));
+    const co = new Set(); all.forEach(r => { if (matches(r, st, q, +st.age)) co.add(r.s); });
+    $("#p-co").textContent = num(co.size); $("#p-funds").textContent = num(meta.fonds.length);
+    $("#pulse").hidden = false;
+    document.querySelectorAll(".pchip").forEach(b => {
+      const k = b.dataset.p;
+      b.classList.toggle("on", (k === "today" && st.age === "0") || (k === "week" && st.age === "7") || (k === "salary" && st.salary) || (k === "remote" && st.remote));
+    });
+  }
+
   function apply(reason) {
     const st = { q: $("#q").value.trim(), cat: $("#cat").value, region: $("#region").value, country: $("#country").value, city: $("#city").value,
                  age: $("#age").value, fonds: $("#fund").value, remote: $("#remote").checked, noscale: $("#noscale").checked, salary: $("#salary").checked };
     push(st); if (reason) track(`filter/${reason}/${st[reason] === true ? "on" : st[reason] === false ? "off" : st[reason] || "-"}`);
     const q = norm(st.q); const maxAge = +st.age;
-    rows = all.filter(r => {
-      if (st.region && r.g !== st.region) return false;
-      if (st.country && r.p !== st.country) return false;
-      if (st.city && r.v !== st.city) return false;
-      if (st.remote && !r.r) return false;
-      if (st.noscale && r.b) return false;
-      if (st.salary && !r["$"]) return false;
-      if (st.fonds && !r.f.split(" ; ").includes(st.fonds)) return false;
-      if (maxAge < 999) { const n = daysAgo(r.d || r.n); if (n === null || n > maxAge) return false; }
-      if (q && !norm(r.t + " " + r.s + " " + r.l).includes(q)) return false;
-      return true;
-    });
+    rows = all.filter(r => matches(r, st, q, maxAge));
     rows.sort((a, b) => (b.d || b.n || "").localeCompare(a.d || a.n || ""));
-    shown = 0; $("#list").innerHTML = ""; more();
+    pulse(st, q);
+    shown = 0; lastGrp = null; $("#list").innerHTML = ""; more();
     $("#count").textContent = `${num(rows.length)} ${T.offers(rows.length)}`;
   }
   function more() {
     const frag = document.createDocumentFragment();
     rows.slice(shown, shown + PAGE).forEach(r => {
-      const li = document.createElement("li"); const n = daysAgo(r.d || r.n);
-      const loc = r.v && r.p ? `${r.v}, ${r.p}` : (r.p || r.g);
+      const n = daysAgo(r.d || r.n);
+      const g = GRP(n);
+      if (g !== lastGrp) { const h = document.createElement("li"); h.className = "grp"; h.textContent = g; frag.appendChild(h); lastGrp = g; }
+      const li = document.createElement("li");
+      // un lieu inconnu n'est pas une information : on n'affiche pas d'étiquette plutôt qu'un « Unspecified » en couleur
+      const loc = r.v && r.p ? `${r.v}, ${r.p}` : (r.p || (r.g === "Unspecified" ? "" : r.g));
       li.innerHTML = `<a class="job" href="${esc(r.u)}" target="_blank" rel="noopener">
         <div class="t">${esc(r.t)}</div>
         <div class="r">${r["$"] ? `<span class="sal">${esc(r["$"])}</span> · ` : ""}${r.d ? fmtDate(r.d) : T.seen + " " + fmtDate(r.n)}${n !== null && n <= 3 ? `<span class="new">${T.new}</span>` : ""}</div>
         <div class="s"><b>${esc(r.s)}</b>${r.l ? " · " + esc(r.l) : ""}</div>
-        <div class="tags"><span class="tag loc">${esc(loc)}</span>${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}<span class="tag">${esc(r.a)}</span></div>
+        <div class="tags">${loc ? `<span class="tag loc">${esc(loc)}</span>` : ""}${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}<span class="tag ats">${esc(r.a)}</span></div>
       </a>`;
       frag.appendChild(li);
     });
@@ -122,6 +149,14 @@
     let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
     $("#q").addEventListener("change", () => { if ($("#q").value.trim()) track("search"); });
     $("#more").addEventListener("click", more);
+    document.querySelectorAll(".pchip").forEach(b => b.addEventListener("click", () => {
+      const k = b.dataset.p, on = b.classList.contains("on");
+      if (k === "today") $("#age").value = on ? "30" : "0";
+      else if (k === "week") $("#age").value = on ? "30" : "7";
+      else if (k === "salary") $("#salary").checked = !on;
+      else if (k === "remote") $("#remote").checked = !on;
+      apply("pulse-" + k);
+    }));
 
     // ---- suivi de candidature : on retient l'offre ouverte, puis on demande dès que la personne revient
     let asked = new Set(), pending = null;

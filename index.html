@@ -13,7 +13,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="google-site-verification" content="7GFeZMsNQIDi3JcocyfJDF2T7yKGKYzU02VXLqPd4As" />
 <link rel="alternate" type="application/rss+xml" title="Sales roles — RSS" href="rss/sales.xml">
-<link rel="stylesheet" href="style.css?v=378697ca">
+<link rel="stylesheet" href="style.css?v=f002cd1c">
 </head>
 <body>
 <header class="top">
@@ -27,6 +27,13 @@
 </header>
 
 <main class="wrap">
+  <div class="pulse" id="pulse" hidden>
+    <button type="button" class="pchip" data-p="today"><b id="p-today">…</b><span>new today</span></button>
+    <button type="button" class="pchip" data-p="week"><b id="p-week">…</b><span>posted this week</span></button>
+    <button type="button" class="pchip" data-p="salary"><b id="p-sal">…</b><span>with salary shown</span></button>
+    <button type="button" class="pchip" data-p="remote"><b id="p-rem">…</b><span>remote-friendly</span></button>
+    <p class="pnote"><b id="p-co">…</b> companies hiring right now, backed by <b id="p-funds">…</b> venture funds.</p>
+  </div>
   <form class="filters" id="filters" onsubmit="return false">
     <input type="search" id="q" placeholder="Search a role or a company…" autocomplete="off">
     <select id="cat" aria-label="Role family">
@@ -42,6 +49,7 @@
     <select id="country" aria-label="Country"></select>
     <select id="city" aria-label="City"></select>
     <select id="age" aria-label="Posted within">
+      <option value="0">Posted today</option>
       <option value="7">Posted in the last 7 days</option>
       <option value="30" selected>Posted in the last 30 days</option>
       <option value="60">Posted in the last 60 days</option>
@@ -65,7 +73,7 @@
   <p>Anonymous, cookie-free traffic statistics (GoatCounter). No personal data is collected, and nothing you type or save here ever leaves your browser.</p>
 </footer>
 <script src="store.js?v=060d43d8"></script>
-<script src="app.js?v=b895c5be"></script>
+<script src="app.js?v=8a4e5308"></script>
 <script data-goatcounter="https://startupjobs.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
