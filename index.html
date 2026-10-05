@@ -13,27 +13,27 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="google-site-verification" content="7GFeZMsNQIDi3JcocyfJDF2T7yKGKYzU02VXLqPd4As" />
 <link rel="alternate" type="application/rss+xml" title="Sales roles — RSS" href="rss/sales.xml">
-<link rel="stylesheet" href="tokens.css?v=1f4e1ec9"><link rel="stylesheet" href="style.css?v=a8d0ccd7">
+<link rel="stylesheet" href="tokens.css?v=1f4e1ec9"><link rel="stylesheet" href="style.css?v=cd4696af">
 </head>
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="mark" href="./"><span class="wordmark">Traction</span><span class="dot"></span><span class="tagline">Europe</span></a>
     <div class="topbar">
-      <h1>Jobs at startups backed by European VC funds</h1>
+      <h1 class="mark"><a href="./"><span class="wordmark">Traction</span><span class="dot"></span></a></h1>
       <span class="head-actions"><a href="moi.html" class="btn">My space</a></span>
     </div>
-    <p class="sub"><span id="meta-total">…</span> open roles at <span id="meta-startups">…</span> startups backed by European venture capital funds. Updated <span id="meta-date">…</span>. You apply on the company's own site — no account here, and nothing to sign up for.</p>
   </div>
 </header>
 
 <main class="wrap">
   <div class="pulse" id="pulse" hidden>
-    <button type="button" class="pchip" data-p="today"><b id="p-today">…</b><span>new today</span></button>
-    <button type="button" class="pchip" data-p="week"><b id="p-week">…</b><span>posted this week</span></button>
-    <button type="button" class="pchip" data-p="salary"><b id="p-sal">…</b><span>with salary shown</span></button>
-    <button type="button" class="pchip" data-p="remote"><b id="p-rem">…</b><span>remote-friendly</span></button>
-    <p class="pnote"><b id="p-co">…</b> companies hiring right now, backed by <b id="p-funds">…</b> venture funds.</p>
+    <div class="pgrid">
+      <button type="button" class="pchip" data-p="today"><b id="p-today">…</b><span>new today</span></button>
+      <button type="button" class="pchip" data-p="week"><b id="p-week">…</b><span>posted this week</span></button>
+      <button type="button" class="pchip" data-p="salary"><b id="p-sal">…</b><span>with salary shown</span></button>
+      <button type="button" class="pchip" data-p="remote"><b id="p-rem">…</b><span>remote-friendly</span></button>
+    </div>
+    <p class="pnote"><b id="p-co">…</b> companies hiring right now, backed by <b id="p-funds">…</b> venture funds. Refreshed <span id="meta-date">…</span>.</p>
   </div>
   <form class="filters" id="filters" onsubmit="return false">
     <input type="search" id="q" placeholder="Search a role or a company…" autocomplete="off">
@@ -56,10 +56,7 @@
       <option value="60">Posted in the last 60 days</option>
       <option value="999">Any date</option>
     </select>
-    <label class="check"><input type="checkbox" id="remote"> <span>Remote-friendly only</span></label>
-    <label class="check"><input type="checkbox" id="noscale" checked> <span>Hide large employers (100+ open roles)</span></label>
     <label class="check"><input type="checkbox" id="salary"> <span>Salary shown only</span></label>
-    <select id="fund" class="minor" aria-label="Investor"><option value="">Any investor</option></select>
   </form>
 
   <div class="bar"><span id="count">…</span><span class="hint">Click a role to open the company's own application page.</span></div>
@@ -74,7 +71,7 @@
   <p>Anonymous, cookie-free traffic statistics (GoatCounter). No personal data is collected, and nothing you type or save here ever leaves your browser.</p>
 </footer>
 <script src="store.js?v=a344b25e"></script>
-<script src="app.js?v=d86999db"></script>
+<script src="app.js?v=4a66408b"></script>
 <script data-goatcounter="https://startupjobs.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

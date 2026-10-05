@@ -5,13 +5,13 @@
     offers: n => n === 1 ? "role" : "roles",
     empty: "No role matches these filters. Try a wider region or a longer period.",
     today: "today", yesterday: "yesterday", days: n => `${n}d ago`, months: n => `${n}mo ago`, unknown: "date unknown",
-    seen: "first seen", new: "new", scale: "scale-up", remoteTag: "remote",
+    seen: "listed", new: "new", scale: "scale-up", remoteTag: "remote",
     ask: "Did you apply at", askSub: "This role is handled on the company's own site. Add it to your tracker?",
     askY: "Yes, I applied", askN: "No, don't ask again", askL: "Maybe later", added: "Added to your tracker", space: "My space",
     askCv: "Not applied yet? Tailor your CV for this role →"
   };
   const SYN = [[/\b(biz ?dev|bizdev)\b/g, "business develop"], [/\bsdr\b/g, "sales development"], [/\bbdr\b/g, "business development representative"], [/\bae\b/g, "account executive"], [/\bcsm\b/g, "customer success"], [/\bkam\b/g, "key account"], [/\bpm\b/g, "product manager"]];
-  const cache = {}; let meta, rows = [], all = [], shown = 0, lastGrp = null;
+  const cache = {}; let meta, rows = [], all = [], shown = 0, lastGrp = null, remoteOn = false;
   const GRP = n => n === null ? "Date unknown" : n <= 0 ? "Today" : n <= 7 ? "This week" : n <= 30 ? "This month" : "Earlier";
   const today = new Date(); const daysAgo = d => d ? Math.round((today - new Date(d)) / 86400000) : null;
   const fmtDate = d => { const n = daysAgo(d); if (n === null) return T.unknown; if (n <= 0) return T.today; if (n === 1) return T.yesterday; if (n < 30) return T.days(n); return T.months(Math.round(n / 30)); };
@@ -52,14 +52,14 @@
   function state() {
     const p = new URLSearchParams(location.hash.slice(1));
     return { q: p.get("q") || "", cat: p.get("cat") || "sales", region: p.has("region") ? p.get("region") : "Europe", country: p.get("country") || "", city: p.get("city") || "",
-             age: p.get("age") || "30", fonds: p.get("fund") || "", remote: p.get("remote") === "1", noscale: p.get("scale") !== "1", salary: p.get("salary") === "1" };
+             age: p.get("age") || "30", fonds: "", remote: p.get("remote") === "1", noscale: false, salary: p.get("salary") === "1" };
   }
   function push(st) {
     const p = new URLSearchParams();
     if (st.q) p.set("q", st.q); if (st.cat !== "sales") p.set("cat", st.cat);
     if (st.region !== "Europe") p.set("region", st.region); if (st.country) p.set("country", st.country); if (st.city) p.set("city", st.city);
-    if (st.age !== "30") p.set("age", st.age); if (st.fonds) p.set("fund", st.fonds);
-    if (st.remote) p.set("remote", "1"); if (!st.noscale) p.set("scale", "1"); if (st.salary) p.set("salary", "1");
+    if (st.age !== "30") p.set("age", st.age);
+    if (st.remote) p.set("remote", "1"); if (st.salary) p.set("salary", "1");
     history.replaceState(null, "", location.pathname + (p.toString() ? "#" + p.toString() : ""));
   }
   function norm(s) { let x = (s || "").toLowerCase(); SYN.forEach(([re, to]) => x = x.replace(re, to)); return x; }
@@ -98,7 +98,7 @@
 
   function apply(reason) {
     const st = { q: $("#q").value.trim(), cat: $("#cat").value, region: $("#region").value, country: $("#country").value, city: $("#city").value,
-                 age: $("#age").value, fonds: $("#fund").value, remote: $("#remote").checked, noscale: $("#noscale").checked, salary: $("#salary").checked };
+                 age: $("#age").value, fonds: "", remote: remoteOn, noscale: false, salary: $("#salary").checked };
     push(st); if (reason) track(`filter/${reason}/${st[reason] === true ? "on" : st[reason] === false ? "off" : st[reason] || "-"}`);
     const q = norm(st.q); const maxAge = +st.age;
     rows = all.filter(r => matches(r, st, q, maxAge));
@@ -118,7 +118,7 @@
       const loc = r.v && r.p ? `${r.v}, ${r.p}` : (r.p || (r.g === "Unspecified" ? "" : r.g));
       li.innerHTML = `<a class="job" href="${esc(r.u)}" target="_blank" rel="noopener">
         <div class="t">${esc(r.t)}</div>
-        <div class="r">${r["$"] ? `<span class="sal">${esc(r["$"])}</span> · ` : ""}${r.d ? fmtDate(r.d) : T.seen + " " + fmtDate(r.n)}${n !== null && n <= 3 ? `<span class="new">${T.new}</span>` : ""}</div>
+        <div class="r">${r["$"] ? `<span class="sal">${esc(r["$"])}</span> · ` : ""}${r.d ? fmtDate(r.d) : `<span title="This company does not publish a posting date. This is when the role first appeared on its careers page.">${T.seen} ${fmtDate(r.n)}</span>`}${n !== null && n <= 3 ? `<span class="new">${T.new}</span>` : ""}</div>
         <div class="s"><b>${esc(r.s)}</b>${r.l ? " · " + esc(r.l) : ""}</div>
         <div class="tags">${loc ? `<span class="tag loc">${esc(loc)}</span>` : ""}${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}<span class="tag ats">${esc(r.a)}</span></div>
       </a>`;
@@ -132,21 +132,18 @@
 
   (async () => {
     meta = await (await fetch("data/meta.json")).json();
-    $("#meta-total").textContent = num(meta.total);
-    $("#meta-startups").textContent = num(meta.startups);
     $("#meta-date").textContent = new Date(meta.date).toLocaleDateString("en-GB", { day: "numeric", month: "long" });
     const st = state();
     fillRegions(); $("#region").value = st.region;
     fillCountries(st.region); $("#country").value = st.country;
     fillCities(st.country, st.region); $("#city").value = st.city;
-    const fs = $("#fund"); meta.fonds.forEach(f => { const o = document.createElement("option"); o.value = f; o.textContent = f; fs.appendChild(o); });
-    $("#q").value = st.q; $("#cat").value = st.cat; $("#age").value = st.age; $("#fund").value = st.fonds;
-    $("#remote").checked = st.remote; $("#noscale").checked = st.noscale; $("#salary").checked = st.salary;
+    $("#q").value = st.q; $("#cat").value = st.cat; $("#age").value = st.age;
+    remoteOn = st.remote; $("#salary").checked = st.salary;
 
     $("#cat").addEventListener("change", () => refresh("cat"));
     $("#region").addEventListener("change", () => { fillCountries($("#region").value); fillCities($("#country").value, $("#region").value); apply("region"); });
     $("#country").addEventListener("change", () => { fillCities($("#country").value, $("#region").value); apply("country"); });
-    [["#city", "city"], ["#age", "age"], ["#fund", "fonds"], ["#remote", "remote"], ["#noscale", "noscale"], ["#salary", "salary"]].forEach(([s, k]) => $(s).addEventListener("change", () => apply(k)));
+    [["#city", "city"], ["#age", "age"], ["#salary", "salary"]].forEach(([s, k]) => $(s).addEventListener("change", () => apply(k)));
     let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
     $("#q").addEventListener("change", () => { if ($("#q").value.trim()) track("search"); });
     $("#more").addEventListener("click", more);
@@ -155,7 +152,7 @@
       if (k === "today") $("#age").value = on ? "30" : "0";
       else if (k === "week") $("#age").value = on ? "30" : "7";
       else if (k === "salary") $("#salary").checked = !on;
-      else if (k === "remote") $("#remote").checked = !on;
+      else if (k === "remote") remoteOn = !on;
       apply("pulse-" + k);
     }));
 
