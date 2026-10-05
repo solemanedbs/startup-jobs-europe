@@ -51,7 +51,10 @@ th{text-align:left;font-size:var(--t-xs);text-transform:uppercase;letter-spacing
 td{border-bottom:1px solid var(--line);padding:var(--s1) var(--s3);vertical-align:middle}
 td input,td select{margin:0;height:var(--ctl-sm);padding:0 var(--s2);font-size:var(--t-sm);border-color:transparent;background:transparent}
 td input:hover,td select:hover{border-color:var(--line-strong)}
-td.lien a{color:var(--acc);font-size:var(--t-xs)}
+td.lien{min-width:190px}
+td.lien input{width:calc(100% - 42px);display:inline-block}
+td.lien a.go{color:var(--acc);font-size:var(--t-xs);margin-left:var(--s2);text-decoration:none}
+td.lien a.go:hover{text-decoration:underline}
 td.max{font-size:var(--t-xs);color:var(--acc);white-space:nowrap}
 
 /* checklist de démarrage */

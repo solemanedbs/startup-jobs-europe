@@ -196,13 +196,18 @@
       const tr = el(`<tr>
         <td><input type="date" class="dt"></td><td><input class="co" placeholder="Company"></td><td><input class="po" placeholder="Role"></td>
         <td><select class="st">${STATUTS.map(s => `<option>${s}</option>`).join("")}</select></td>
-        <td class="max"></td><td><input class="no" placeholder="—"></td><td class="lien"></td><td><button class="del">✕</button></td></tr>`);
+        <td class="max"></td><td><input class="no" placeholder="—"></td>
+        <td class="lien"><input class="lk" type="url" placeholder="https://…"><a class="go" target="_blank" rel="noopener" hidden>open</a></td>
+        <td><button class="del">✕</button></td></tr>`);
       tr.querySelector(".dt").value = a.date || ""; tr.querySelector(".co").value = a.co || ""; tr.querySelector(".po").value = a.po || "";
       tr.querySelector(".st").value = a.st || "Applied"; tr.querySelector(".no").value = a.note || "";
       tr.querySelector(".max").textContent = badge(a);
-      if (a.u) tr.querySelector(".lien").innerHTML = `<a href="${esc(a.u)}" target="_blank" rel="noopener">open</a>`;
+      const lk = tr.querySelector(".lk"), go = tr.querySelector(".go");
+      const syncLink = () => { const v = (a.u || "").trim(); go.hidden = !v; if (v) go.href = v; };
+      lk.value = a.u || ""; syncLink();
       tr.addEventListener("input", e => {
         a.date = tr.querySelector(".dt").value; a.co = tr.querySelector(".co").value; a.po = tr.querySelector(".po").value; a.note = tr.querySelector(".no").value;
+        a.u = lk.value.trim(); syncLink();
         const st = tr.querySelector(".st").value;
         if (st !== a.st) { SJ.setStatus(a, st); tr.querySelector(".max").textContent = badge(a); }
         SJ.save(); if (e.target.classList.contains("st")) renderBoard();

@@ -3,20 +3,20 @@
 <title>My space — profile, projects, applications</title>
 <meta name="description" content="Your own fact bank for tailoring CVs, your projects, and your application tracker. Everything stays in your browser.">
 <meta name="robots" content="noindex">
-<link rel="stylesheet" href="tokens.css?v=1f4e1ec9"><link rel="stylesheet" href="style.css?v=cd4696af"><link rel="stylesheet" href="moi.css?v=71c6f740">
+<link rel="stylesheet" href="tokens.css?v=1f4e1ec9"><link rel="stylesheet" href="style.css?v=cd4696af"><link rel="stylesheet" href="moi.css?v=977d3be3">
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="mark" href="./"><span class="wordmark">Traction</span><span class="dot"></span><span class="tagline">Europe</span></a>
-  <p class="crumb"><a href="./">← Back to all roles</a></p>
-  <h1>My space</h1>
-  <p class="sub">Write down your facts once, reuse them on every application, and keep track of where each one stands. <b>Everything stays in this browser.</b></p>
+  <div class="topbar">
+    <h1 class="mark"><a href="./"><span class="wordmark">Traction</span><span class="dot"></span></a></h1>
+    <span class="head-actions"><a href="./" class="btn">Jobs</a></span>
+  </div>
 </div></header>
 
 <div class="wrap"><ol class="start" id="start" hidden>
-  <li data-s="x"><span class="dot"></span><b>Add your experience</b><i>The facts a CV is built from — one bullet per verifiable result.</i></li>
-  <li data-s="pr"><span class="dot"></span><b>Add a project</b><i>What you actually built, with a link that proves it.</i></li>
-  <li data-s="apps"><span class="dot"></span><b>Track an application</b><i>Open a role from the board and say yes when asked.</i></li>
+  <li data-s="x"><span class="dot"></span><b>Add your experience</b></li>
+  <li data-s="pr"><span class="dot"></span><b>Add a project</b></li>
+  <li data-s="apps"><span class="dot"></span><b>Track an application</b></li>
 </ol></div>
 
 <nav class="wrap tabs" id="tabs">
@@ -32,7 +32,6 @@
   <section id="s-board">
     <div id="b-empty" class="block empty-state" hidden>
       <h2>Nothing tracked yet</h2>
-      <p class="hint">Open a role from the job board and say yes when asked whether you applied — it lands here. You can also add one by hand from the Applications tab. Everything stays in this browser.</p>
       <p class="row"><a class="primary" href="./">Browse open roles</a></p>
     </div>
 
@@ -120,12 +119,11 @@
   <section id="s-projets" hidden>
     <div class="block">
       <h2>Your projects</h2>
-      <p class="hint"><b>Everything you add here goes into every CV you tailor, and onto the page you can share with a recruiter.</b> A project is not a side business — it is any time you built something, fixed something, or made a number move.</p>
+      <p class="hint"><b>Everything you add here goes into every CV you tailor, and onto the page you can share with a recruiter.</b></p>
     </div>
 
     <div class="block" id="triggers-block">
       <h2>Have you ever…</h2>
-      <p class="hint">Most people have three or four of these and never thought to write them down. Pick one and the form opens with the right questions.</p>
       <div class="triggers" id="triggers">
         <button type="button" data-ty="tool">…built a tool or a spreadsheet that saved time?</button>
         <button type="button" data-ty="outreach">…run an outreach, sales or marketing campaign?</button>
@@ -136,9 +134,8 @@
         <button type="button" data-ty="other">…something else entirely</button>
       </div>
       <details class="ex">
-        <summary>Three real examples, from modest to substantial</summary>
+        <summary>Two real examples</summary>
         <div class="exs">
-          <div><b>Shift planner, Excel</b><p>Shifts were planned by hand every week and people found out late. I rebuilt the planning in a shared sheet with automatic totals. The team now sees next week by Thursday, and the manager saves about two hours a week.</p><i>No link, no code, no spectacular number — and it still shows initiative and follow-through.</i></div>
           <div><b>Cold email sequence, 400 founders</b><p>We had no pipeline on the UK market. I built the target list from scratch and wrote a four-touch sequence with per-segment personalisation. 18% replied and we booked 12 meetings.</p><i>A link to the sequence or the sheet makes it verifiable.</i></div>
           <div><b>This job board</b><p>Finding roles at funded startups meant opening hundreds of career pages. I wrote a script that reads 1,000+ VC portfolios and their applicant tracking systems every morning, and published the result as a free site.</p><i>A public link is the strongest possible proof.</i></div>
         </div>
@@ -182,7 +179,6 @@
   <section id="s-crm" hidden>
     <div class="block">
       <h2>Your applications</h2>
-      <p class="hint">When you open a role from this site, we ask on your way back whether you applied. You can also add a row by hand.</p>
       <div class="row"><button class="add" id="addapp">+ Add an application</button><button class="mini" id="csv">Export as CSV</button></div>
       <div class="tablewrap"><table id="apps"><thead><tr><th>Date</th><th>Company</th><th>Role</th><th>Status</th><th>Furthest</th><th>Note</th><th>Link</th><th></th></tr></thead><tbody></tbody></table></div>
     </div>
@@ -196,5 +192,5 @@
 </div></div>
 
 <footer class="wrap foot"><p>Your data is saved in this browser only (localStorage). Clearing your browsing data or switching device makes it disappear, so <b>export a backup regularly</b>. <a href="mentions.html">Legal notice</a></p></footer>
-<script src="store.js?v=a344b25e"></script><script src="cvfile.js?v=c37c506e"></script><script src="moi.js?v=97a21dd7"></script>
+<script src="store.js?v=a344b25e"></script><script src="cvfile.js?v=c37c506e"></script><script src="moi.js?v=c668f51c"></script>
 </body></html>
