@@ -13,7 +13,11 @@
   const SYN = [[/\b(biz ?dev|bizdev)\b/g, "business develop"], [/\bsdr\b/g, "sales development"], [/\bbdr\b/g, "business development representative"], [/\bae\b/g, "account executive"], [/\bcsm\b/g, "customer success"], [/\bkam\b/g, "key account"], [/\bpm\b/g, "product manager"]];
   const cache = {}; let meta, rows = [], all = [], shown = 0, lastGrp = null, remoteOn = false;
   const GRP = n => n === null ? "Date unknown" : n <= 0 ? "Today" : n <= 7 ? "This week" : n <= 30 ? "This month" : "Earlier";
-  const today = new Date(); const daysAgo = d => d ? Math.round((today - new Date(d)) / 86400000) : null;
+  // comparaison de dates de calendrier, pas de durées : sinon une offre publiée aujourd'hui
+  // compte pour « 1 jour » dès qu'on consulte la page l'après-midi (bug du 05/10)
+  const midnight = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || ""); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
+  const today0 = (() => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; })();
+  const daysAgo = d => { const x = midnight(d); return x ? Math.round((today0 - x) / 86400000) : null; };
   const fmtDate = d => { const n = daysAgo(d); if (n === null) return T.unknown; if (n <= 0) return T.today; if (n === 1) return T.yesterday; if (n < 30) return T.days(n); return T.months(Math.round(n / 30)); };
   const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const num = n => n.toLocaleString("en-GB");
