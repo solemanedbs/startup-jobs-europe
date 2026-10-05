@@ -84,3 +84,10 @@ td.max{font-size:12px;color:var(--acc);white-space:nowrap}
 .backup{background:transparent;border-style:dashed}
 .backup h2{font-size:14px}
 @media(max-width:760px){.start{grid-template-columns:1fr}}
+
+/* ---- onglet CV : les deux sources côte à côte ---- */
+.cv2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.cv2 label{font-weight:600;color:var(--fg);font-size:13.5px}
+.cv2 textarea{font-weight:400;font-size:13.5px}
+#cv-src{margin-left:4px}
+@media(max-width:760px){.cv2{grid-template-columns:1fr}}

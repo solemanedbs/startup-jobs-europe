@@ -81,10 +81,22 @@
   $("#addpr").addEventListener("click", () => { D.pr.push({ t: "", d: "", u: "", k: [] }); SJ.save(); renderPr(); });
 
   /* ---- CV : texte pour l'IA ---- */
-  function renderPrompt() { $("#prompt").textContent = SJ.promptText($("#offre").value.trim()); }
+  const cvRaw = $("#cvraw"); cvRaw.value = D.cv || "";
+  function renderPrompt() {
+    const raw = cvRaw.value.trim();
+    $("#prompt").textContent = SJ.promptText($("#offre").value.trim(), raw);
+    const bank = D.x.length || D.pr.length || D.s.length;
+    const src = bank && raw ? "Using your profile and the CV you pasted."
+      : bank ? "Using the facts saved in your profile."
+      : raw ? "Using the CV you pasted."
+      : "No facts yet — paste your CV above, or fill in your profile.";
+    $("#cv-src").textContent = src;
+    $("#cv-nudge").hidden = !(raw && !bank);
+  }
+  cvRaw.addEventListener("input", () => { D.cv = cvRaw.value; SJ.save(); renderPrompt(); });
   $("#offre").addEventListener("input", renderPrompt);
   $("#copy").addEventListener("click", async () => {
-    const txt = SJ.promptText($("#offre").value.trim());
+    const txt = SJ.promptText($("#offre").value.trim(), cvRaw.value.trim());
     try { await navigator.clipboard.writeText(txt); } catch (e) { const t = $("#prompt"); t.hidden = false; const r = document.createRange(); r.selectNode(t); getSelection().removeAllRanges(); getSelection().addRange(r); document.execCommand("copy"); }
     const ok = $("#copied"); ok.hidden = false; setTimeout(() => ok.hidden = true, 2200);
   });
@@ -168,7 +180,7 @@
     const all = done.x && done.pr && done.apps;
     $("#start").hidden = all;
     $$("#start li").forEach(li => li.classList.toggle("done", !!done[li.dataset.s]));
-    const warn = $("#cv-warn"); if (warn) warn.hidden = D.x.length > 0;
+
   }
   // les liens de la checklist et de l'avertissement ouvrent le bon onglet
   document.addEventListener("click", e => {
@@ -186,6 +198,17 @@
     if (!e.target.files[0]) return;
     try { await SJ.importFile(e.target.files[0]); location.reload(); } catch (err) { alert("Fichier illisible."); }
   });
+
+  // arrivée depuis le job board : l'offre est déjà identifiée, on amorce le champ
+  try {
+    const j = JSON.parse(sessionStorage.getItem("sj.cvjob") || "null");
+    if (j) {
+      sessionStorage.removeItem("sj.cvjob");
+      if (!$("#offre").value.trim())
+        $("#offre").value = `${j.po || ""}\n${j.co || ""}${j.l ? " — " + j.l : ""}${j.u ? "\n" + j.u : ""}\n\n(paste the full job description here)`;
+      const t = $$(".tab").find(b => b.dataset.t === "cv"); if (t) t.click();
+    }
+  } catch (e) {}
 
   renderX(); renderF(); renderPr(); renderApps(); renderPrompt(); renderBoard(); renderStart();
   const h = (location.hash || "").slice(1);

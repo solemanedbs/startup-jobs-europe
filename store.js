@@ -8,7 +8,7 @@ window.SJ = (() => {
   const STAGES = ["Applied", "Followed up", "Interview 1", "Interview 2", "Final interview", "Offer"];
   const TERMINAL = ["Rejected", "No reply"];
   const RANK = Object.fromEntries(STAGES.map((s, i) => [s, i]));
-  const empty = () => ({ id: { n: "", h: "", mail: "", li: "", site: "" }, x: [], pr: [], f: [], s: [], apps: [] });
+  const empty = () => ({ id: { n: "", h: "", mail: "", li: "", site: "" }, x: [], pr: [], f: [], s: [], apps: [], cv: "" });
   let data = null;
   function load() {
     if (data) return data;
@@ -97,21 +97,29 @@ window.SJ = (() => {
       const today = new Date().toISOString().slice(0, 10);
       d.apps.unshift(Object.assign({ date: today, st: "Applied", max: 0, last: today, note: "" }, app)); save(); return true;
     },
-    // texte prêt à coller dans une IA
-    promptText(offre) {
+    // texte prêt à coller dans une IA — fonctionne avec la banque de faits, avec un CV collé, ou les deux
+    promptText(offre, cvraw) {
       const d = load(), L = [];
-      L.push("Tu composes un CV d'une page, optimisé pour les logiciels de recrutement (ATS) et lisible par un humain en 8 secondes.");
-      L.push("HARD RULE: use only the facts below. Invent no number, no responsibility, no tool. You may rephrase to match the wording of the job ad, never inflate.");
+      const hasBank = d.x.length || d.pr.length || d.s.length;
+      const raw = (cvraw !== undefined ? cvraw : d.cv || "").trim();
+      L.push("You are writing a one-page CV, tailored to one job ad, readable by applicant tracking software and convincing to a human in 8 seconds.");
+      L.push("HARD RULE: use only the facts given below. Invent no number, no responsibility, no tool, no employer. You may rephrase to match the wording of the job ad, never inflate. If a fact is missing, leave it out rather than guessing.");
+      if (raw && !hasBank) L.push("The facts come from the CV pasted below: read it, extract the verifiable facts, then rebuild a CV targeted at this job ad.");
+      else if (raw && hasBank) L.push("Two sources below: a structured fact bank and a pasted CV. Use both, and prefer the fact bank where they disagree.");
       L.push("Structure: summary (3 sentences, 45-60 words: who I am plus one quantified result; my skills plus tools; the role I am going for and what I bring) - key skills (6 lines reusing the exact words of the ad) - experience (bullets selected and reordered for this ad) - education - tools and languages.");
       L.push("Write in the language of the job ad. No job title in the header. Never use results-driven, passionate, or proven track record.");
-      L.push("\n=== MES FAITS ===");
-      if (d.id.n) L.push(`Nom : ${d.id.n}${d.id.h ? " — " + d.id.h : ""}`);
-      if (d.id.mail || d.id.li) L.push(`Contact : ${[d.id.mail, d.id.li, d.id.site].filter(Boolean).join(" · ")}`);
-      d.x.forEach(x => { L.push(`\nExpérience — ${x.e || "?"} · ${x.t || ""} · ${x.d || ""}`); (x.p || []).forEach(p => L.push("- " + p)); });
-      if (d.pr.length) { L.push("\nProjets :"); d.pr.forEach(p => L.push(`- ${p.t} : ${p.d}${p.u ? " (" + p.u + ")" : ""}${(p.k || []).length ? " [" + p.k.join(", ") + "]" : ""}`)); }
-      if (d.f.length) { L.push("\nFormation :"); d.f.forEach(f => L.push(`- ${f.t} (${f.d})`)); }
-      if (d.s.length) L.push("\nCompétences et outils : " + d.s.join(" · "));
-      L.push("\n=== L'OFFRE ===");
+      if (hasBank) {
+        L.push("\n=== MY FACT BANK ===");
+        if (d.id.n) L.push(`Name: ${d.id.n}${d.id.h ? " - " + d.id.h : ""}`);
+        if (d.id.mail || d.id.li) L.push(`Contact: ${[d.id.mail, d.id.li, d.id.site].filter(Boolean).join(" - ")}`);
+        d.x.forEach(x => { L.push(`\nExperience - ${x.e || "?"} - ${x.t || ""} - ${x.d || ""}`); (x.p || []).forEach(p => L.push("- " + p)); });
+        if (d.pr.length) { L.push("\nProjects:"); d.pr.forEach(p => L.push(`- ${p.t}: ${p.d}${p.u ? " (" + p.u + ")" : ""}${(p.k || []).length ? " [" + p.k.join(", ") + "]" : ""}`)); }
+        if (d.f.length) { L.push("\nEducation:"); d.f.forEach(f => L.push(`- ${f.t} (${f.d})`)); }
+        if (d.s.length) L.push("\nSkills and tools: " + d.s.join(" - "));
+      }
+      if (raw) { L.push("\n=== MY CURRENT CV ==="); L.push(raw); }
+      if (!hasBank && !raw) L.push("\n=== MY FACTS ===\n(paste your current CV above, or fill in your profile - without facts this prompt produces nothing usable)");
+      L.push("\n=== THE JOB AD ===");
       L.push(offre || "(paste the job title, the company and the full description here)");
       return L.join("\n");
     }

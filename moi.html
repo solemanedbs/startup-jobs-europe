@@ -3,7 +3,7 @@
 <title>My space — profile, projects, applications</title>
 <meta name="description" content="Your own fact bank for tailoring CVs, your projects, and your application tracker. Everything stays in your browser.">
 <meta name="robots" content="noindex">
-<link rel="stylesheet" href="style.css?v=f002cd1c"><link rel="stylesheet" href="moi.css?v=49aee097">
+<link rel="stylesheet" href="style.css?v=2da6cc27"><link rel="stylesheet" href="moi.css?v=49378750">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -101,12 +101,19 @@
   <!-- CV -->
   <section id="s-cv" hidden>
     <div class="block">
-      <div id="cv-warn" class="warnbox" hidden>Your profile is still empty, so the generated text would carry no facts. <a href="#profil" data-go="profil">Fill in your experience first →</a></div>
-      <h2>Tailor a CV to one role</h2>
-      <p class="hint">Paste the job ad below, copy the generated block, then paste it into whichever AI you use (Claude, ChatGPT, Mistral…). Your facts leave this page only when you copy them yourself.</p>
-      <textarea id="offre" rows="7" placeholder="Paste the job title, the company and the full description here…"></textarea>
-      <div class="row"><button class="primary" id="copy">Copy the text for the AI</button><span id="copied" class="ok" hidden>Copied ✓</span></div>
-      <details><summary>Show the text</summary><pre id="prompt"></pre></details>
+      <h2>Tailor your CV to one job ad</h2>
+      <p class="hint">Two boxes, one button. You get a block of text to paste into whichever AI you use — Claude, ChatGPT, Mistral. <b>Nothing is sent from this page</b>: your CV and your facts only move when you copy them yourself.</p>
+      <div class="cv2">
+        <label>1 · Your CV, pasted as it is
+          <textarea id="cvraw" rows="11" placeholder="Paste the text of your current CV here. Rough is fine — the AI will sort it out.&#10;&#10;Already filled in your profile? You can leave this empty."></textarea>
+        </label>
+        <label>2 · The job ad
+          <textarea id="offre" rows="11" placeholder="Paste the job title, the company and the full description here…"></textarea>
+        </label>
+      </div>
+      <div class="row"><button class="primary" id="copy">Copy the text for the AI</button><span id="copied" class="ok" hidden>Copied ✓</span><span id="cv-src" class="hint"></span></div>
+      <details><summary>Show the text that will be copied</summary><pre id="prompt"></pre></details>
+      <div id="cv-nudge" class="warnbox" hidden>Happy with the result? <a href="#profil" data-go="profil">Save these facts in your profile</a> — next time you only paste the job ad.</div>
     </div>
   </section>
 
@@ -128,5 +135,5 @@
 </div></div>
 
 <footer class="wrap foot"><p>Your data is saved in this browser only (localStorage). Clearing your browsing data or switching device makes it disappear, so <b>export a backup regularly</b>. <a href="mentions.html">Legal notice</a></p></footer>
-<script src="store.js?v=b43eea48"></script><script src="moi.js?v=fac93809"></script>
+<script src="store.js?v=bdf0a915"></script><script src="moi.js?v=eff87891"></script>
 </body></html>

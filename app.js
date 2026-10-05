@@ -7,7 +7,8 @@
     today: "today", yesterday: "yesterday", days: n => `${n}d ago`, months: n => `${n}mo ago`, unknown: "date unknown",
     seen: "first seen", new: "new", scale: "scale-up", remoteTag: "remote",
     ask: "Did you apply at", askSub: "This role is handled on the company's own site. Add it to your tracker?",
-    askY: "Yes, I applied", askN: "No, don't ask again", askL: "Maybe later", added: "Added to your tracker", space: "My space"
+    askY: "Yes, I applied", askN: "No, don't ask again", askL: "Maybe later", added: "Added to your tracker", space: "My space",
+    askCv: "Not applied yet? Tailor your CV for this role →"
   };
   const SYN = [[/\b(biz ?dev|bizdev)\b/g, "business develop"], [/\bsdr\b/g, "sales development"], [/\bbdr\b/g, "business development representative"], [/\bae\b/g, "account executive"], [/\bcsm\b/g, "customer success"], [/\bkam\b/g, "key account"], [/\bpm\b/g, "product manager"]];
   const cache = {}; let meta, rows = [], all = [], shown = 0, lastGrp = null;
@@ -180,7 +181,8 @@
         '<h3>' + T.ask + ' <b>' + esc(r.s) + '</b>?</h3>' +
         '<p>' + esc(r.t) + (r.l ? ' &middot; ' + esc(r.l) : '') + '<br>' + T.askSub + '</p>' +
         '<div class="ask-btns"><button class="y" data-a="y">' + T.askY + '</button>' +
-        '<button data-a="l">' + T.askL + '</button><button data-a="n">' + T.askN + '</button></div></div>';
+        '<button data-a="l">' + T.askL + '</button><button data-a="n">' + T.askN + '</button></div>' +
+        '<a class="ask-cv" href="moi.html#cv" data-a="cv">' + T.askCv + '</a></div>';
       document.body.appendChild(box);
       const close = () => { box.remove(); document.removeEventListener("keydown", onKey); };
       const onKey = e => { if (e.key === "Escape") { close(); pending = null; savePending(); } };
@@ -189,6 +191,11 @@
       box.addEventListener("click", ev => {
         if (ev.target === box) { close(); pending = null; savePending(); return; }
         const a = ev.target.dataset && ev.target.dataset.a; if (!a) return;
+        if (a === "cv") {
+          // on transmet l'offre à l'outil de CV : il s'ouvre déjà rempli
+          try { sessionStorage.setItem("sj.cvjob", JSON.stringify({ co: r.s, po: r.t, u: r.u, l: r.l })); } catch (e) {}
+          track("apply/cv"); return;   // le lien suit son cours vers moi.html#cv
+        }
         if (a === "y" && window.SJ) {
           SJ.addApp({ co: r.s, po: r.t, u: r.u, lieu: r.l });
           box.querySelector(".ask-box").innerHTML = '<div class="ask-ico">&#10003;</div><h3 class="ask-done">' + T.added + '</h3><p><a href="moi.html#crm">' + T.space + ' &rarr;</a></p>';
