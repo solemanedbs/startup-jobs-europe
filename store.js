@@ -1,4 +1,4 @@
-/* Stockage local : profil, projets, candidatures. Rien ne quitte le navigateur.
+/* Local storage only: profile, projects, applications. Nothing leaves the browser.
    Encodage/décodage du profil partageable dans l'URL (deflate + base64url). */
 window.SJ = (() => {
   const KEY = "sj.v1";
@@ -47,15 +47,15 @@ window.SJ = (() => {
     addApp(app) {
       const d = load();
       if (d.apps.some(a => a.u === app.u)) return false;
-      d.apps.unshift(Object.assign({ date: new Date().toISOString().slice(0, 10), st: "Envoyée", note: "" }, app)); save(); return true;
+      d.apps.unshift(Object.assign({ date: new Date().toISOString().slice(0, 10), st: "Applied", note: "" }, app)); save(); return true;
     },
     // texte prêt à coller dans une IA
     promptText(offre) {
       const d = load(), L = [];
       L.push("Tu composes un CV d'une page, optimisé pour les logiciels de recrutement (ATS) et lisible par un humain en 8 secondes.");
-      L.push("RÈGLE ABSOLUE : n'utilise que les faits ci-dessous. N'invente aucun chiffre, aucune mission, aucun outil. Tu peux reformuler pour coller au vocabulaire de l'offre, jamais exagérer.");
-      L.push("Structure : profil (3 phrases, 45-60 mots : qui je suis + un résultat chiffré ; mes compétences + outils ; le poste visé et ce que j'apporte) — compétences clés (6 lignes reprenant les mots exacts de l'offre) — expériences (puces choisies et réordonnées selon l'offre) — formation — outils et langues.");
-      L.push("Écris dans la langue de l'offre. Pas de titre de poste en en-tête. Pas de « results-driven », « passionné », « proven track record ».");
+      L.push("HARD RULE: use only the facts below. Invent no number, no responsibility, no tool. You may rephrase to match the wording of the job ad, never inflate.");
+      L.push("Structure: summary (3 sentences, 45-60 words: who I am plus one quantified result; my skills plus tools; the role I am going for and what I bring) - key skills (6 lines reusing the exact words of the ad) - experience (bullets selected and reordered for this ad) - education - tools and languages.");
+      L.push("Write in the language of the job ad. No job title in the header. Never use results-driven, passionate, or proven track record.");
       L.push("\n=== MES FAITS ===");
       if (d.id.n) L.push(`Nom : ${d.id.n}${d.id.h ? " — " + d.id.h : ""}`);
       if (d.id.mail || d.id.li) L.push(`Contact : ${[d.id.mail, d.id.li, d.id.site].filter(Boolean).join(" · ")}`);
@@ -64,7 +64,7 @@ window.SJ = (() => {
       if (d.f.length) { L.push("\nFormation :"); d.f.forEach(f => L.push(`- ${f.t} (${f.d})`)); }
       if (d.s.length) L.push("\nCompétences et outils : " + d.s.join(" · "));
       L.push("\n=== L'OFFRE ===");
-      L.push(offre || "(colle ici l'intitulé, l'entreprise et la description complète de l'offre)");
+      L.push(offre || "(paste the job title, the company and the full description here)");
       return L.join("\n");
     }
   };

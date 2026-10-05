@@ -1,46 +1,47 @@
 (() => {
   const $ = s => document.querySelector(s);
-  const EUROPE = new Set(["France","Royaume-Uni","Allemagne","Pays-Bas","Belgique","Luxembourg","Espagne","Portugal","Italie","Suisse","Autriche","Suède","Danemark","Norvège","Finlande","Irlande","Pologne","Tchéquie","Hongrie","Roumanie","Bulgarie","Grèce","Estonie","Lettonie","Lituanie","Croatie","Slovénie","Slovaquie","Europe (non précisé)","Remote"]);
-  const I18N = {
-    fr: { title: "Offres dans les startups européennes VC-backed", sub1: "offres ouvertes chez", sub2: "startups financées par des fonds de capital-risque. Mis à jour le", sub3: "Lien direct vers la candidature, sans compte.",
-      q: "Rechercher un poste, une startup…", c_sales: "Sales & bizdev", c_finance: "Finance", c_ops: "Ops & stratégie", c_pm: "Produit & marketing", c_tech: "Tech & data", c_other: "Autres", c_all: "Toutes catégories",
-      p_eu: "Europe + remote", v_all: "Toutes les villes", a7: "7 derniers jours", a30: "30 derniers jours", a60: "60 derniers jours", aall: "Toutes dates", remote: "Remote uniquement", noscale: "Masquer les scale-ups (100+ offres)", salary: "Salaire affiché uniquement", f_all: "Tous les fonds investisseurs",
-      hint: "Cliquez sur une offre pour postuler sur le site de la startup.", more: "Afficher 50 offres de plus", offers: n => n > 1 ? "offres" : "offre", empty: "Aucune offre avec ces filtres. Élargissez la période ou la zone.",
-      today: "aujourd'hui", yesterday: "hier", days: n => `il y a ${n} j`, months: n => `il y a ${n} mois`, unknown: "date inconnue", seen: "vue", new: "nouveau", scale: "scale-up", remoteTag: "remote",
-      foot1: "Les offres proviennent des pages carrière officielles des startups (Greenhouse, Lever, Ashby, Teamtailor, Personio, Workable, Recruitee…), relues chaque matin. Les startups sont issues des portefeuilles de plus de 1 000 fonds de capital-risque européens : ce sont des entreprises financées, qui recrutent réellement.",
-      foot2: "Un projet personnel de", contact: "Signaler une erreur ou une startup manquante", legal: "Mentions légales", pages: "Par métier et par pays", space: "Mon espace", ask: "Avez-vous postulé chez", askSub: "Ce poste se gère sur le site de l\u2019entreprise. On l\u2019ajoute à votre suivi ?", askY: "Oui, j\u2019ai postulé", askN: "Non, ne plus demander", askL: "Peut-être plus tard", added: "Ajouté à votre suivi", foot3: "Statistiques de fréquentation anonymes (GoatCounter, sans cookie). Aucune donnée personnelle n'est collectée.", dateFmt: "fr-FR", other: "EN" },
-    en: { title: "Jobs at European VC-backed startups", sub1: "open roles at", sub2: "startups backed by venture capital funds. Updated on", sub3: "Direct link to apply, no account needed.",
-      q: "Search a role, a startup…", c_sales: "Sales & bizdev", c_finance: "Finance", c_ops: "Ops & strategy", c_pm: "Product & marketing", c_tech: "Tech & data", c_other: "Other", c_all: "All categories",
-      p_eu: "Europe + remote", v_all: "All cities", a7: "Last 7 days", a30: "Last 30 days", a60: "Last 60 days", aall: "All dates", remote: "Remote only", noscale: "Hide scale-ups (100+ roles)", salary: "With salary only", f_all: "All investors",
-      hint: "Click a role to apply on the startup's own site.", more: "Show 50 more", offers: n => n > 1 ? "roles" : "role", empty: "No role matches these filters. Widen the period or the area.",
-      today: "today", yesterday: "yesterday", days: n => `${n} d ago`, months: n => `${n} mo ago`, unknown: "date unknown", seen: "seen", new: "new", scale: "scale-up", remoteTag: "remote",
-      foot1: "Roles come from the startups' official career pages (Greenhouse, Lever, Ashby, Teamtailor, Personio, Workable, Recruitee…), re-read every morning. Startups are taken from the portfolios of 1,000+ European venture capital funds: funded companies that are actually hiring.",
-      foot2: "A personal project by", contact: "Report an error or a missing startup", legal: "Legal notice", pages: "By role and country", space: "My space", ask: "Did you apply at", askSub: "This role is handled on the company\u2019s own site. Add it to your tracker?", askY: "Yes, I applied", askN: "No, don\u2019t ask again", askL: "Maybe later", added: "Added to your tracker", foot3: "Anonymous, cookie-free traffic statistics (GoatCounter). No personal data is collected.", dateFmt: "en-GB", other: "FR" }
+  const PAGE = 50;
+  const T = {
+    offers: n => n === 1 ? "role" : "roles",
+    empty: "No role matches these filters. Try a wider region or a longer period.",
+    today: "today", yesterday: "yesterday", days: n => `${n}d ago`, months: n => `${n}mo ago`, unknown: "date unknown",
+    seen: "first seen", new: "new", scale: "scale-up", remoteTag: "remote",
+    ask: "Did you apply at", askSub: "This role is handled on the company's own site. Add it to your tracker?",
+    askY: "Yes, I applied", askN: "No, don't ask again", askL: "Maybe later", added: "Added to your tracker", space: "My space"
   };
-  const COUNTRY_EN = { "France":"France","Royaume-Uni":"United Kingdom","Allemagne":"Germany","Pays-Bas":"Netherlands","Belgique":"Belgium","Luxembourg":"Luxembourg","Espagne":"Spain","Portugal":"Portugal","Italie":"Italy","Suisse":"Switzerland","Autriche":"Austria","Suède":"Sweden","Danemark":"Denmark","Norvège":"Norway","Finlande":"Finland","Irlande":"Ireland","Pologne":"Poland","Tchéquie":"Czechia","Hongrie":"Hungary","Roumanie":"Romania","Bulgarie":"Bulgaria","Grèce":"Greece","Estonie":"Estonia","Lettonie":"Latvia","Lituanie":"Lithuania","Croatie":"Croatia","Slovénie":"Slovenia","Slovaquie":"Slovakia","Israël":"Israel","Europe (non précisé)":"Europe (unspecified)","Remote":"Remote","Hors Europe":"Outside Europe","Non précisé":"Unspecified","Autre":"Other" };
-  const SYN = [[/\b(biz ?dev|bizdev)\b/g, "business develop"], [/\bsdr\b/g, "sales development"], [/\bbdr\b/g, "business development representative"], [/\bae\b/g, "account executive"], [/\bcsm\b/g, "customer success"], [/\bkam\b/g, "key account"], [/\bcompta\b/g, "comptab"], [/\bpm\b/g, "product manager"]];
-  let lang = (() => { try { return localStorage.getItem("lang") || (navigator.language || "en").slice(0, 2) === "fr" ? (localStorage.getItem("lang") || "fr") : "en"; } catch (e) { return "en"; } })();
-  const T = () => I18N[lang];
-  const cache = {}; let meta, rows = [], all = [], shown = 0; const PAGE = 50;
+  const SYN = [[/\b(biz ?dev|bizdev)\b/g, "business develop"], [/\bsdr\b/g, "sales development"], [/\bbdr\b/g, "business development representative"], [/\bae\b/g, "account executive"], [/\bcsm\b/g, "customer success"], [/\bkam\b/g, "key account"], [/\bpm\b/g, "product manager"]];
+  const cache = {}; let meta, rows = [], all = [], shown = 0;
   const today = new Date(); const daysAgo = d => d ? Math.round((today - new Date(d)) / 86400000) : null;
-  const fmtDate = d => { const n = daysAgo(d); if (n === null) return T().unknown; if (n <= 0) return T().today; if (n === 1) return T().yesterday; if (n < 30) return T().days(n); return T().months(Math.round(n / 30)); };
+  const fmtDate = d => { const n = daysAgo(d); if (n === null) return T.unknown; if (n <= 0) return T.today; if (n === 1) return T.yesterday; if (n < 30) return T.days(n); return T.months(Math.round(n / 30)); };
   const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const country = p => lang === "en" ? (COUNTRY_EN[p] || p) : p;
+  const num = n => n.toLocaleString("en-GB");
   const track = path => { try { window.goatcounter && window.goatcounter.count({ path, title: path, event: true }); } catch (e) {} };
 
-  function applyLang() {
-    document.documentElement.lang = lang; const t = T();
-    document.querySelectorAll("[data-i]").forEach(el => { const k = el.dataset.i; if (typeof t[k] === "string") el.textContent = t[k]; });
-    document.querySelectorAll("[data-ph]").forEach(el => el.placeholder = t[el.dataset.ph]);
-    $("#lang").textContent = t.other;
-    if (meta) { $("#meta-date").textContent = new Date(meta.date).toLocaleDateString(t.dateFmt, { day: "numeric", month: "long" }); fillCountries(); }
-    try { localStorage.setItem("lang", lang); } catch (e) {}
+  // ---- filtres en cascade : région → pays → ville
+  function fillRegions() {
+    const el = $("#region"), cur = el.value || "Europe";
+    el.innerHTML = `<option value="">All locations (${num(meta.total)})</option>`;
+    meta.regions.forEach(([g, n]) => { const o = document.createElement("option"); o.value = g; o.textContent = `${g} (${num(n)})`; el.appendChild(o); });
+    el.value = cur;
   }
-  function fillCountries() {
-    const ps = $("#pays"); const cur = ps.value || "europe"; ps.innerHTML = `<option value="europe">${T().p_eu}</option>`;
-    meta.pays.filter(([p]) => p !== "Autre").forEach(([p, n]) => { const o = document.createElement("option"); o.value = p; o.textContent = `${country(p)} (${n.toLocaleString(T().dateFmt)})`; ps.appendChild(o); });
-    ps.value = cur;
+  function fillCountries(region) {
+    const el = $("#country"), cur = el.value;
+    el.innerHTML = `<option value="">${region ? "All countries in " + region : "All countries"}</option>`;
+    meta.pays.filter(([p]) => !region || meta.pays_region[p] === region)
+      .forEach(([p, n]) => { const o = document.createElement("option"); o.value = p; o.textContent = `${p} (${num(n)})`; el.appendChild(o); });
+    el.value = [...el.options].some(o => o.value === cur) ? cur : "";
   }
+  function fillCities(country, region) {
+    const el = $("#city"), cur = el.value;
+    el.innerHTML = `<option value="">${country ? "All cities in " + country : "All cities"}</option>`;
+    meta.villes.filter(([c]) => {
+      const p = meta.ville_pays[c]; if (!p) return false;
+      if (country) return p === country;
+      return !region || meta.pays_region[p] === region;
+    }).forEach(([c, n]) => { const o = document.createElement("option"); o.value = c; o.textContent = `${c} (${num(n)})`; el.appendChild(o); });
+    el.value = [...el.options].some(o => o.value === cur) ? cur : "";
+  }
+
   async function load(cat) {
     const cats = cat === "all" ? Object.keys(meta.categories) : [cat];
     const parts = await Promise.all(cats.map(async c => { if (!cache[c]) cache[c] = await (await fetch(`data/${c}.json`)).json(); return cache[c]; }));
@@ -48,22 +49,28 @@
   }
   function state() {
     const p = new URLSearchParams(location.hash.slice(1));
-    return { q: p.get("q") || "", cat: p.get("cat") || "sales", pays: p.get("pays") || "europe", ville: p.get("ville") || "", age: p.get("age") || "30", fonds: p.get("fonds") || "", remote: p.get("remote") === "1", noscale: p.get("scale") !== "1", salary: p.get("salary") === "1" };
+    return { q: p.get("q") || "", cat: p.get("cat") || "sales", region: p.has("region") ? p.get("region") : "Europe", country: p.get("country") || "", city: p.get("city") || "",
+             age: p.get("age") || "30", fonds: p.get("fund") || "", remote: p.get("remote") === "1", noscale: p.get("scale") !== "1", salary: p.get("salary") === "1" };
   }
   function push(st) {
     const p = new URLSearchParams();
-    if (st.q) p.set("q", st.q); if (st.cat !== "sales") p.set("cat", st.cat); if (st.pays !== "europe") p.set("pays", st.pays); if (st.ville) p.set("ville", st.ville);
-    if (st.age !== "30") p.set("age", st.age); if (st.fonds) p.set("fonds", st.fonds); if (st.remote) p.set("remote", "1"); if (!st.noscale) p.set("scale", "1"); if (st.salary) p.set("salary", "1");
+    if (st.q) p.set("q", st.q); if (st.cat !== "sales") p.set("cat", st.cat);
+    if (st.region !== "Europe") p.set("region", st.region); if (st.country) p.set("country", st.country); if (st.city) p.set("city", st.city);
+    if (st.age !== "30") p.set("age", st.age); if (st.fonds) p.set("fund", st.fonds);
+    if (st.remote) p.set("remote", "1"); if (!st.noscale) p.set("scale", "1"); if (st.salary) p.set("salary", "1");
     history.replaceState(null, "", location.pathname + (p.toString() ? "#" + p.toString() : ""));
   }
   function norm(s) { let x = (s || "").toLowerCase(); SYN.forEach(([re, to]) => x = x.replace(re, to)); return x; }
+
   function apply(reason) {
-    const st = { q: $("#q").value.trim(), cat: $("#cat").value, pays: $("#pays").value, ville: $("#ville").value, age: $("#age").value, fonds: $("#fonds").value, remote: $("#remote").checked, noscale: $("#noscale").checked, salary: $("#salary").checked };
+    const st = { q: $("#q").value.trim(), cat: $("#cat").value, region: $("#region").value, country: $("#country").value, city: $("#city").value,
+                 age: $("#age").value, fonds: $("#fund").value, remote: $("#remote").checked, noscale: $("#noscale").checked, salary: $("#salary").checked };
     push(st); if (reason) track(`filter/${reason}/${st[reason] === true ? "on" : st[reason] === false ? "off" : st[reason] || "-"}`);
     const q = norm(st.q); const maxAge = +st.age;
     rows = all.filter(r => {
-      if (st.pays === "europe" ? !EUROPE.has(r.p) : (st.pays && r.p !== st.pays)) return false;
-      if (st.ville && r.v !== st.ville) return false;
+      if (st.region && r.g !== st.region) return false;
+      if (st.country && r.p !== st.country) return false;
+      if (st.city && r.v !== st.city) return false;
       if (st.remote && !r.r) return false;
       if (st.noscale && r.b) return false;
       if (st.salary && !r["$"]) return false;
@@ -74,40 +81,49 @@
     });
     rows.sort((a, b) => (b.d || b.n || "").localeCompare(a.d || a.n || ""));
     shown = 0; $("#list").innerHTML = ""; more();
-    $("#count").textContent = `${rows.length.toLocaleString(T().dateFmt)} ${T().offers(rows.length)}`;
+    $("#count").textContent = `${num(rows.length)} ${T.offers(rows.length)}`;
   }
   function more() {
-    const frag = document.createDocumentFragment(); const t = T();
+    const frag = document.createDocumentFragment();
     rows.slice(shown, shown + PAGE).forEach(r => {
       const li = document.createElement("li"); const n = daysAgo(r.d || r.n);
+      const loc = r.v && r.p ? `${r.v}, ${r.p}` : (r.p || r.g);
       li.innerHTML = `<a class="job" href="${esc(r.u)}" target="_blank" rel="noopener">
         <div class="t">${esc(r.t)}</div>
-        <div class="r">${r["$"] ? `<span class="sal">${esc(r["$"])}</span> · ` : ""}${r.d ? fmtDate(r.d) : t.seen + " " + fmtDate(r.n)}${n !== null && n <= 3 ? `<span class="new">${t.new}</span>` : ""}</div>
+        <div class="r">${r["$"] ? `<span class="sal">${esc(r["$"])}</span> · ` : ""}${r.d ? fmtDate(r.d) : T.seen + " " + fmtDate(r.n)}${n !== null && n <= 3 ? `<span class="new">${T.new}</span>` : ""}</div>
         <div class="s"><b>${esc(r.s)}</b>${r.l ? " · " + esc(r.l) : ""}</div>
-        <div class="tags"><span class="tag loc">${esc(country(r.p))}</span>${r.r ? `<span class="tag">${t.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${t.scale}</span>` : ""}<span class="tag">${esc(r.a)}</span></div>
+        <div class="tags"><span class="tag loc">${esc(loc)}</span>${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}<span class="tag">${esc(r.a)}</span></div>
       </a>`;
       frag.appendChild(li);
     });
     $("#list").appendChild(frag); shown += PAGE;
     $("#more").hidden = shown >= rows.length;
-    if (!rows.length) $("#list").innerHTML = `<li class="empty">${T().empty}</li>`;
+    if (!rows.length) $("#list").innerHTML = `<li class="empty">${T.empty}</li>`;
   }
   async function refresh(reason) { all = await load($("#cat").value); apply(reason); }
+
   (async () => {
-    applyLang();
     meta = await (await fetch("data/meta.json")).json();
-    $("#meta-total").textContent = meta.total.toLocaleString(T().dateFmt); $("#meta-startups").textContent = meta.startups.toLocaleString(T().dateFmt);
-    $("#meta-date").textContent = new Date(meta.date).toLocaleDateString(T().dateFmt, { day: "numeric", month: "long" });
-    fillCountries();
-    const vs = $("#ville"); meta.villes.forEach(v => { const o = document.createElement("option"); o.value = v; o.textContent = v; vs.appendChild(o); });
-    const fs = $("#fonds"); meta.fonds.forEach(f => { const o = document.createElement("option"); o.value = f; o.textContent = f; fs.appendChild(o); });
-    const st = state(); $("#q").value = st.q; $("#cat").value = st.cat; $("#pays").value = st.pays; $("#ville").value = st.ville; $("#age").value = st.age; $("#fonds").value = st.fonds; $("#remote").checked = st.remote; $("#noscale").checked = st.noscale; $("#salary").checked = st.salary;
+    $("#meta-total").textContent = num(meta.total);
+    $("#meta-startups").textContent = num(meta.startups);
+    $("#meta-date").textContent = new Date(meta.date).toLocaleDateString("en-GB", { day: "numeric", month: "long" });
+    const st = state();
+    fillRegions(); $("#region").value = st.region;
+    fillCountries(st.region); $("#country").value = st.country;
+    fillCities(st.country, st.region); $("#city").value = st.city;
+    const fs = $("#fund"); meta.fonds.forEach(f => { const o = document.createElement("option"); o.value = f; o.textContent = f; fs.appendChild(o); });
+    $("#q").value = st.q; $("#cat").value = st.cat; $("#age").value = st.age; $("#fund").value = st.fonds;
+    $("#remote").checked = st.remote; $("#noscale").checked = st.noscale; $("#salary").checked = st.salary;
+
     $("#cat").addEventListener("change", () => refresh("cat"));
-    [["#pays", "pays"], ["#ville", "ville"], ["#age", "age"], ["#fonds", "fonds"], ["#remote", "remote"], ["#noscale", "noscale"], ["#salary", "salary"]].forEach(([s, k]) => $(s).addEventListener("change", () => apply(k)));
+    $("#region").addEventListener("change", () => { fillCountries($("#region").value); fillCities($("#country").value, $("#region").value); apply("region"); });
+    $("#country").addEventListener("change", () => { fillCities($("#country").value, $("#region").value); apply("country"); });
+    [["#city", "city"], ["#age", "age"], ["#fund", "fonds"], ["#remote", "remote"], ["#noscale", "noscale"], ["#salary", "salary"]].forEach(([s, k]) => $(s).addEventListener("change", () => apply(k)));
     let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
     $("#q").addEventListener("change", () => { if ($("#q").value.trim()) track("search"); });
     $("#more").addEventListener("click", more);
-    // ---- suivi de candidature : on retient l'offre ouverte, puis on demande dès que la personne revient sur la page
+
+    // ---- suivi de candidature : on retient l'offre ouverte, puis on demande dès que la personne revient
     let asked = new Set(), pending = null;
     try { asked = new Set(JSON.parse(localStorage.getItem("sj.asked") || "[]")); } catch (e) {}
     try { const p0 = JSON.parse(sessionStorage.getItem("sj.pending") || "null"); if (p0) pending = p0; } catch (e) {}
@@ -118,18 +134,18 @@
       const href = a.getAttribute("href"); const r = rows.find(x => x.u === href);
       if (!r || asked.has(r.u)) return;
       pending = { u: r.u, s: r.s, t: r.t, l: r.l || r.p, at: Date.now() }; savePending();
-      clearTimeout(window.__sjT); window.__sjT = setTimeout(askBar, 12000);   // filet : si l'onglet n'a jamais perdu le focus
+      clearTimeout(window.__sjT); window.__sjT = setTimeout(askBar, 12000);
     });
     function askBar() {
       if (!pending || document.hidden || document.querySelector(".ask")) return;
       if (Date.now() - (pending.at || 0) < 2500) { clearTimeout(window.__sjT); window.__sjT = setTimeout(askBar, 2500); return; }
-      const r = pending, t = T();
+      const r = pending;
       const box = document.createElement("div"); box.className = "ask"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true");
       box.innerHTML = '<div class="ask-box"><div class="ask-ico">&#10003;</div>' +
-        '<h3>' + t.ask + ' <b>' + esc(r.s) + '</b> ?</h3>' +
-        '<p>' + esc(r.t) + (r.l ? ' &middot; ' + esc(r.l) : '') + '<br>' + t.askSub + '</p>' +
-        '<div class="ask-btns"><button class="y" data-a="y">' + t.askY + '</button>' +
-        '<button data-a="l">' + t.askL + '</button><button data-a="n">' + t.askN + '</button></div></div>';
+        '<h3>' + T.ask + ' <b>' + esc(r.s) + '</b>?</h3>' +
+        '<p>' + esc(r.t) + (r.l ? ' &middot; ' + esc(r.l) : '') + '<br>' + T.askSub + '</p>' +
+        '<div class="ask-btns"><button class="y" data-a="y">' + T.askY + '</button>' +
+        '<button data-a="l">' + T.askL + '</button><button data-a="n">' + T.askN + '</button></div></div>';
       document.body.appendChild(box);
       const close = () => { box.remove(); document.removeEventListener("keydown", onKey); };
       const onKey = e => { if (e.key === "Escape") { close(); pending = null; savePending(); } };
@@ -140,7 +156,7 @@
         const a = ev.target.dataset && ev.target.dataset.a; if (!a) return;
         if (a === "y" && window.SJ) {
           SJ.addApp({ co: r.s, po: r.t, u: r.u, lieu: r.l });
-          box.querySelector(".ask-box").innerHTML = '<div class="ask-ico">&#10003;</div><h3 class="ask-done">' + t.added + '</h3><p><a href="moi.html#crm">' + t.space + ' &rarr;</a></p>';
+          box.querySelector(".ask-box").innerHTML = '<div class="ask-ico">&#10003;</div><h3 class="ask-done">' + T.added + '</h3><p><a href="moi.html#crm">' + T.space + ' &rarr;</a></p>';
           setTimeout(close, 2000); track("apply/yes");
         } else { close(); track("apply/" + a); }
         if (a !== "l") { asked.add(r.u); saveAsked(); }
@@ -150,8 +166,7 @@
     document.addEventListener("visibilitychange", () => { if (!document.hidden) setTimeout(askBar, 500); });
     window.addEventListener("focus", () => setTimeout(askBar, 500));
     ["pointerdown", "keydown", "wheel"].forEach(ev => window.addEventListener(ev, () => { if (pending) setTimeout(askBar, 150); }, { passive: true }));
-    if (pending) setTimeout(askBar, 1200);   // retour sur le site plus tard : on demande encore
-    $("#lang").addEventListener("click", () => { lang = lang === "fr" ? "en" : "fr"; applyLang(); apply(); track("lang/" + lang); });
+    if (pending) setTimeout(askBar, 1200);
     await refresh();
   })();
 })();
