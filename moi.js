@@ -91,20 +91,21 @@
       : raw ? "Using the CV you pasted."
       : "No facts yet — paste your CV above, or fill in your profile.";
     $("#cv-src").textContent = src;
-    $("#cv-nudge").hidden = !(raw && !bank);
+    const np = $("#cv-noprofile"); if (np) np.hidden = !!bank;
   }
   cvRaw.addEventListener("input", () => { D.cv = cvRaw.value; SJ.save(); renderPrompt(); });
 
   /* ---- dépôt du CV : lecture locale, aucun envoi ---- */
-  const drop = $("#drop"), fileIn = $("#cvfile"), dmsg = $("#dropmsg");
+  const drop = $("#drop"), fileIn = $("#cvfile"), dmsg = $("#dropmsg"), cvText = $("#cvtext");
   const say = (t, bad) => { dmsg.hidden = false; dmsg.textContent = t; dmsg.classList.toggle("bad", !!bad); };
   async function takeFile(f) {
     if (!f) return;
     say("Reading " + f.name + "…");
     try {
       const txt = await CVFile.read(f);
-      cvRaw.value = txt; D.cv = txt; SJ.save(); renderPrompt();
-      say(f.name + " — " + txt.split(/\s+/).filter(Boolean).length + " words read. Check it below, then use it.");
+      // le texte lu sert uniquement à alimenter le profil : il ne part pas aussi comme « CV brut »
+      cvText.value = txt; $("#cvtext-wrap").hidden = false;
+      say(f.name + " — " + txt.split(/\s+/).filter(Boolean).length + " words read. Now turn it into structured facts below.");
       $("#bankbox").open = true;
     } catch (e) { say(e.message || "Could not read that file.", true); }
   }
@@ -117,7 +118,7 @@
 
   /* ---- aller-retour JSON : l'IA structure, on importe ---- */
   $("#bank-copy").addEventListener("click", async () => {
-    const txt = SJ.extractPrompt(cvRaw.value.trim());
+    const txt = SJ.extractPrompt((cvText.value || cvRaw.value).trim());
     try { await navigator.clipboard.writeText(txt); } catch (e) { alert(txt); }
     const ok = $("#bank-copied"); ok.hidden = false; setTimeout(() => ok.hidden = true, 2200);
   });
@@ -129,7 +130,10 @@
       const sIn2 = $("#i-s"); if (sIn2) sIn2.value = (D.s || []).join("\n");
       Object.entries({ "i-n": "n", "i-h": "h", "i-mail": "mail", "i-li": "li", "i-site": "site" }).forEach(([id, k]) => { const el2 = document.getElementById(id); if (el2) el2.value = D.id[k] || ""; });
       renderPrompt();
-      msg.textContent = `Profile filled: ${n.x} experience(s), ${n.f} qualification(s), ${n.pr} project(s), ${n.s} skill(s). Check it in the Profile tab — the AI can misread a date.`;
+      // le CV brut a servi, le profil fait désormais foi : on évite la double source
+      cvText.value = ""; $("#cvtext-wrap").hidden = true;
+      if (D.cv) { D.cv = ""; cvRaw.value = ""; SJ.save(); }
+      msg.textContent = `Profile filled: ${n.x} experience(s), ${n.f} qualification(s), ${n.pr} project(s), ${n.s} skill(s). Read through it below — an AI can misread a date or merge two jobs.`;
       $("#bank-json").value = "";
     } catch (e) { msg.textContent = e.message; msg.classList.add("bad"); }
   });
