@@ -1,0 +1,48 @@
+/* ============================================================
+   Système. Toute valeur utilisée ailleurs vient d'ici.
+   Avant : 8/9/10/999px de rayon, 13/13.5/14/14.5/15px de texte,
+   quatre hauteurs de bouton. D'où l'impression de bricolage.
+   ============================================================ */
+:root{
+  /* — typographie : une échelle, pas des demi-pixels — */
+  --f-ui: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  --f-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --f-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --t-xs: 12px; --t-sm: 13px; --t-md: 15px; --t-lg: 18px; --t-xl: 22px; --t-2xl: 30px; --t-3xl: 40px;
+  --lh-tight: 1.2; --lh: 1.5;
+
+  /* — espacement : multiples de 4 — */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px; --s12: 48px;
+
+  /* — formes : trois rayons, pas huit — */
+  --r-sm: 6px; --r-md: 10px; --r-pill: 999px;
+
+  /* — une seule hauteur pour tout ce qui se clique ou se saisit — */
+  --ctl: 40px; --ctl-sm: 32px;
+
+  /* — couleurs — */
+  --bg: #fbfaf7;          /* papier */
+  --card: #ffffff;
+  --fg: #16161a;
+  --muted: #6b6b73;
+  --faint: #9a9aa2;
+  --line: #e6e3dc;
+  --line-strong: #d4d0c6;
+  --acc: #1b4dd8;
+  --acc-fg: #ffffff;
+  --acc-bg: #eef2fe;
+  --warm: #b4541f;        /* second accent, usage rare : alertes douces, chiffres saillants */
+  --warm-bg: #fdf1e8;
+  --ok: #1d6f4b;
+  --danger: #b3261e;
+  --tag: #f2f0ea;
+  --shadow: 0 1px 2px rgba(22,22,26,.04), 0 8px 24px -12px rgba(22,22,26,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#121214; --card:#19191c; --fg:#ededf0; --muted:#a0a0a8; --faint:#71717a;
+    --line:#2a2a2f; --line-strong:#3a3a41; --acc:#8aa9ff; --acc-fg:#10101a; --acc-bg:#1b2340;
+    --warm:#e0915e; --warm-bg:#2d2119; --ok:#6cc79b; --danger:#f2857d; --tag:#232327;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
