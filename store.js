@@ -97,6 +97,51 @@ window.SJ = (() => {
       const today = new Date().toISOString().slice(0, 10);
       d.apps.unshift(Object.assign({ date: today, st: "Applied", max: 0, last: today, note: "" }, app)); save(); return true;
     },
+    /* Second aller-retour : on fait structurer le CV par l'IA, la personne recolle le JSON. */
+    extractPrompt(raw) {
+      return [
+        "Read the CV below and return ONLY a JSON object, with no commentary, no markdown fence, nothing else.",
+        "Use only what the CV actually says. Invent nothing. Leave a field as an empty string if the CV does not give it.",
+        "Shape:",
+        '{"id":{"n":"full name","h":"one-line headline","mail":"","li":"linkedin url","site":""},',
+        ' "x":[{"e":"employer","t":"job title","d":"dates as written","p":["one bullet per verifiable fact, keep the numbers exactly as written"]}],',
+        ' "f":[{"t":"qualification and school","d":"years"}],',
+        ' "pr":[{"t":"project name","d":"what it was and the result","u":"link if any","k":["tool","tool"]}],',
+        ' "s":["one skill or tool per entry"]}',
+        "Keep the original language of the CV for the content. Order experiences most recent first.",
+        "",
+        "=== CV ===",
+        raw || "(paste your CV)"
+      ].join("\n");
+    },
+    /* Import du JSON recollé : on ne garde que la forme attendue, et on borne tout. */
+    importProfile(text, mode) {
+      let o;
+      const m = String(text || "").match(/\{[\s\S]*\}/);
+      if (!m) throw new Error("No JSON object found in what you pasted.");
+      try { o = JSON.parse(m[0]); } catch (e) { throw new Error("That is not valid JSON — copy the AI answer again, without any extra text."); }
+      const str = (v, n) => typeof v === "string" ? v.trim().slice(0, n || 300) : "";
+      const arr = (v, f, max) => Array.isArray(v) ? v.slice(0, max).map(f).filter(Boolean) : [];
+      const clean = {
+        id: { n: str(o.id && o.id.n, 120), h: str(o.id && o.id.h, 160), mail: str(o.id && o.id.mail, 160), li: str(o.id && o.id.li, 200), site: str(o.id && o.id.site, 200) },
+        x: arr(o.x, e => e && (str(e.e, 160) || str(e.t, 160)) ? { e: str(e.e, 160), t: str(e.t, 160), d: str(e.d, 80), p: arr(e.p, b => str(b, 400), 20) } : null, 20),
+        f: arr(o.f, e => e && str(e.t, 220) ? { t: str(e.t, 220), d: str(e.d, 60) } : null, 12),
+        pr: arr(o.pr, e => e && str(e.t, 160) ? { t: str(e.t, 160), d: str(e.d, 900), u: str(e.u, 300), k: arr(e.k, k => str(k, 50), 12) } : null, 12),
+        s: arr(o.s, k => str(k, 120), 40)
+      };
+      if (!clean.x.length && !clean.f.length && !clean.s.length && !clean.pr.length) throw new Error("Nothing usable in that JSON — no experience, education, projects or skills.");
+      const d = load();
+      if (mode === "append") {
+        d.x = d.x.concat(clean.x); d.f = d.f.concat(clean.f); d.pr = d.pr.concat(clean.pr);
+        d.s = [...new Set(d.s.concat(clean.s))];
+        Object.keys(clean.id).forEach(k => { if (!d.id[k]) d.id[k] = clean.id[k]; });
+      } else {
+        d.x = clean.x; d.f = clean.f; d.pr = clean.pr; d.s = clean.s;
+        Object.keys(clean.id).forEach(k => { if (clean.id[k]) d.id[k] = clean.id[k]; });
+      }
+      save();
+      return { x: clean.x.length, f: clean.f.length, pr: clean.pr.length, s: clean.s.length };
+    },
     // texte prêt à coller dans une IA — fonctionne avec la banque de faits, avec un CV collé, ou les deux
     promptText(offre, cvraw) {
       const d = load(), L = [];

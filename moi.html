@@ -3,7 +3,7 @@
 <title>My space — profile, projects, applications</title>
 <meta name="description" content="Your own fact bank for tailoring CVs, your projects, and your application tracker. Everything stays in your browser.">
 <meta name="robots" content="noindex">
-<link rel="stylesheet" href="style.css?v=2da6cc27"><link rel="stylesheet" href="moi.css?v=49378750">
+<link rel="stylesheet" href="style.css?v=2da6cc27"><link rel="stylesheet" href="moi.css?v=be594f06">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -104,8 +104,13 @@
       <h2>Tailor your CV to one job ad</h2>
       <p class="hint">Two boxes, one button. You get a block of text to paste into whichever AI you use — Claude, ChatGPT, Mistral. <b>Nothing is sent from this page</b>: your CV and your facts only move when you copy them yourself.</p>
       <div class="cv2">
-        <label>1 · Your CV, pasted as it is
-          <textarea id="cvraw" rows="11" placeholder="Paste the text of your current CV here. Rough is fine — the AI will sort it out.&#10;&#10;Already filled in your profile? You can leave this empty."></textarea>
+        <label>1 · Your CV
+          <div class="drop" id="drop" tabindex="0" role="button">
+            <b>Drop your CV here</b><span>or click to choose a file — PDF, DOCX, TXT. It is read on your machine and never uploaded.</span>
+            <input type="file" id="cvfile" accept=".txt,.md,.docx,.pdf" hidden>
+          </div>
+          <p class="hint dropmsg" id="dropmsg" hidden></p>
+          <textarea id="cvraw" rows="9" placeholder="…or paste the text of your CV here. Rough is fine — the AI will sort it out.&#10;&#10;Already filled in your profile? You can leave this empty."></textarea>
         </label>
         <label>2 · The job ad
           <textarea id="offre" rows="11" placeholder="Paste the job title, the company and the full description here…"></textarea>
@@ -113,7 +118,21 @@
       </div>
       <div class="row"><button class="primary" id="copy">Copy the text for the AI</button><span id="copied" class="ok" hidden>Copied ✓</span><span id="cv-src" class="hint"></span></div>
       <details><summary>Show the text that will be copied</summary><pre id="prompt"></pre></details>
-      <div id="cv-nudge" class="warnbox" hidden>Happy with the result? <a href="#profil" data-go="profil">Save these facts in your profile</a> — next time you only paste the job ad.</div>
+      <div id="cv-nudge" class="warnbox" hidden>Doing this often? Turn your CV into a reusable fact bank below — after that, you only ever paste the job ad.</div>
+
+      <details class="bank" id="bankbox">
+        <summary>Turn this CV into my fact bank <span class="hint">— two copy-pastes, once</span></summary>
+        <p class="hint">Your profile holds more than fits on one page, so the AI can <i>choose</i> what matters for each ad instead of just rewording what you already wrote. Filling it by hand is long; let the AI do it.</p>
+        <ol class="steps">
+          <li><button class="mini" id="bank-copy">Copy the extraction request</button> <span id="bank-copied" class="ok" hidden>Copied ✓</span><span class="hint"> then paste it into your AI, with your CV already in box 1.</span></li>
+          <li>Paste the AI's answer here:<textarea id="bank-json" rows="5" placeholder='{ "id": { … }, "x": [ … ] }'></textarea></li>
+          <li>
+            <button class="primary" id="bank-apply">Fill my profile</button>
+            <label class="check" style="display:inline-flex"><input type="checkbox" id="bank-append"> <span>add to what I already have instead of replacing it</span></label>
+            <p class="hint" id="bank-msg" hidden></p>
+          </li>
+        </ol>
+      </details>
     </div>
   </section>
 
@@ -135,5 +154,5 @@
 </div></div>
 
 <footer class="wrap foot"><p>Your data is saved in this browser only (localStorage). Clearing your browsing data or switching device makes it disappear, so <b>export a backup regularly</b>. <a href="mentions.html">Legal notice</a></p></footer>
-<script src="store.js?v=bdf0a915"></script><script src="moi.js?v=eff87891"></script>
+<script src="store.js?v=74aa09e0"></script><script src="cvfile.js?v=c37c506e"></script><script src="moi.js?v=effbfc18"></script>
 </body></html>

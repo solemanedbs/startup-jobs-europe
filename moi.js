@@ -94,6 +94,45 @@
     $("#cv-nudge").hidden = !(raw && !bank);
   }
   cvRaw.addEventListener("input", () => { D.cv = cvRaw.value; SJ.save(); renderPrompt(); });
+
+  /* ---- dépôt du CV : lecture locale, aucun envoi ---- */
+  const drop = $("#drop"), fileIn = $("#cvfile"), dmsg = $("#dropmsg");
+  const say = (t, bad) => { dmsg.hidden = false; dmsg.textContent = t; dmsg.classList.toggle("bad", !!bad); };
+  async function takeFile(f) {
+    if (!f) return;
+    say("Reading " + f.name + "…");
+    try {
+      const txt = await CVFile.read(f);
+      cvRaw.value = txt; D.cv = txt; SJ.save(); renderPrompt();
+      say(f.name + " — " + txt.split(/\s+/).filter(Boolean).length + " words read. Check it below, then use it.");
+      $("#bankbox").open = true;
+    } catch (e) { say(e.message || "Could not read that file.", true); }
+  }
+  drop.addEventListener("click", () => fileIn.click());
+  drop.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileIn.click(); } });
+  fileIn.addEventListener("change", e => takeFile(e.target.files[0]));
+  ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", e => takeFile(e.dataTransfer.files[0]));
+
+  /* ---- aller-retour JSON : l'IA structure, on importe ---- */
+  $("#bank-copy").addEventListener("click", async () => {
+    const txt = SJ.extractPrompt(cvRaw.value.trim());
+    try { await navigator.clipboard.writeText(txt); } catch (e) { alert(txt); }
+    const ok = $("#bank-copied"); ok.hidden = false; setTimeout(() => ok.hidden = true, 2200);
+  });
+  $("#bank-apply").addEventListener("click", () => {
+    const msg = $("#bank-msg"); msg.hidden = false; msg.classList.remove("bad");
+    try {
+      const n = SJ.importProfile($("#bank-json").value, $("#bank-append").checked ? "append" : "replace");
+      renderX(); renderF(); renderPr(); renderStart();
+      const sIn2 = $("#i-s"); if (sIn2) sIn2.value = (D.s || []).join("\n");
+      Object.entries({ "i-n": "n", "i-h": "h", "i-mail": "mail", "i-li": "li", "i-site": "site" }).forEach(([id, k]) => { const el2 = document.getElementById(id); if (el2) el2.value = D.id[k] || ""; });
+      renderPrompt();
+      msg.textContent = `Profile filled: ${n.x} experience(s), ${n.f} qualification(s), ${n.pr} project(s), ${n.s} skill(s). Check it in the Profile tab — the AI can misread a date.`;
+      $("#bank-json").value = "";
+    } catch (e) { msg.textContent = e.message; msg.classList.add("bad"); }
+  });
   $("#offre").addEventListener("input", renderPrompt);
   $("#copy").addEventListener("click", async () => {
     const txt = SJ.promptText($("#offre").value.trim(), cvRaw.value.trim());
