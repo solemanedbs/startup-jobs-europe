@@ -110,3 +110,24 @@ td.max{font-size:12px;color:var(--acc);white-space:nowrap}
 .steps li{margin-bottom:12px;line-height:1.5}
 .steps textarea{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;margin-top:5px}
 .steps .check{padding:0;margin-left:10px;vertical-align:middle}
+
+/* ---- projets : questions déclenchantes ---- */
+.triggers{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.triggers button{font:inherit;font-size:13.5px;text-align:left;padding:10px 13px;border:1px solid var(--line);border-radius:9px;background:var(--bg);cursor:pointer;color:var(--fg);line-height:1.35}
+.triggers button:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-bg)}
+.ex{margin-top:14px}
+.ex summary{cursor:pointer;color:var(--muted);font-size:13px}
+.exs{display:grid;gap:12px;margin-top:10px}
+.exs > div{border-left:2px solid var(--line);padding-left:12px}
+.exs b{font-size:13.5px}
+.exs p{margin:3px 0;font-size:13.5px;color:var(--muted);line-height:1.5}
+.exs i{font-size:12.5px;color:var(--acc);font-style:normal}
+/* ---- aperçu public ---- */
+.preview{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pcard{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:var(--bg)}
+.pcard h3{margin:0 0 5px;font-size:14.5px}
+.pcard p{margin:0 0 7px;font-size:13.5px;color:var(--muted);line-height:1.5}
+.pcard a{color:var(--acc);font-size:12.5px;text-decoration:none}
+.pcard .todo{color:#c0392b;font-size:12.5px;display:block}
+.pcard .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+@media(max-width:760px){.preview{grid-template-columns:1fr}}

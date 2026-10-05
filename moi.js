@@ -57,28 +57,61 @@
   sIn.addEventListener("input", () => { D.s = sIn.value.split("\n").map(s => s.trim()).filter(Boolean); SJ.save(); });
 
   /* ---- projets ---- */
+  // chaque type de projet pose ses propres questions : se souvenir est plus facile qu'inventer
+  const TY = {
+    tool:     { t: "e.g. Weekly shift planner, Excel", pb: "What was slow, manual or going wrong before?", d: "What did you actually build, and with what?", res: "What changed — time saved, errors avoided, people using it" },
+    outreach: { t: "e.g. Cold email sequence, 400 founders", pb: "Who were you trying to reach, and why was it hard?", d: "How did you build the list and the messages?", res: "Replies, meetings booked, deals — the numbers you remember" },
+    event:    { t: "e.g. Student careers evening, 120 people", pb: "What was missing, and for whom?", d: "What did you organise, and what did you handle yourself?", res: "Turnout, feedback, what happened next" },
+    data:     { t: "e.g. Churn analysis for a 30-person SaaS", pb: "What question was someone trying to answer?", d: "What data did you use, and how did you work it?", res: "What you found, and what was decided because of it" },
+    process:  { t: "e.g. Rebuilt the onboarding checklist", pb: "What was breaking, and who felt it?", d: "What did you change?", res: "How you know it worked" },
+    build:    { t: "e.g. Job board for VC-backed startups", pb: "What problem were you solving, for yourself or others?", d: "What did you build, with which tools?", res: "Users, traffic, or simply: it runs every day" },
+    other:    { t: "Give it a short, concrete name", pb: "What was the problem?", d: "What did you do?", res: "What was the result?" }
+  };
   function prCard(p, i) {
+    const q = TY[p.ty] || TY.other;
     const c = el(`<div class="item"><div class="head"><b>Project ${i + 1}</b><button class="del">Remove</button></div>
-      <label>Titre<input class="t" placeholder="Séquence d'e-mails froids — 400 prospects"></label>
-      <label>Ce que vous avez fait — le problème, ce que vous avez construit, le résultat
-        <textarea class="d" rows="3" placeholder="Construction d'une séquence en 4 touches sur 400 dirigeants, avec personnalisation automatisée. 18 % de réponses, 12 rendez-vous."></textarea></label>
+      <label>Name<input class="t" placeholder="${esc(q.t)}"></label>
+      <label>The problem<textarea class="pb" rows="2" placeholder="${esc(q.pb)}"></textarea></label>
+      <label>What you did<textarea class="d" rows="3" placeholder="${esc(q.d)}"></textarea></label>
+      <label>The result<textarea class="res" rows="2" placeholder="${esc(q.res)}"></textarea></label>
       <div class="grid2">
-        <label>Lien de vérification (optionnel)<input class="u" placeholder="https://drive.google.com/… · github.com/… · notion.site/…"></label>
-        <label>Mots-clés, séparés par des virgules<input class="k" placeholder="Lemlist, Apollo, Python"></label>
+        <label>Proof link (optional)<input class="u" placeholder="https://drive.google.com/… · github.com/… · notion.site/…"></label>
+        <label>Tools and keywords, comma separated<input class="k" placeholder="Excel, Apollo, Python"></label>
       </div>
       <p class="hint warn" hidden>⚠︎ Drive or Notion link: make sure it is open to anyone with the link, otherwise the recruiter just sees an access request.</p></div>`);
-    c.querySelector(".t").value = p.t || ""; c.querySelector(".d").value = p.d || ""; c.querySelector(".u").value = p.u || ""; c.querySelector(".k").value = (p.k || []).join(", ");
-    const warn = c.querySelector(".warn"); const chk = () => warn.hidden = !/drive\.google|docs\.google|notion\.(so|site)|dropbox/i.test(c.querySelector(".u").value);
+    const g = sel => c.querySelector(sel);
+    g(".t").value = p.t || ""; g(".pb").value = p.pb || ""; g(".d").value = p.d || ""; g(".res").value = p.res || "";
+    g(".u").value = p.u || ""; g(".k").value = (p.k || []).join(", ");
+    const warn = c.querySelector(".warn"); const chk = () => warn.hidden = !/drive\.google|docs\.google|notion\.(so|site)|dropbox/i.test(g(".u").value);
     chk();
     c.addEventListener("input", () => {
-      p.t = c.querySelector(".t").value; p.d = c.querySelector(".d").value; p.u = c.querySelector(".u").value.trim();
-      p.k = c.querySelector(".k").value.split(",").map(s => s.trim()).filter(Boolean); chk(); SJ.save();
+      p.t = g(".t").value; p.pb = g(".pb").value; p.d = g(".d").value; p.res = g(".res").value;
+      p.u = g(".u").value.trim(); p.k = g(".k").value.split(",").map(x => x.trim()).filter(Boolean);
+      chk(); SJ.save(); renderPreview();
     });
     c.querySelector(".del").addEventListener("click", () => { D.pr.splice(i, 1); SJ.save(); renderPr(); });
     return c;
   }
-  function renderPr() { const w = $("#prs"); w.innerHTML = ""; D.pr.forEach((p, i) => w.appendChild(prCard(p, i))); renderStart(); }
-  $("#addpr").addEventListener("click", () => { D.pr.push({ t: "", d: "", u: "", k: [] }); SJ.save(); renderPr(); });
+  function renderPr() { const w = $("#prs"); w.innerHTML = ""; D.pr.forEach((p, i) => w.appendChild(prCard(p, i))); renderStart(); renderPreview(); }
+  function addProject(ty) {
+    D.pr.push({ t: "", pb: "", d: "", res: "", u: "", k: [], ty: ty || "other" }); SJ.save(); renderPr();
+    const last = $("#prs").lastElementChild;
+    if (last) { last.scrollIntoView({ behavior: "smooth", block: "center" }); const f = last.querySelector(".t"); if (f) setTimeout(() => f.focus(), 250); }
+  }
+  $("#addpr").addEventListener("click", () => addProject("other"));
+  $$("#triggers button").forEach(b => b.addEventListener("click", () => addProject(b.dataset.ty)));
+
+  /* ---- aperçu de la page publique : la contrepartie, visible pendant qu'on écrit ---- */
+  function renderPreview() {
+    const done = D.pr.filter(p => (p.t || "").trim());
+    $("#prev-block").hidden = !done.length;
+    $("#prev").innerHTML = done.map(p => {
+      const body = [p.pb, p.d, p.res].map(v => (v || "").trim()).filter(Boolean).join(" ");
+      return `<div class="pcard"><h3>${esc(p.t)}</h3>${body ? `<p>${esc(body)}</p>` : `<p class="todo">No description yet — a name alone tells a recruiter nothing.</p>`}` +
+        (p.u ? `<a href="${esc(p.u)}" target="_blank" rel="noopener">${esc(p.u.replace(/^https?:\/\//, "").slice(0, 46))} →</a>` : `<span class="todo">No proof link</span>`) +
+        ((p.k || []).length ? `<div class="chips">${p.k.map(k => `<span class="tag">${esc(k)}</span>`).join("")}</div>` : "") + `</div>`;
+    }).join("");
+  }
 
   /* ---- CV : texte pour l'IA ---- */
   const cvRaw = $("#cvraw"); cvRaw.value = D.cv || "";

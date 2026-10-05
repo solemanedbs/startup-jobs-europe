@@ -17,6 +17,7 @@ window.SJ = (() => {
     for (const k of ["x", "pr", "f", "s", "apps"]) if (!Array.isArray(data[k])) data[k] = [];
     // migration : les candidatures d'avant n'ont pas de `max` — on le déduit du statut courant
     let dirty = false;
+    data.pr.forEach(x => { if (x.pb === undefined) { x.pb = ""; x.res = ""; dirty = true; } });
     data.apps.forEach(a => {
       if (a.max === undefined) { a.max = RANK[a.st] !== undefined ? RANK[a.st] : 0; dirty = true; }
       if (!a.last) { a.last = a.date || ""; dirty = true; }
@@ -158,7 +159,7 @@ window.SJ = (() => {
         if (d.id.n) L.push(`Name: ${d.id.n}${d.id.h ? " - " + d.id.h : ""}`);
         if (d.id.mail || d.id.li) L.push(`Contact: ${[d.id.mail, d.id.li, d.id.site].filter(Boolean).join(" - ")}`);
         d.x.forEach(x => { L.push(`\nExperience - ${x.e || "?"} - ${x.t || ""} - ${x.d || ""}`); (x.p || []).forEach(p => L.push("- " + p)); });
-        if (d.pr.length) { L.push("\nProjects:"); d.pr.forEach(p => L.push(`- ${p.t}: ${p.d}${p.u ? " (" + p.u + ")" : ""}${(p.k || []).length ? " [" + p.k.join(", ") + "]" : ""}`)); }
+        if (d.pr.length) { L.push("\nProjects:"); d.pr.forEach(p => { const body = [p.pb, p.d, p.res].map(v => (v || "").trim()).filter(Boolean).join(" ").trim(); L.push(`- ${p.t}: ${body}${p.u ? " (" + p.u + ")" : ""}${(p.k || []).length ? " [" + p.k.join(", ") + "]" : ""}`); }); }
         if (d.f.length) { L.push("\nEducation:"); d.f.forEach(f => L.push(`- ${f.t} (${f.d})`)); }
         if (d.s.length) L.push("\nSkills and tools: " + d.s.join(" - "));
       }

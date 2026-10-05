@@ -3,7 +3,7 @@
 <title>My space — profile, projects, applications</title>
 <meta name="description" content="Your own fact bank for tailoring CVs, your projects, and your application tracker. Everything stays in your browser.">
 <meta name="robots" content="noindex">
-<link rel="stylesheet" href="style.css?v=2da6cc27"><link rel="stylesheet" href="moi.css?v=97fefc7d">
+<link rel="stylesheet" href="style.css?v=2da6cc27"><link rel="stylesheet" href="moi.css?v=679b9d85">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -119,8 +119,40 @@
   <section id="s-projets" hidden>
     <div class="block">
       <h2>Your projects</h2>
-      <p class="hint">Things you actually built: a script, an email sequence, an automation, an analysis, a website. The link is what makes it verifiable — <b>check it opens without asking for permission</b> (in Drive: Share → Anyone with the link → Viewer).</p>
-      <div id="prs"></div><button class="add" id="addpr">+ Add a project</button>
+      <p class="hint"><b>Everything you add here goes into every CV you tailor, and onto the page you can share with a recruiter.</b> A project is not a side business — it is any time you built something, fixed something, or made a number move.</p>
+    </div>
+
+    <div class="block" id="triggers-block">
+      <h2>Have you ever…</h2>
+      <p class="hint">Most people have three or four of these and never thought to write them down. Pick one and the form opens with the right questions.</p>
+      <div class="triggers" id="triggers">
+        <button type="button" data-ty="tool">…built a tool or a spreadsheet that saved time?</button>
+        <button type="button" data-ty="outreach">…run an outreach, sales or marketing campaign?</button>
+        <button type="button" data-ty="event">…organised an event, a club or a group?</button>
+        <button type="button" data-ty="data">…analysed data and presented what you found?</button>
+        <button type="button" data-ty="process">…fixed a process that was not working?</button>
+        <button type="button" data-ty="build">…built a site, an app, a bot or an automation?</button>
+        <button type="button" data-ty="other">…something else entirely</button>
+      </div>
+      <details class="ex">
+        <summary>Three real examples, from modest to substantial</summary>
+        <div class="exs">
+          <div><b>Shift planner, Excel</b><p>Shifts were planned by hand every week and people found out late. I rebuilt the planning in a shared sheet with automatic totals. The team now sees next week by Thursday, and the manager saves about two hours a week.</p><i>No link, no code, no spectacular number — and it still shows initiative and follow-through.</i></div>
+          <div><b>Cold email sequence, 400 founders</b><p>We had no pipeline on the UK market. I built the target list from scratch and wrote a four-touch sequence with per-segment personalisation. 18% replied and we booked 12 meetings.</p><i>A link to the sequence or the sheet makes it verifiable.</i></div>
+          <div><b>This job board</b><p>Finding roles at funded startups meant opening hundreds of career pages. I wrote a script that reads 1,000+ VC portfolios and their applicant tracking systems every morning, and published the result as a free site.</p><i>A public link is the strongest possible proof.</i></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="block">
+      <div id="prs"></div>
+      <button class="add" id="addpr">+ Add a project from scratch</button>
+    </div>
+
+    <div class="block" id="prev-block" hidden>
+      <h2>What a recruiter would see</h2>
+      <p class="hint">This is your shareable page, as it stands. Get the link from the Profile tab.</p>
+      <div class="preview" id="prev"></div>
     </div>
   </section>
 
@@ -163,5 +195,5 @@
 </div></div>
 
 <footer class="wrap foot"><p>Your data is saved in this browser only (localStorage). Clearing your browsing data or switching device makes it disappear, so <b>export a backup regularly</b>. <a href="mentions.html">Legal notice</a></p></footer>
-<script src="store.js?v=74aa09e0"></script><script src="cvfile.js?v=c37c506e"></script><script src="moi.js?v=8e073ab2"></script>
+<script src="store.js?v=a344b25e"></script><script src="cvfile.js?v=c37c506e"></script><script src="moi.js?v=97a21dd7"></script>
 </body></html>
