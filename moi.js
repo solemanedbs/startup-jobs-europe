@@ -36,7 +36,7 @@
     c.querySelector(".del").addEventListener("click", () => { D.x.splice(i, 1); SJ.save(); renderX(); });
     return c;
   }
-  function renderX() { const w = $("#xs"); w.innerHTML = ""; D.x.forEach((x, i) => w.appendChild(xCard(x, i))); }
+  function renderX() { const w = $("#xs"); w.innerHTML = ""; D.x.forEach((x, i) => w.appendChild(xCard(x, i))); renderStart(); }
   $("#addx").addEventListener("click", () => { D.x.push({ e: "", t: "", d: "", p: [] }); SJ.save(); renderX(); });
 
   /* ---- formation ---- */
@@ -77,7 +77,7 @@
     c.querySelector(".del").addEventListener("click", () => { D.pr.splice(i, 1); SJ.save(); renderPr(); });
     return c;
   }
-  function renderPr() { const w = $("#prs"); w.innerHTML = ""; D.pr.forEach((p, i) => w.appendChild(prCard(p, i))); }
+  function renderPr() { const w = $("#prs"); w.innerHTML = ""; D.pr.forEach((p, i) => w.appendChild(prCard(p, i))); renderStart(); }
   $("#addpr").addEventListener("click", () => { D.pr.push({ t: "", d: "", u: "", k: [] }); SJ.save(); renderPr(); });
 
   /* ---- CV : texte pour l'IA ---- */
@@ -123,6 +123,7 @@
       tb.appendChild(tr);
     });
     $("#nApps").textContent = D.apps.length;
+    renderStart();
   }
   $("#addapp").addEventListener("click", () => { const t = new Date().toISOString().slice(0, 10); D.apps.unshift({ date: t, co: "", po: "", st: "Applied", max: 0, last: t, note: "", u: "" }); SJ.save(); renderApps(); renderBoard(); });
   $("#csv").addEventListener("click", () => {
@@ -161,6 +162,24 @@
     }).join("");
   }
 
+  /* ---- checklist de démarrage : disparaît quand les trois sont faits ---- */
+  function renderStart() {
+    const done = { x: D.x.length > 0, pr: D.pr.length > 0, apps: D.apps.length > 0 };
+    const all = done.x && done.pr && done.apps;
+    $("#start").hidden = all;
+    $$("#start li").forEach(li => li.classList.toggle("done", !!done[li.dataset.s]));
+    const warn = $("#cv-warn"); if (warn) warn.hidden = D.x.length > 0;
+  }
+  // les liens de la checklist et de l'avertissement ouvrent le bon onglet
+  document.addEventListener("click", e => {
+    const a = e.target.closest("[data-go]"); if (!a) return;
+    e.preventDefault(); const t = $$(".tab").find(b => b.dataset.t === a.dataset.go); if (t) t.click();
+  });
+  $$("#start li").forEach(li => li.addEventListener("click", () => {
+    const t = { x: "profil", pr: "projets", apps: "crm" }[li.dataset.s];
+    const b = $$(".tab").find(x => x.dataset.t === t); if (b) b.click();
+  }));
+
   /* ---- export / import ---- */
   $("#exp").addEventListener("click", () => SJ.exportFile());
   $("#imp").addEventListener("change", async e => {
@@ -168,7 +187,7 @@
     try { await SJ.importFile(e.target.files[0]); location.reload(); } catch (err) { alert("Fichier illisible."); }
   });
 
-  renderX(); renderF(); renderPr(); renderApps(); renderPrompt(); renderBoard();
+  renderX(); renderF(); renderPr(); renderApps(); renderPrompt(); renderBoard(); renderStart();
   const h = (location.hash || "").slice(1);
   if (h && $$(".tab").some(b => b.dataset.t === h)) $$(".tab").find(b => b.dataset.t === h).click();
 })();

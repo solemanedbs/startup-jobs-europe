@@ -3,14 +3,20 @@
 <title>My space — profile, projects, applications</title>
 <meta name="description" content="Your own fact bank for tailoring CVs, your projects, and your application tracker. Everything stays in your browser.">
 <meta name="robots" content="noindex">
-<link rel="stylesheet" href="style.css?v=f002cd1c"><link rel="stylesheet" href="moi.css?v=92c12318">
+<link rel="stylesheet" href="style.css?v=f002cd1c"><link rel="stylesheet" href="moi.css?v=49aee097">
 </head>
 <body>
 <header class="top"><div class="wrap">
   <p class="crumb"><a href="./">← Back to all roles</a></p>
   <h1>My space</h1>
-  <p class="sub">Your fact bank, your projects and your applications. <b>Everything stays in this browser</b> — no account, no server, nothing sent anywhere. Export a backup file now and then.</p>
+  <p class="sub">Write down your facts once, reuse them on every application, and keep track of where each one stands. <b>Everything stays in this browser.</b></p>
 </div></header>
+
+<div class="wrap"><ol class="start" id="start" hidden>
+  <li data-s="x"><span class="dot"></span><b>Add your experience</b><i>The facts a CV is built from — one bullet per verifiable result.</i></li>
+  <li data-s="pr"><span class="dot"></span><b>Add a project</b><i>What you actually built, with a link that proves it.</i></li>
+  <li data-s="apps"><span class="dot"></span><b>Track an application</b><i>Open a role from the board and say yes when asked.</i></li>
+</ol></div>
 
 <nav class="wrap tabs" id="tabs">
   <button class="tab on" data-t="board">Overview</button>
@@ -18,9 +24,6 @@
   <button class="tab" data-t="profil">Profile</button>
   <button class="tab" data-t="projets">Projects</button>
   <button class="tab" data-t="cv">Tailor a CV</button>
-  <span class="grow"></span>
-  <button class="mini" id="exp">Export</button>
-  <label class="mini" for="imp">Import</label><input type="file" id="imp" accept="application/json" hidden>
 </nav>
 
 <main class="wrap">
@@ -64,14 +67,18 @@
       </div>
     </div>
     <div class="block">
-      <h2>Experience <span class="hint">one bullet = one verifiable fact, with a number where you have one</span></h2>
+      <h2>Experience</h2>
+      <p class="hint">This is the raw material every tailored CV is built from. One bullet = one verifiable fact, with a number where you have one — <i>“Signed 11 mandates in 9 months on a market with no clients”</i> beats <i>“results-driven business developer”</i> every time.</p>
       <div id="xs"></div><button class="add" id="addx">+ Add an experience</button>
     </div>
     <div class="block">
-      <h2>Education</h2><div id="fs"></div><button class="add" id="addf">+ Add a qualification</button>
+      <h2>Education</h2>
+      <p class="hint">Degrees, certifications, bootcamps. Short is fine.</p>
+      <div id="fs"></div><button class="add" id="addf">+ Add a qualification</button>
     </div>
     <div class="block">
-      <h2>Skills and tools <span class="hint">one per line</span></h2>
+      <h2>Skills and tools</h2>
+      <p class="hint">One per line. Name the actual tools — recruiters and filtering software both search for them.</p>
       <textarea id="i-s" rows="5" placeholder="Outbound prospecting&#10;Advanced Excel&#10;Salesforce, Apollo, Lemlist&#10;Fluent English"></textarea>
     </div>
     <div class="block share">
@@ -94,6 +101,7 @@
   <!-- CV -->
   <section id="s-cv" hidden>
     <div class="block">
+      <div id="cv-warn" class="warnbox" hidden>Your profile is still empty, so the generated text would carry no facts. <a href="#profil" data-go="profil">Fill in your experience first →</a></div>
       <h2>Tailor a CV to one role</h2>
       <p class="hint">Paste the job ad below, copy the generated block, then paste it into whichever AI you use (Claude, ChatGPT, Mistral…). Your facts leave this page only when you copy them yourself.</p>
       <textarea id="offre" rows="7" placeholder="Paste the job title, the company and the full description here…"></textarea>
@@ -113,6 +121,12 @@
   </section>
 </main>
 
+<div class="wrap"><div class="block backup">
+  <h2>Backup</h2>
+  <p class="hint">Nothing is stored on a server, so this file is your only copy. Keep one somewhere safe.</p>
+  <div class="row"><button class="mini" id="exp">Export my data</button><label class="mini" for="imp">Import a backup</label><input type="file" id="imp" accept="application/json" hidden></div>
+</div></div>
+
 <footer class="wrap foot"><p>Your data is saved in this browser only (localStorage). Clearing your browsing data or switching device makes it disappear, so <b>export a backup regularly</b>. <a href="mentions.html">Legal notice</a></p></footer>
-<script src="store.js?v=b43eea48"></script><script src="moi.js?v=cc204b67"></script>
+<script src="store.js?v=b43eea48"></script><script src="moi.js?v=fac93809"></script>
 </body></html>
