@@ -20,6 +20,9 @@
   const daysAgo = d => { const x = midnight(d); return x ? Math.round((today0 - x) / 86400000) : null; };
   const fmtDate = d => { const n = daysAgo(d); if (n === null) return T.unknown; if (n <= 0) return T.today; if (n === 1) return T.yesterday; if (n < 30) return T.days(n); return T.months(Math.round(n / 30)); };
   const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // une URL non http(s) ne doit jamais atterrir dans un href : « javascript: » s'exécuterait
+  // dans le contexte du site et pourrait siphonner localStorage (profil, CV, candidatures)
+  const safeUrl = u => /^https?:\/\//i.test(String(u || "").trim()) ? String(u).trim() : "#";
   const num = n => n.toLocaleString("en-GB");
   const track = path => { try { window.goatcounter && window.goatcounter.count({ path, title: path, event: true }); } catch (e) {} };
 
@@ -120,7 +123,7 @@
       const li = document.createElement("li");
       // un lieu inconnu n'est pas une information : on n'affiche pas d'étiquette plutôt qu'un « Unspecified » en couleur
       const loc = r.v && r.p ? `${r.v}, ${r.p}` : (r.p || (r.g === "Unspecified" ? "" : r.g));
-      li.innerHTML = `<a class="job" href="${esc(r.u)}" target="_blank" rel="noopener">
+      li.innerHTML = `<a class="job" href="${esc(safeUrl(r.u))}" target="_blank" rel="noopener">
         <div class="t">${esc(r.t)}</div>
         <div class="r">${r["$"] ? `<span class="sal">${esc(r["$"])}</span> · ` : ""}${r.d ? fmtDate(r.d) : `<span title="This company does not publish a posting date. This is when the role first appeared on its careers page.">${T.seen} ${fmtDate(r.n)}</span>`}${n !== null && n <= 3 ? `<span class="new">${T.new}</span>` : ""}</div>
         <div class="s"><b>${esc(r.s)}</b>${r.l ? " · " + esc(r.l) : ""}</div>

@@ -2,6 +2,9 @@
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
   const D = SJ.get();
   const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // une URL non http(s) ne doit jamais atterrir dans un href : « javascript: » s'exécuterait
+  // dans le contexte du site et pourrait siphonner localStorage (profil, CV, candidatures)
+  const safeUrl = u => /^https?:\/\//i.test(String(u || "").trim()) ? String(u).trim() : "#";
   const el = (h) => { const t = document.createElement("template"); t.innerHTML = h.trim(); return t.content.firstElementChild; };
 
   /* ---- onglets ---- */
@@ -108,7 +111,7 @@
     $("#prev").innerHTML = done.map(p => {
       const body = [p.pb, p.d, p.res].map(v => (v || "").trim()).filter(Boolean).join(" ");
       return `<div class="pcard"><h3>${esc(p.t)}</h3>${body ? `<p>${esc(body)}</p>` : `<p class="todo">No description yet — a name alone tells a recruiter nothing.</p>`}` +
-        (p.u ? `<a href="${esc(p.u)}" target="_blank" rel="noopener">${esc(p.u.replace(/^https?:\/\//, "").slice(0, 46))} →</a>` : `<span class="todo">No proof link</span>`) +
+        (p.u ? `<a href="${esc(safeUrl(p.u))}" target="_blank" rel="noopener">${esc(p.u.replace(/^https?:\/\//, "").slice(0, 46))} →</a>` : `<span class="todo">No proof link</span>`) +
         ((p.k || []).length ? `<div class="chips">${p.k.map(k => `<span class="tag">${esc(k)}</span>`).join("")}</div>` : "") + `</div>`;
     }).join("");
   }
@@ -203,7 +206,7 @@
       tr.querySelector(".st").value = a.st || "Applied"; tr.querySelector(".no").value = a.note || "";
       tr.querySelector(".max").textContent = badge(a);
       const lk = tr.querySelector(".lk"), go = tr.querySelector(".go");
-      const syncLink = () => { const v = (a.u || "").trim(); go.hidden = !v; if (v) go.href = v; };
+      const syncLink = () => { const v = safeUrl(a.u); go.hidden = v === "#"; if (v !== "#") go.href = v; };
       lk.value = a.u || ""; syncLink();
       tr.addEventListener("input", e => {
         a.date = tr.querySelector(".dt").value; a.co = tr.querySelector(".co").value; a.po = tr.querySelector(".po").value; a.note = tr.querySelector(".no").value;
@@ -251,7 +254,7 @@
     $("#fu").innerHTML = fu.map(a => {
       const d = Math.round((Date.now() - new Date(a.date).getTime()) / 864e5);
       return `<li><b>${esc(a.co || "—")}</b> · ${esc(a.po || "")} <span class="hint">— ${d} days ago</span>` +
-             (a.u ? ` <a href="${esc(a.u)}" target="_blank" rel="noopener">open</a>` : "") + `</li>`;
+             (a.u ? ` <a href="${esc(safeUrl(a.u))}" target="_blank" rel="noopener">open</a>` : "") + `</li>`;
     }).join("");
   }
 

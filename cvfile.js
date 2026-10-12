@@ -52,6 +52,9 @@ window.CVFile = (() => {
     pdfReady = new Promise((ok, ko) => {
       const s = document.createElement("script");
       s.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+      // empreinte figée : si le CDN sert un autre fichier, le navigateur refuse de l'exécuter
+      s.integrity = "sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==";
+      s.crossOrigin = "anonymous";
       s.onload = () => {
         try { window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"; } catch (e) {}
         ok(window.pdfjsLib);
