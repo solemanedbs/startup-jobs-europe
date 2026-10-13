@@ -154,3 +154,8 @@ h1.mark{margin:0;font-size:inherit;max-width:none}
 .cta a:hover{filter:brightness(1.08)}
 .about.sm{margin:var(--s2) 0 var(--s3);color:var(--muted);font-size:var(--t-sm);max-width:72ch}
 .disclaim{margin:var(--s10) 0 0;padding-top:var(--s5);border-top:1px solid var(--line);color:var(--faint);font-size:var(--t-xs);max-width:72ch;line-height:var(--lh)}
+/* bouton secondaire de l'en-tête + index des fonds en colonnes */
+.btn.ghost{background:transparent;border:1px solid var(--line-strong);color:var(--fg);margin-right:var(--s2)}
+.btn.ghost:hover{border-color:var(--acc);color:var(--acc)}
+.list.cols li{display:grid;grid-template-columns:1fr auto;align-items:center;gap:var(--s4);border-bottom:1px solid var(--line)}
+.list.cols li .r{color:var(--faint);font-size:var(--t-sm);white-space:nowrap;font-variant-numeric:tabular-nums}
