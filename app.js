@@ -59,13 +59,14 @@
   function state() {
     const p = new URLSearchParams(location.hash.slice(1));
     return { q: p.get("q") || "", cat: p.get("cat") || "sales", region: p.has("region") ? p.get("region") : "Europe", country: p.get("country") || "", city: p.get("city") || "",
-             age: p.get("age") || "30", fonds: "", remote: p.get("remote") === "1", noscale: false, salary: p.get("salary") === "1" };
+             age: p.get("age") || "30", fonds: p.get("fonds") || "", remote: p.get("remote") === "1", noscale: false, salary: p.get("salary") === "1" };
   }
   function push(st) {
     const p = new URLSearchParams();
     if (st.q) p.set("q", st.q); if (st.cat !== "sales") p.set("cat", st.cat);
     if (st.region !== "Europe") p.set("region", st.region); if (st.country) p.set("country", st.country); if (st.city) p.set("city", st.city);
     if (st.age !== "30") p.set("age", st.age);
+    if (st.fonds) p.set("fonds", st.fonds);
     if (st.remote) p.set("remote", "1"); if (st.salary) p.set("salary", "1");
     history.replaceState(null, "", location.pathname + (p.toString() ? "#" + p.toString() : ""));
   }
@@ -105,7 +106,9 @@
 
   function apply(reason) {
     const st = { q: $("#q").value.trim(), cat: $("#cat").value, region: $("#region").value, country: $("#country").value, city: $("#city").value,
-                 age: $("#age").value, fonds: "", remote: remoteOn, noscale: false, salary: $("#salary").checked };
+                 age: $("#age").value, fonds: state().fonds, remote: remoteOn, noscale: false, salary: $("#salary").checked };
+    const fb = $("#fundbar");
+    if (fb) { fb.hidden = !st.fonds; if (st.fonds) $("#fundname").textContent = st.fonds; }
     push(st); if (reason) track(`filter/${reason}/${st[reason] === true ? "on" : st[reason] === false ? "off" : st[reason] || "-"}`);
     const q = norm(st.q); const maxAge = +st.age;
     rows = all.filter(r => matches(r, st, q, maxAge));
@@ -154,6 +157,12 @@
     let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
     $("#q").addEventListener("change", () => { if ($("#q").value.trim()) track("search"); });
     $("#more").addEventListener("click", more);
+    $("#fundclear").addEventListener("click", e => {          // retirer le filtre fonds venu d'une page /funds/
+      e.preventDefault();
+      const p = new URLSearchParams(location.hash.slice(1)); p.delete("fonds");
+      history.replaceState(null, "", location.pathname + (p.toString() ? "#" + p.toString() : ""));
+      apply();
+    });
     document.querySelectorAll(".pchip").forEach(b => b.addEventListener("click", () => {
       const k = b.dataset.p, on = b.classList.contains("on");
       if (k === "today") $("#age").value = on ? "30" : "0";
