@@ -186,7 +186,7 @@
         '<p>' + esc(r.t) + (r.l ? ' &middot; ' + esc(r.l) : '') + '<br>' + T.askSub + '</p>' +
         '<div class="ask-btns"><button class="y" data-a="y">' + T.askY + '</button>' +
         '<button data-a="l">' + T.askL + '</button><button data-a="n">' + T.askN + '</button></div>' +
-        '<a class="ask-cv" href="moi.html#cv" data-a="cv">' + T.askCv + '</a></div>';
+        '<a class="ask-cv" href="moi/#cv" data-a="cv">' + T.askCv + '</a></div>';
       document.body.appendChild(box);
       const close = () => { box.remove(); document.removeEventListener("keydown", onKey); };
       const onKey = e => { if (e.key === "Escape") { close(); pending = null; savePending(); } };
@@ -198,11 +198,11 @@
         if (a === "cv") {
           // on transmet l'offre à l'outil de CV : il s'ouvre déjà rempli
           try { sessionStorage.setItem("sj.cvjob", JSON.stringify({ co: r.s, po: r.t, u: r.u, l: r.l })); } catch (e) {}
-          track("apply/cv"); return;   // le lien suit son cours vers moi.html#cv
+          track("apply/cv"); return;   // le lien suit son cours vers moi/#cv
         }
         if (a === "y" && window.SJ) {
           SJ.addApp({ co: r.s, po: r.t, u: r.u, lieu: r.l });
-          box.querySelector(".ask-box").innerHTML = '<div class="ask-ico">&#10003;</div><h3 class="ask-done">' + T.added + '</h3><p><a href="moi.html#crm">' + T.space + ' &rarr;</a></p>';
+          box.querySelector(".ask-box").innerHTML = '<div class="ask-ico">&#10003;</div><h3 class="ask-done">' + T.added + '</h3><p><a href="moi/#crm">' + T.space + ' &rarr;</a></p>';
           setTimeout(close, 2000); track("apply/yes");
         } else { close(); track("apply/" + a); }
         if (a !== "l") { asked.add(r.u); saveAsked(); }

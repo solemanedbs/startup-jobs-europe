@@ -184,7 +184,7 @@
   $("#mklink").addEventListener("click", async () => {
     const p = SJ.publicProfile();
     if (!p.id.n) { alert("Add your name first."); return; }
-    const url = location.origin + location.pathname.replace(/moi\.html$/, "") + "p.html#" + await SJ.pack(p);
+    const url = location.origin + location.pathname.replace(/moi\/?(index\.html)?$/, "") + "p/#" + await SJ.pack(p);
     const box = $("#link"); box.hidden = false; box.value = url; box.select();
     try { await navigator.clipboard.writeText(url); } catch (e) {}
     const a = $("#preview"); a.hidden = false; a.href = url;
