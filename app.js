@@ -58,7 +58,7 @@
   }
   function state() {
     const p = new URLSearchParams(location.hash.slice(1));
-    return { q: p.get("q") || "", cat: p.get("cat") || "sales", region: p.has("region") ? p.get("region") : "Europe", country: p.get("country") || "", city: p.get("city") || "",
+    return { q: p.get("q") || "", cat: p.get("cat") || "sales", region: p.has("region") ? p.get("region") : "Europe", country: p.get("country") || "", city: p.get("city") || "", sector: p.get("sector") || "",
              age: p.get("age") || "30", fonds: p.get("fonds") || "", remote: p.get("remote") === "1", noscale: false, salary: p.get("salary") === "1" };
   }
   function push(st) {
@@ -66,7 +66,7 @@
     if (st.q) p.set("q", st.q); if (st.cat !== "sales") p.set("cat", st.cat);
     if (st.region !== "Europe") p.set("region", st.region); if (st.country) p.set("country", st.country); if (st.city) p.set("city", st.city);
     if (st.age !== "30") p.set("age", st.age);
-    if (st.fonds) p.set("fonds", st.fonds);
+    if (st.fonds) p.set("fonds", st.fonds); if (st.sector) p.set("sector", st.sector);
     if (st.remote) p.set("remote", "1"); if (st.salary) p.set("salary", "1");
     history.replaceState(null, "", location.pathname + (p.toString() ? "#" + p.toString() : ""));
   }
@@ -78,6 +78,7 @@
     if (st.region && r.g !== st.region) return false;
     if (st.country && r.p !== st.country) return false;
     if (st.city && r.v !== st.city) return false;
+    if (st.sector && r.k !== st.sector) return false;
     if (st.remote && !r.r) return false;
     if (st.noscale && r.b) return false;
     if (st.salary && !r["$"]) return false;
@@ -105,7 +106,7 @@
   }
 
   function apply(reason) {
-    const st = { q: $("#q").value.trim(), cat: $("#cat").value, region: $("#region").value, country: $("#country").value, city: $("#city").value,
+    const st = { q: $("#q").value.trim(), cat: $("#cat").value, region: $("#region").value, country: $("#country").value, city: $("#city").value, sector: $("#sector").value,
                  age: $("#age").value, fonds: state().fonds, remote: remoteOn, noscale: false, salary: $("#salary").checked };
     const fb = $("#fundbar");
     if (fb) { fb.hidden = !st.fonds; if (st.fonds) $("#fundname").textContent = st.fonds; }
@@ -120,6 +121,16 @@
   let FUNDS = {};
   fetch("data/funds.json").then(r => r.ok ? r.json() : {}).then(m => { FUNDS = m; })
     .catch(() => {});
+
+  function fillSectors(rowsAll, cur) {
+    const m = new Map();
+    rowsAll.forEach(r => { if (r.k && r.k !== "unclassified") m.set(r.k, (m.get(r.k) || 0) + 1); });
+    const L = (meta && meta.secteurs) || {};
+    const ord = [...m.entries()].sort((a, b) => b[1] - a[1]);
+    $("#sector").innerHTML = `<option value="">All sectors</option>` +
+      ord.map(([k, n]) => `<option value="${esc(k)}">${esc(L[k] || k)} (${n})</option>`).join("");
+    $("#sector").value = cur || "";
+  }
 
   function more() {
     const frag = document.createDocumentFragment();
@@ -149,7 +160,7 @@
     $("#more").hidden = shown >= rows.length;
     if (!rows.length) $("#list").innerHTML = `<li class="empty">${T.empty}</li>`;
   }
-  async function refresh(reason) { all = await load($("#cat").value); apply(reason); }
+  async function refresh(reason) { all = await load($("#cat").value); fillSectors(all, $("#sector").value || state().sector); apply(reason); }
 
   (async () => {
     meta = await (await fetch("data/meta.json")).json();
@@ -160,11 +171,12 @@
     fillCities(st.country, st.region); $("#city").value = st.city;
     $("#q").value = st.q; $("#cat").value = st.cat; $("#age").value = st.age;
     remoteOn = st.remote; $("#salary").checked = st.salary;
+    $("#sector").innerHTML = '<option value="">All sectors</option>';
 
     $("#cat").addEventListener("change", () => refresh("cat"));
     $("#region").addEventListener("change", () => { fillCountries($("#region").value); fillCities($("#country").value, $("#region").value); apply("region"); });
     $("#country").addEventListener("change", () => { fillCities($("#country").value, $("#region").value); apply("country"); });
-    [["#city", "city"], ["#age", "age"], ["#salary", "salary"]].forEach(([s, k]) => $(s).addEventListener("change", () => apply(k)));
+    [["#city", "city"], ["#age", "age"], ["#salary", "salary"], ["#sector", "sector"]].forEach(([s, k]) => $(s).addEventListener("change", () => apply(k)));
     let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
     $("#q").addEventListener("change", () => { if ($("#q").value.trim()) track("search"); });
     $("#more").addEventListener("click", more);

@@ -13,16 +13,17 @@
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const safeUrl = u => /^https?:\/\//i.test(u || "") ? u : "#";
   const grouped = $("#grouped"), out = $("#fresults"), count = $("#fcount");
-  const q = $("#fq"), cat = $("#fcat"), country = $("#fcountry"), city = $("#fcity");
+  const q = $("#fq"), cat = $("#fcat"), country = $("#fcountry"), city = $("#fcity"), sect = $("#fsector");
   if (!grouped || !out) return;
 
+  const SECT = JSON.parse(document.getElementById("sector-labels")?.textContent || "{}");
   const LAB = { sales: "Sales & business development", finance: "Finance", ops: "Operations & strategy",
                 produit_marketing: "Product & marketing", tech: "Tech & data",
                 management: "Management & leadership", autre: "Other roles" };
 
   function remplir(sel, vals, tout) {
     sel.innerHTML = `<option value="">${tout}</option>` +
-      vals.map(([v, n]) => `<option value="${esc(v)}">${esc(LAB[v] || v)} (${n})</option>`).join("");
+      vals.map(([v, n]) => `<option value="${esc(v)}">${esc(LAB[v] || SECT[v] || v)} (${n})</option>`).join("");
   }
   function compte(champ, filtre) {
     const m = new Map();
@@ -41,11 +42,12 @@
 
   function appliquer() {
     const t = (q.value || "").trim().toLowerCase();
-    const f = r => (!cat.value || r.c === cat.value) && (!country.value || r.p === country.value)
+    const f = r => (!cat.value || r.c === cat.value) && (!sect.value || r.k === sect.value)
+      && (!country.value || r.p === country.value)
       && (!city.value || r.v === city.value)
       && (!t || (r.t + " " + r.s + " " + (r.l || "")).toLowerCase().includes(t));
     const res = DATA.filter(f);
-    const actif = !!(t || cat.value || country.value || city.value);
+    const actif = !!(t || cat.value || sect.value || country.value || city.value);
     grouped.hidden = actif; out.hidden = !actif;
     count.textContent = actif ? `${res.length} role${res.length === 1 ? "" : "s"} match` : "";
     if (!actif) return;
@@ -62,11 +64,12 @@
   }
 
   remplir(cat, compte("c"), "All role families");
+  remplir(sect, compte("k").filter(([k]) => SECT[k]), "All sectors");
   remplir(country, compte("p"), "All countries");
   remplir(city, compte("v"), "All cities");
-  [q, cat, country, city].forEach(e => e.addEventListener("input", appliquer));
+  [q, cat, sect, country, city].forEach(e => e.addEventListener("input", appliquer));
   $("#fclear").addEventListener("click", e => {
-    e.preventDefault(); q.value = ""; cat.value = ""; country.value = ""; city.value = "";
+    e.preventDefault(); q.value = ""; cat.value = ""; sect.value = ""; country.value = ""; city.value = "";
     remplir(country, compte("p"), "All countries"); remplir(city, compte("v"), "All cities");
     appliquer();
   });

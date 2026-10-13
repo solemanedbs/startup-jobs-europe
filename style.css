@@ -176,3 +176,11 @@ h1.mark{margin:0;font-size:inherit;max-width:none}
 .fclear:hover{color:var(--acc)}
 .fcount{margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)}
 @media(max-width:640px){.ffilters{grid-template-columns:1fr}}
+/* index en colonnes (startups, secteurs, fonds) : liens sobres */
+.list.cols li > a{color:var(--fg);text-decoration:none;font-weight:500}
+.list.cols li > a:hover{color:var(--acc)}
+.list.cols li{padding:var(--s3) 0}
+/* étiquette secteur sur une page startup */
+.sect{margin:var(--s4) 0 0}
+.sect a{display:inline-block;padding:var(--s1) var(--s3);background:var(--acc-bg);color:var(--acc);border-radius:var(--r-pill);font-size:var(--t-xs);text-decoration:none;font-weight:600}
+.sect a:hover{filter:brightness(1.15)}
