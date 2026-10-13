@@ -159,3 +159,20 @@ h1.mark{margin:0;font-size:inherit;max-width:none}
 .btn.ghost:hover{border-color:var(--acc);color:var(--acc)}
 .list.cols li{display:grid;grid-template-columns:1fr auto;align-items:center;gap:var(--s4);border-bottom:1px solid var(--line)}
 .list.cols li .r{color:var(--faint);font-size:var(--t-sm);white-space:nowrap;font-variant-numeric:tabular-nums}
+/* investisseurs sous chaque offre : hors du lien principal, un lien dans un lien est invalide */
+.backers{padding:0 0 var(--s3);color:var(--faint);font-size:var(--t-xs)}
+.backers a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line-strong)}
+.backers a:hover{color:var(--acc);border-color:var(--acc)}
+/* index alphabétique des startups */
+.alpha{margin:var(--s8) 0 var(--s3);font-size:var(--t-lg);color:var(--muted);font-family:var(--f-ui);font-weight:600}
+.alphanav{margin:var(--s4) 0 0;font-size:var(--t-sm);line-height:2}
+.alphanav a{color:var(--acc);text-decoration:none;padding:0 var(--s2)}
+/* filtres sur une page fonds */
+.ffilters{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);align-items:center;margin:var(--s5) 0 0}
+.ffilters #fq{grid-column:1/-1}
+.ffilters input,.ffilters select{font:inherit;font-size:var(--t-sm);height:var(--ctl);padding:0 var(--s3);background:var(--card);color:var(--fg);border:1px solid var(--line-strong);border-radius:var(--r-sm);width:100%}
+.ffilters input:focus,.ffilters select:focus{outline:none;border-color:var(--acc)}
+.fclear{grid-column:1/-1;justify-self:start;color:var(--muted);font-size:var(--t-xs);text-decoration:none}
+.fclear:hover{color:var(--acc)}
+.fcount{margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)}
+@media(max-width:640px){.ffilters{grid-template-columns:1fr}}

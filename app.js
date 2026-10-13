@@ -117,6 +117,10 @@
     shown = 0; lastGrp = null; $("#list").innerHTML = ""; more();
     $("#count").textContent = `${num(rows.length)} ${T.offers(rows.length)}`;
   }
+  let FUNDS = {};
+  fetch("data/funds.json").then(r => r.ok ? r.json() : {}).then(m => { FUNDS = m; })
+    .catch(() => {});
+
   function more() {
     const frag = document.createDocumentFragment();
     rows.slice(shown, shown + PAGE).forEach(r => {
@@ -132,6 +136,13 @@
         <div class="s"><b>${esc(r.s)}</b>${r.l ? " · " + esc(r.l) : ""}</div>
         <div class="tags">${loc ? `<span class="tag loc">${esc(loc)}</span>` : ""}${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}<span class="tag ats">${esc(r.a)}</span></div>
       </a>`;
+      const back = (r.f || "").split(" ; ").map(x => x.trim()).filter(Boolean);
+      if (back.length) {
+        const d = document.createElement("div"); d.className = "backers";
+        d.innerHTML = "backed by " + back.map(n => FUNDS[n]
+          ? `<a href="funds/${encodeURIComponent(FUNDS[n])}/">${esc(n)}</a>` : esc(n)).join(" · ");
+        li.appendChild(d);
+      }
       frag.appendChild(li);
     });
     $("#list").appendChild(frag); shown += PAGE;
