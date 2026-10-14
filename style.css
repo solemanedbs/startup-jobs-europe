@@ -202,3 +202,6 @@ h1.mark{margin:0;font-size:inherit;max-width:none}
   .head-actions{width:100%;display:flex;justify-content:space-between;align-items:center}
   .axes{margin-right:0;flex:1;justify-content:flex-start}
 }
+/* page d'une offre */
+.jmeta{margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)}
+.jmeta a{color:var(--acc);text-decoration:none}
