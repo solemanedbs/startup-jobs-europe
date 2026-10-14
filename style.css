@@ -184,3 +184,10 @@ h1.mark{margin:0;font-size:inherit;max-width:none}
 .sect{margin:var(--s4) 0 0}
 .sect a{display:inline-block;padding:var(--s1) var(--s3);background:var(--acc-bg);color:var(--acc);border-radius:var(--r-pill);font-size:var(--t-xs);text-decoration:none;font-weight:600}
 .sect a:hover{filter:brightness(1.15)}
+/* onglets par secteur sur l'index des startups */
+.stabs{display:flex;flex-wrap:wrap;gap:var(--s2);margin:var(--s5) 0 0}
+.stab{font:inherit;font-size:var(--t-xs);padding:var(--s2) var(--s3);background:transparent;color:var(--muted);border:1px solid var(--line-strong);border-radius:var(--r-pill);cursor:pointer;white-space:nowrap}
+.stab:hover{border-color:var(--acc);color:var(--acc)}
+.stab span{color:var(--faint);font-variant-numeric:tabular-nums}
+.stab.on{background:var(--acc);border-color:var(--acc);color:var(--acc-fg);font-weight:600}
+.stab.on span{color:var(--acc-fg);opacity:.75}
