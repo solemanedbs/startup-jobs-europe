@@ -191,3 +191,14 @@ h1.mark{margin:0;font-size:inherit;max-width:none}
 .stab span{color:var(--faint);font-variant-numeric:tabular-nums}
 .stab.on{background:var(--acc);border-color:var(--acc);color:var(--acc-fg);font-weight:600}
 .stab.on span{color:var(--acc-fg);opacity:.75}
+/* axes de navigation dans l'en-tête de l'accueil */
+.axes{display:inline-flex;gap:var(--s4);margin-right:var(--s5);font-size:var(--t-sm)}
+.axes a{color:var(--muted);text-decoration:none}
+.axes a:hover{color:var(--acc)}
+@media(max-width:560px){.axes{gap:var(--s3);margin-right:var(--s3);font-size:var(--t-xs)}}
+/* en-tête de l'accueil sur petit écran : les axes passent sous le logo plutôt que de déborder */
+@media(max-width:560px){
+  .topbar{flex-wrap:wrap;gap:var(--s3)}
+  .head-actions{width:100%;display:flex;justify-content:space-between;align-items:center}
+  .axes{margin-right:0;flex:1;justify-content:flex-start}
+}
