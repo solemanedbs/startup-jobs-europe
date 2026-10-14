@@ -21,7 +21,7 @@
 <link rel="alternate" type="application/rss+xml" title="Tech & data — RSS" href="rss/tech.xml">
 <link rel="alternate" type="application/rss+xml" title="Management & leadership — RSS" href="rss/management.xml">
 <link rel="alternate" type="application/rss+xml" title="Other roles — RSS" href="rss/autre.xml">
-<link rel="stylesheet" href="tokens.css?v=1f4e1ec9"><link rel="stylesheet" href="style.css?v=96b79582">
+<link rel="stylesheet" href="tokens.css?v=1f4e1ec9"><link rel="stylesheet" href="style.css?v=71883b0a">
 </head>
 <body>
 <header class="top">
@@ -70,6 +70,11 @@
     <label class="check"><input type="checkbox" id="salary"> <span>Salary shown only</span></label>
   </form>
 
+  <div class="toggles">
+    <button type="button" id="savedbtn" class="tgl" hidden>★ Saved <b>0</b></button>
+    <button type="button" id="matchbtn" class="tgl" hidden>Sort by match with my profile</button>
+    <span class="hint" id="matchhint" hidden>Fill in <a href="moi/">My space</a> to rank roles against your profile. It stays in your browser.</span>
+  </div>
   <div class="bar"><span id="count">…</span><span class="hint">Click a role to open the company's own application page.</span></div>
   <ol class="list" id="list"></ol>
   <div class="pager"><button id="more" type="button">Show 50 more</button></div>
@@ -83,7 +88,7 @@
   <p>Anonymous, cookie-free traffic statistics (GoatCounter). No personal data is collected, and nothing you type or save here ever leaves your browser.</p>
 </footer>
 <script src="store.js?v=a344b25e"></script>
-<script src="app.js?v=61d930a2"></script>
+<script src="app.js?v=1195bb57"></script>
 <script data-goatcounter="https://startupjobs.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

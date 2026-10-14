@@ -205,3 +205,15 @@ h1.mark{margin:0;font-size:inherit;max-width:none}
 /* page d'une offre */
 .jmeta{margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-sm)}
 .jmeta a{color:var(--acc);text-decoration:none}
+/* offres gardées et tri par correspondance */
+.toggles{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);margin:var(--s5) 0 0}
+.tgl{font:inherit;font-size:var(--t-xs);padding:var(--s2) var(--s4);background:transparent;color:var(--muted);border:1px solid var(--line-strong);border-radius:var(--r-pill);cursor:pointer}
+.tgl:hover{border-color:var(--acc);color:var(--acc)}
+.tgl.on{background:var(--acc);border-color:var(--acc);color:var(--acc-fg);font-weight:600}
+.tgl b{font-variant-numeric:tabular-nums}
+.jobfoot{display:flex;align-items:center;gap:var(--s3);padding:0 0 var(--s3);flex-wrap:wrap}
+.jobfoot .backers{padding:0}
+.star{font:inherit;font-size:var(--t-md);line-height:1;padding:1px var(--s2);background:transparent;color:var(--faint);border:1px solid var(--line);border-radius:var(--r-pill);cursor:pointer}
+.star:hover{color:var(--acc);border-color:var(--acc)}
+.star.on{color:var(--warm);border-color:var(--warm)}
+.mscore{font-size:var(--t-xs);color:var(--acc);background:var(--acc-bg);border-radius:var(--r-pill);padding:2px var(--s3);font-weight:600}
