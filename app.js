@@ -27,10 +27,19 @@
   const track = path => { try { window.goatcounter && window.goatcounter.count({ path, title: path, event: true }); } catch (e) {} };
 
   // ---- filtres en cascade : région → pays → ville
-  function fillRegions() {
+  function fillRegions(st, q, maxAge) {
     const el = $("#region"), cur = el.value || "Europe";
-    el.innerHTML = `<option value="">All locations (${num(meta.total)})</option>`;
-    meta.regions.forEach(([g, n]) => { const o = document.createElement("option"); o.value = g; o.textContent = `${g} (${num(n)})`; el.appendChild(o); });
+    // comptes recalculés sur les filtres actifs : sinon « Europe (10 104) » contredit « 24 552 roles »
+    let m = null, total = meta.total;
+    if (st && all.length) {
+      m = new Map(); total = 0;
+      all.forEach(r => { if (matches(r, st, q, maxAge, "region")) { total++; if (r.g) m.set(r.g, (m.get(r.g) || 0) + 1); } });
+    }
+    el.innerHTML = `<option value="">All locations (${num(total)})</option>`;
+    meta.regions.forEach(([g, n]) => {
+      const o = document.createElement("option"); o.value = g;
+      o.textContent = `${g} (${num(m ? (m.get(g) || 0) : n)})`; el.appendChild(o);
+    });
     el.value = cur;
   }
   function fillCountries(region) {
@@ -74,8 +83,8 @@
 
   // prédicat unique : la liste et les compteurs du pouls passent par là, donc un chiffre annoncé
   // est toujours exactement ce que le clic donnera
-  function matches(r, st, q, maxAge) {
-    if (st.region && r.g !== st.region) return false;
+  function matches(r, st, q, maxAge, ignore) {
+    if (ignore !== "region" && st.region && r.g !== st.region) return false;
     if (st.country && r.p !== st.country) return false;
     if (st.city && r.v !== st.city) return false;
     if (st.sector && r.k !== st.sector) return false;
@@ -112,6 +121,7 @@
     if (fb) { fb.hidden = !st.fonds; if (st.fonds) $("#fundname").textContent = st.fonds; }
     push(st); if (reason) track(`filter/${reason}/${st[reason] === true ? "on" : st[reason] === false ? "off" : st[reason] || "-"}`);
     const q = norm(st.q); const maxAge = +st.age;
+    fillRegions(st, q, maxAge);
     rows = all.filter(r => matches(r, st, q, maxAge));
     rows.sort((a, b) => (b.d || b.n || "").localeCompare(a.d || a.n || ""));
     pulse(st, q);
