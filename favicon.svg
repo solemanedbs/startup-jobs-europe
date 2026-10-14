@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Traction">
+  <rect width="64" height="64" rx="14" fill="#1b4dd8"/>
+  <!-- T à empattements, dessiné en rectangles pour rester net à 16 px -->
+  <rect x="13" y="16" width="38" height="8.5" rx="1.5" fill="#fff"/>
+  <rect x="27.75" y="16" width="8.5" height="34" rx="1.5" fill="#fff"/>
+  <rect x="22"   y="43.5" width="20" height="6.5" rx="1.5" fill="#fff"/>
+</svg>
