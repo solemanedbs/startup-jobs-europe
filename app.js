@@ -202,12 +202,15 @@
       if (g !== lastGrp) { const h = document.createElement("li"); h.className = "grp"; h.textContent = g; frag.appendChild(h); lastGrp = g; }
       const li = document.createElement("li");
       // un lieu inconnu n'est pas une information : on n'affiche pas d'étiquette plutôt qu'un « Unspecified » en couleur
-      const loc = r.v && r.p ? `${r.v}, ${r.p}` : (r.p || (r.g === "Unspecified" ? "" : r.g));
+      const brut = (r.l || "").trim();
+      const faux = /^(\d+\s+locations?|multiple locations|various|unspecified)$/i.test(brut);
+      const loc = r.v && r.p ? `${r.v}, ${r.p}`
+        : (r.p || (faux || !brut ? (r.g === "Unspecified" ? "" : r.g) : brut.split(/[;•|]/)[0].trim()));
       li.innerHTML = `<a class="job" href="${esc(safeUrl(r.u))}" target="_blank" rel="noopener">
         <div class="t">${esc(r.t)}</div>
         <div class="r">${r["$"] ? `<span class="sal">${esc(r["$"])}</span> · ` : ""}${r.d ? fmtDate(r.d) : `<span title="This company does not publish a posting date. This is when the role first appeared on its careers page.">${T.seen} ${fmtDate(r.n)}</span>`}${n !== null && n <= 3 ? `<span class="new">${T.new}</span>` : ""}</div>
-        <div class="s"><b>${esc(r.s)}</b>${r.l ? " · " + esc(r.l) : ""}</div>
-        <div class="tags">${loc ? `<span class="tag loc">${esc(loc)}</span>` : ""}${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}<span class="tag ats">${esc(r.a)}</span></div>
+        <div class="s"><b>${esc(r.s)}</b>${loc ? " · " + esc(loc) : ""}</div>
+        <div class="tags">${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}</div>
       </a>`;
       // une seule rangée de pied : étoile, correspondance, investisseurs — pour ne pas
       // ajouter 60 px de hauteur à chaque offre.
@@ -227,7 +230,7 @@
         if (savedOn && !saved.has(r.u)) li.remove();
         track("save");
       });
-      foot.appendChild(btn);
+      li.appendChild(btn);
       if (matchOn && aProfil()) {
         const sc = score(r);
         if (sc >= 20) { const c = document.createElement("span"); c.className = "mscore"; c.textContent = sc + "%"; foot.appendChild(c); }
@@ -239,7 +242,7 @@
           ? `<a href="funds/${encodeURIComponent(FUNDS[n])}/">${esc(n)}</a>` : esc(n)).join(" \u00b7 ");
         foot.appendChild(d);
       }
-      li.appendChild(foot);
+      if (foot.childNodes.length) li.appendChild(foot);
       frag.appendChild(li);
     });
     $("#list").appendChild(frag); shown += PAGE;
@@ -267,6 +270,23 @@
     let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
     $("#q").addEventListener("change", () => { if ($("#q").value.trim()) track("search"); });
     $("#more").addEventListener("click", more);
+    // Repli des filtres sur mobile : le bouton affiche combien sont actifs, pour qu'on
+    // sache ce qui est appliqué sans déplier.
+    const ft = $("#filtoggle"), ff = $("#filters");
+    const majFiltres = () => {
+      const st = state();
+      const n = [st.q, st.cat !== "sales" ? st.cat : "", st.region !== "Europe" ? st.region : "",
+                 st.country, st.city, st.sector, st.age !== "30" ? st.age : "",
+                 st.salary ? "1" : "", st.remote ? "1" : ""].filter(Boolean).length;
+      $("#filcount").textContent = n ? `${n} active` : "";
+    };
+    ft.addEventListener("click", () => {
+      const ouvert = ff.classList.toggle("ouvert");
+      ft.setAttribute("aria-expanded", ouvert ? "true" : "false");
+    });
+    majFiltres();
+    ff.addEventListener("change", majFiltres);
+    $("#q").addEventListener("input", majFiltres);
     $("#savedbtn").addEventListener("click", () => { savedOn = !savedOn; $("#savedbtn").classList.toggle("on", savedOn); apply("saved"); });
     $("#matchbtn").addEventListener("click", () => { matchOn = !matchOn; $("#matchbtn").classList.toggle("on", matchOn); apply("match"); });
     // le bouton de tri n'apparaît que si le profil est assez rempli pour que le calcul ait un sens

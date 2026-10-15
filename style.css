@@ -217,3 +217,45 @@ h1.mark{margin:0;font-size:inherit;max-width:none}
 .star:hover{color:var(--acc);border-color:var(--acc)}
 .star.on{color:var(--warm);border-color:var(--warm)}
 .mscore{font-size:var(--t-xs);color:var(--acc);background:var(--acc-bg);border-radius:var(--r-pill);padding:2px var(--s3);font-weight:600}
+/* ---- mobile : les filtres se replient, le contenu passe en premier ---- */
+.filtoggle{display:none}
+@media(max-width:640px){
+  /* quatre grosses cartes occupaient le premier écran : on les compacte */
+  .pgrid{grid-template-columns:repeat(4,1fr);gap:var(--s2)}
+  .pchip{padding:var(--s2);gap:0;align-items:center;text-align:center;min-height:0}
+  .pchip b{font-size:var(--t-lg)}
+  .pchip span{font-size:10px;line-height:1.15}
+  .pnote{font-size:var(--t-xs)}
+
+  .filtoggle{display:flex;align-items:center;justify-content:space-between;width:100%;
+    min-height:48px;margin:var(--s4) 0 0;padding:0 var(--s4);font:inherit;font-size:var(--t-sm);
+    background:var(--card);color:var(--fg);border:1px solid var(--line-strong);border-radius:var(--r-md);cursor:pointer}
+  .filtoggle[aria-expanded="true"]{border-color:var(--acc);color:var(--acc)}
+  .filtoggle #filcount{color:var(--muted);font-size:var(--t-xs)}
+  .filters{display:none;grid-template-columns:1fr;gap:var(--s3);margin:var(--s3) 0}
+  .filters.ouvert{display:grid}
+  /* cibles tactiles : 44 px minimum partout */
+  .filters select,.filters input,.check{min-height:48px}
+  .axes a{display:inline-flex;align-items:center;min-height:44px;padding:0 var(--s2)}
+  .star{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;font-size:var(--t-lg)}
+  .tgl{min-height:44px;padding:0 var(--s4)}
+  .job{padding:var(--s4) 0}
+  .job .t{font-size:var(--t-md);line-height:1.3}
+}
+@media(max-width:640px){
+  /* la rangée d'étiquettes disparaît quand elle est vide */
+  .job .tags:empty{display:none}
+  .bar{flex-direction:column;align-items:flex-start;gap:2px}
+  .bar .hint{font-size:var(--t-xs)}
+}
+/* étoile dans le coin de l'offre : elle ne mérite pas une rangée à elle seule */
+#list li{position:relative}
+#list li .star{position:absolute;top:var(--s3);right:0;z-index:2;background:var(--bg)}
+.job .r{padding-right:46px}
+@media(max-width:640px){
+  #list li .star{top:var(--s2)}
+  .job .r{padding-right:52px}
+}
+/* réserver la place de l'étoile sur la première ligne, sinon elle mord sur le titre */
+.job .t{padding-right:46px}
+@media(max-width:640px){.job .t{padding-right:52px}}
