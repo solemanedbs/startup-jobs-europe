@@ -28,7 +28,7 @@
 
   // ---- filtres en cascade : région → pays → ville
   function fillRegions(st, q, maxAge) {
-    const el = $("#region"), cur = el.value || "Europe";
+    const el = $("#region"), cur = el.value || "EMEA";
     // comptes recalculés sur les filtres actifs : sinon « Europe (10 104) » contredit « 24 552 roles »
     let m = null, total = meta.total;
     if (st && all.length) {
@@ -37,6 +37,7 @@
     }
     el.innerHTML = `<option value="">All locations (${num(total)})</option>`;
     meta.regions.forEach(([g, n]) => {
+      if (g === "Multiple locations" || g === "Unspecified") return;
       const o = document.createElement("option"); o.value = g;
       o.textContent = `${g} (${num(m ? (m.get(g) || 0) : n)})`; el.appendChild(o);
     });
@@ -67,13 +68,13 @@
   }
   function state() {
     const p = new URLSearchParams(location.hash.slice(1));
-    return { q: p.get("q") || "", cat: p.get("cat") || "sales", region: p.has("region") ? p.get("region") : "Europe", country: p.get("country") || "", city: p.get("city") || "", sector: p.get("sector") || "", saved: p.get("saved") === "1", match: p.get("match") === "1",
+    return { q: p.get("q") || "", cat: p.get("cat") || "sales", region: p.has("region") ? p.get("region") : "EMEA", country: p.get("country") || "", city: p.get("city") || "", sector: p.get("sector") || "", saved: p.get("saved") === "1", match: p.get("match") === "1",
              age: p.get("age") || "30", fonds: p.get("fonds") || "", remote: p.get("remote") === "1", noscale: false, salary: p.get("salary") === "1" };
   }
   function push(st) {
     const p = new URLSearchParams();
     if (st.q) p.set("q", st.q); if (st.cat !== "sales") p.set("cat", st.cat);
-    if (st.region !== "Europe") p.set("region", st.region); if (st.country) p.set("country", st.country); if (st.city) p.set("city", st.city);
+    if (st.region !== "EMEA") p.set("region", st.region); if (st.country) p.set("country", st.country); if (st.city) p.set("city", st.city);
     if (st.age !== "30") p.set("age", st.age);
     if (st.fonds) p.set("fonds", st.fonds); if (st.sector) p.set("sector", st.sector);
     if (st.saved) p.set("saved", "1"); if (st.match) p.set("match", "1");
@@ -275,7 +276,7 @@
     const ft = $("#filtoggle"), ff = $("#filters");
     const majFiltres = () => {
       const st = state();
-      const n = [st.q, st.cat !== "sales" ? st.cat : "", st.region !== "Europe" ? st.region : "",
+      const n = [st.q, st.cat !== "sales" ? st.cat : "", st.region !== "EMEA" ? st.region : "",
                  st.country, st.city, st.sector, st.age !== "30" ? st.age : "",
                  st.salary ? "1" : "", st.remote ? "1" : ""].filter(Boolean).length;
       $("#filcount").textContent = n ? `${n} active` : "";
