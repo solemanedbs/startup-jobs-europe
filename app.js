@@ -28,7 +28,7 @@
 
   // ---- filtres en cascade : région → pays → ville
   function fillRegions(st, q, maxAge) {
-    const el = $("#region"), cur = el.value || "EMEA";
+    const el = $("#region"), cur = el.value;
     // comptes recalculés sur les filtres actifs : sinon « Europe (10 104) » contredit « 24 552 roles »
     let m = null, total = meta.total;
     if (st && all.length) {
@@ -63,18 +63,18 @@
 
   async function load(cat) {
     const cats = cat === "all" ? Object.keys(meta.categories) : [cat];
-    const parts = await Promise.all(cats.map(async c => { if (!cache[c]) cache[c] = await (await fetch(`data/${c}.json`)).json(); return cache[c]; }));
+    const parts = await Promise.all(cats.map(async c => { if (!cache[c]) cache[c] = await (await fetch(`data/${c}.json?v=${meta.date}`)).json(); return cache[c]; }));
     return parts.flat();
   }
   function state() {
     const p = new URLSearchParams(location.hash.slice(1));
-    return { q: p.get("q") || "", cat: p.get("cat") || "sales", region: p.has("region") ? p.get("region") : "EMEA", country: p.get("country") || "", city: p.get("city") || "", sector: p.get("sector") || "", saved: p.get("saved") === "1", match: p.get("match") === "1",
+    return { q: p.get("q") || "", cat: p.get("cat") || "all", region: p.has("region") ? p.get("region") : "", country: p.get("country") || "", city: p.get("city") || "", sector: p.get("sector") || "", saved: p.get("saved") === "1", match: p.get("match") === "1",
              age: p.get("age") || "30", fonds: p.get("fonds") || "", remote: p.get("remote") === "1", noscale: false, salary: p.get("salary") === "1" };
   }
   function push(st) {
     const p = new URLSearchParams();
-    if (st.q) p.set("q", st.q); if (st.cat !== "sales") p.set("cat", st.cat);
-    if (st.region !== "EMEA") p.set("region", st.region); if (st.country) p.set("country", st.country); if (st.city) p.set("city", st.city);
+    if (st.q) p.set("q", st.q); if (st.cat !== "all") p.set("cat", st.cat);
+    if (st.region) p.set("region", st.region); if (st.country) p.set("country", st.country); if (st.city) p.set("city", st.city);
     if (st.age !== "30") p.set("age", st.age);
     if (st.fonds) p.set("fonds", st.fonds); if (st.sector) p.set("sector", st.sector);
     if (st.saved) p.set("saved", "1"); if (st.match) p.set("match", "1");
@@ -133,7 +133,7 @@
     $("#count").textContent = `${num(rows.length)} ${T.offers(rows.length)}`;
   }
   let FUNDS = {};
-  fetch("data/funds.json").then(r => r.ok ? r.json() : {}).then(m => { FUNDS = m; })
+  fetch("data/funds.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).then(m => { FUNDS = m; })
     .catch(() => {});
 
   function fillSectors(rowsAll, cur) {
@@ -253,7 +253,7 @@
   async function refresh(reason) { all = await load($("#cat").value); fillSectors(all, $("#sector").value || state().sector); apply(reason); }
 
   (async () => {
-    meta = await (await fetch("data/meta.json")).json();
+    meta = await (await fetch("data/meta.json?t=" + Date.now(), { cache: "no-store" })).json();
     $("#meta-date").textContent = new Date(meta.date).toLocaleDateString("en-GB", { day: "numeric", month: "long" });
     const st = state();
     fillRegions(); $("#region").value = st.region;
@@ -276,7 +276,7 @@
     const ft = $("#filtoggle"), ff = $("#filters");
     const majFiltres = () => {
       const st = state();
-      const n = [st.q, st.cat !== "sales" ? st.cat : "", st.region !== "EMEA" ? st.region : "",
+      const n = [st.q, st.cat !== "all" ? st.cat : "", st.region,
                  st.country, st.city, st.sector, st.age !== "30" ? st.age : "",
                  st.salary ? "1" : "", st.remote ? "1" : ""].filter(Boolean).length;
       $("#filcount").textContent = n ? `${n} active` : "";
