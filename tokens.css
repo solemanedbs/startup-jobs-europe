@@ -1,48 +1,239 @@
-/* ============================================================
-   Système. Toute valeur utilisée ailleurs vient d'ici.
-   Avant : 8/9/10/999px de rayon, 13/13.5/14/14.5/15px de texte,
-   quatre hauteurs de bouton. D'où l'impression de bricolage.
-   ============================================================ */
-:root{
-  /* — typographie : une échelle, pas des demi-pixels — */
-  --f-ui: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
-  --f-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  --f-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  --t-xs: 12px; --t-sm: 13px; --t-md: 15px; --t-lg: 18px; --t-xl: 22px; --t-2xl: 30px; --t-3xl: 40px;
-  --lh-tight: 1.2; --lh: 1.5;
-
-  /* — espacement : multiples de 4 — */
-  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px; --s12: 48px;
-
-  /* — formes : trois rayons, pas huit — */
-  --r-sm: 6px; --r-md: 10px; --r-pill: 999px;
-
-  /* — une seule hauteur pour tout ce qui se clique ou se saisit — */
-  --ctl: 40px; --ctl-sm: 32px;
-
-  /* — couleurs — */
-  --bg: #fbfaf7;          /* papier */
-  --card: #ffffff;
-  --fg: #16161a;
-  --muted: #6b6b73;
-  --faint: #9a9aa2;
-  --line: #e6e3dc;
-  --line-strong: #d4d0c6;
-  --acc: #1b4dd8;
-  --acc-fg: #ffffff;
-  --acc-bg: #eef2fe;
-  --warm: #b4541f;        /* second accent, usage rare : alertes douces, chiffres saillants */
-  --warm-bg: #fdf1e8;
-  --ok: #1d6f4b;
-  --danger: #b3261e;
-  --tag: #f2f0ea;
-  --shadow: 0 1px 2px rgba(22,22,26,.04), 0 8px 24px -12px rgba(22,22,26,.10);
+/* Traction — generated from tokens.json */
+:root, [data-theme="light"] {
+  --canvas: #f5f6f8; /* Fond de page (body). Tout le reste se pose dessus. */
+  --surface: #ffffff; /* Panneaux, cartes, lignes d'offres, barre de navigation, champs. */
+  --surface-sunken: #eef0f4; /* Zones en retrait : rail de filtres, en-têtes de tableau, piste des contrôles segmentés, pistes de barres. */
+  --surface-hover: #f3f5f8; /* Survol d'une ligne cliquable (offre, fonds, ligne de tableau). */
+  --surface-inverse: #0e1626; /* Infobulles et toasts : le seul aplat inversé. */
+  --on-inverse: #f5f6f8; /* Texte sur surface-inverse. */
+  --line: #e3e6ec; /* Filets de séparation : entre lignes, autour des cartes, sous la navbar. Décoratif, jamais seul porteur de sens. */
+  --line-strong: #7c8495; /* Bordure des contrôles (champs, cases, switch éteint). ≥3:1 sur canvas, surface et surface-sunken dans les deux thèmes. */
+  --ink: #0e1626; /* Texte principal, titres, chiffres. Lisible sur canvas, surface, surface-sunken, surface-hover. */
+  --ink-muted: #4a5366; /* Métadonnées : entreprise, lieu, date, compteurs secondaires. ≥4.5:1 sur toutes les surfaces. */
+  --ink-subtle: #5f687c; /* Placeholder, libellés d'axes, notes de bas de page. ≥4.5:1 sur canvas, surface, surface-sunken. */
+  --night: #16264d; /* Bleu nuit, la couleur de marque : bouton primaire, onglet actif, lien, filtre sélectionné, barre de données principale. Comme texte : sur canvas, surface, surface-sunken, night-soft. */
+  --night-hover: #0e1b3b; /* Survol / pression du bouton primaire. */
+  --night-soft: #e7ecf6; /* Fond teinté derrière du texte night : chip de filtre actif, item de menu actif, badge brand. */
+  --on-night: #ffffff; /* Texte et icônes sur un aplat night (bouton primaire, compteur sur chip active). */
+  --coral: #d24a2c; /* Accent rare (≤1 par écran) : point « posté aujourd'hui », marque du logo. Jamais pour une action ni une erreur. ≥3:1 sur canvas et surface (marque, pas texte). */
+  --coral-text: #b23a1f; /* Texte accent « New today » sur surface, canvas ou coral-soft. */
+  --coral-soft: #fbe9e4; /* Fond du badge accent. */
+  --success: #23683f; /* Statut Offer / Interview positif, delta en hausse. Toujours accompagné d'un mot ou d'une icône. Sur surface ou success-soft. */
+  --success-soft: #e3f1e8; /* Fond du badge success. */
+  --warning: #8a5300; /* Relance à faire (« Worth a follow-up »), données à vérifier. Sur surface ou warning-soft. */
+  --warning-soft: #f8ecd6; /* Fond du badge warning et du callout de sauvegarde locale. */
+  --danger: #b0263a; /* Erreur de saisie, statut Rejected, action destructive. Sur surface ou danger-soft. Toujours avec un mot. */
+  --danger-soft: #f9e4e7; /* Fond du badge danger. */
+  --info: #2453a0; /* Statut Applied, information neutre. Sur surface ou info-soft. */
+  --info-soft: #e5edfa; /* Fond du badge info et du callout neutre. */
+  --focus: #3b63d6; /* Anneau de focus clavier : 2px plein, après un écart de 2px couleur canvas. ≥3:1 sur canvas, surface, surface-sunken. */
+  --scrim: rgba(14, 22, 38, 0.48); /* Voile derrière un dialog ou le tiroir de filtres mobile. */
+  --viz-1: var(--night); /* Série principale des graphiques (candidatures, offres). */
+  --viz-2: #6a86c4; /* Deuxième série (comparaison, période précédente). */
+  --viz-3: #9aa3b5; /* Série neutre / « autres ». */
+  --viz-4: var(--coral); /* Mise en avant d'une seule barre (semaine en cours). */
+  --link: var(--night); /* Liens dans le texte : alias de night, soulignés au survol. */
+  --shadow-pop: 0 1px 2px rgba(14, 22, 38, 0.06), 0 8px 24px rgba(14, 22, 38, 0.10); /* Menus déroulants, popovers, toasts. */
+  --shadow-modal: 0 24px 64px rgba(14, 22, 38, 0.22); /* Dialog et tiroir de filtres mobile. */
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#121214; --card:#19191c; --fg:#ededf0; --muted:#a0a0a8; --faint:#71717a;
-    --line:#2a2a2f; --line-strong:#3a3a41; --acc:#8aa9ff; --acc-fg:#10101a; --acc-bg:#1b2340;
-    --warm:#e0915e; --warm-bg:#2d2119; --ok:#6cc79b; --danger:#f2857d; --tag:#232327;
-    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.6);
-  }
+[data-theme="dark"] {
+  --canvas: #0a0f1a;
+  --surface: #121a2b;
+  --surface-sunken: #0d1422;
+  --surface-hover: #182235;
+  --surface-inverse: #e9edf5;
+  --on-inverse: #0a0f1a;
+  --line: #233049;
+  --line-strong: #66738d;
+  --ink: #e9edf5;
+  --ink-muted: #a7b0c2;
+  --ink-subtle: #8e98ad;
+  --night: #a9bdf0;
+  --night-hover: #c3d2f6;
+  --night-soft: #1b2846;
+  --on-night: #0a0f1a;
+  --coral: #f0866b;
+  --coral-text: #f39a82;
+  --coral-soft: #3a1c16;
+  --success: #6fcf97;
+  --success-soft: #12291d;
+  --warning: #e9b45c;
+  --warning-soft: #2e2210;
+  --danger: #f2889a;
+  --danger-soft: #33161c;
+  --info: #8fb2f5;
+  --info-soft: #15233f;
+  --focus: #8fb2f5;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --viz-1: var(--night);
+  --viz-2: #5f7fc7;
+  --viz-3: #5d6780;
+  --viz-4: var(--coral);
+  --link: var(--night);
+  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-modal: 0 24px 64px rgba(0, 0, 0, 0.6);
+}
+:root {
+  --space-1: 4px; /* Icône ↔ texte dans un badge ; écart minimal. */
+  --space-2: 8px; /* Icône ↔ libellé dans un bouton ; écart entre chips. */
+  --space-3: 12px; /* Padding vertical d’une ligne dense ; écart entre champs liés. */
+  --space-4: 16px; /* Padding des lignes d'offres, gouttière mobile. */
+  --space-5: 20px; /* Padding des cartes et panneaux. */
+  --space-6: 24px; /* Gouttière entre colonnes ; entre groupes de filtres. */
+  --space-8: 32px; /* Entre sections d’une page. */
+  --space-10: 40px; /* Marge haute d’un en-tête de page. */
+  --space-12: 48px; /* Respiration autour du titre d’accueil. */
+  --space-16: 64px; /* Avant le footer. */
+  --radius-xs: 3px; /* Cases à cocher, barres de graphiques. */
+  --radius-sm: 5px; /* Badges, chips, monogrammes petits. */
+  --radius-md: 7px; /* Boutons, champs, contrôles segmentés. */
+  --radius-lg: 10px; /* Cartes, panneaux, dialogs, tiroir mobile. */
+  --radius-pill: 999px; /* Switch et points de statut uniquement. */
+  --layout-nav-height: 60px; /* Hauteur de la Navbar (desktop). */
+  --layout-filter-width: 280px; /* Largeur du rail de filtres de la recherche. */
+  --layout-sidenav-width: 240px; /* Largeur de la navigation latérale de Mon espace. */
+  --layout-content-max: 1240px; /* Largeur maximale du contenu. */
+  --layout-control-height: 36px; /* Hauteur des boutons, champs, contrôles segmentés (md). */
+  --layout-control-height-lg: 48px; /* Hauteur de la barre de recherche principale. */
+  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --text-display-xl: 400 56px/60px var(--font-display); /* Titre d'accueil, une fois par site. */
+  --text-display-l: 400 40px/44px var(--font-display); /* Titre d'une page entité (startup, fonds, secteur). */
+  --text-display-m: 400 30px/36px var(--font-display); /* Titre de page de Mon espace et des annuaires. */
+  --text-figure: 400 36px/40px var(--font-display); /* Chiffre clé d'une StatCard. */
+  --text-heading: 600 18px/26px var(--font-sans); /* Titre de section, de panneau, de dialog. */
+  --text-title: 600 15px/22px var(--font-sans); /* Intitulé d'une offre, nom dans une carte. */
+  --text-body: 400 15px/22px var(--font-sans); /* Texte courant. */
+  --text-body-s: 400 13px/20px var(--font-sans); /* Métadonnées, aides de champ, cellules de tableau denses. */
+  --text-label: 500 13px/18px var(--font-sans); /* Libellés de champs, onglets, boutons, liens de navigation. */
+  --text-overline: 600 11px/16px var(--font-sans); /* En-têtes de groupes de filtres et de colonnes, en capitales. Jamais pour une phrase. */
+  --text-numeric: 400 13px/20px var(--font-mono); /* Salaires, compteurs, dates dans les tableaux : chiffres alignés. */
+  --text-numeric-s: 500 12px/16px var(--font-mono); /* Compteurs dans les chips et filtres. */
+}
+.display-xl {
+  font-family: var(--font-display);
+  font-size: 56px;
+  line-height: 60px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.display-l {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.display-m {
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.figure {
+  font-family: var(--font-display);
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.heading {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+.title {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.body-s {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.label {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.overline {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.numeric {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.numeric-s {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("fonts/InstrumentSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("fonts/InstrumentSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("fonts/InstrumentSans-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("fonts/InstrumentSerif-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("fonts/IBMPlexMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("fonts/IBMPlexMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }

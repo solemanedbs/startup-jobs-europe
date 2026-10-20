@@ -4,7 +4,7 @@
   const T = {
     offers: n => n === 1 ? "role" : "roles",
     empty: "No role matches these filters. Try a wider region or a longer period.",
-    today: "today", yesterday: "yesterday", days: n => `${n}d ago`, months: n => `${n}mo ago`, unknown: "date unknown",
+    today: "Today", yesterday: "yesterday", days: n => `${n}d ago`, weeks: n => `${n}w ago`, unknown: "date unknown",
     seen: "listed", new: "new", scale: "scale-up", remoteTag: "remote",
     ask: "Did you apply at", askSub: "This role is handled on the company's own site. Add it to your tracker?",
     askY: "Yes, I applied", askN: "No, don't ask again", askL: "Maybe later", added: "Added to your tracker", space: "My space",
@@ -18,7 +18,29 @@
   const midnight = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || ""); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
   const today0 = (() => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; })();
   const daysAgo = d => { const x = midnight(d); return x ? Math.round((today0 - x) / 86400000) : null; };
-  const fmtDate = d => { const n = daysAgo(d); if (n === null) return T.unknown; if (n <= 0) return T.today; if (n === 1) return T.yesterday; if (n < 30) return T.days(n); return T.months(Math.round(n / 30)); };
+  const fmtDate = d => { const n = daysAgo(d); if (n === null) return T.unknown; if (n <= 0) return T.today; if (n === 1) return T.yesterday; if (n < 7) return T.days(n); return T.weeks(Math.round(n / 7)); };
+  const EMOJI = /[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/gu;
+  const cleanTitle = t => String(t || "").replace(EMOJI, "").replace(/\s{2,}/g, " ").replace(/[\s\-–—·|]+$/, "").trim();
+
+  /* Salaires normalisés : « $170K – $200K », devise devant, K majuscule, tiret demi-cadratin
+     espacé. Les ATS livrent « 213k–231k $ », « $265K - $325K », « 90000-120000 EUR »… */
+  const DEVISES = { "$": "$", "€": "€", "£": "£", USD: "$", EUR: "€", GBP: "£" };
+  function fmtSalary(raw) {
+    const t = String(raw || "").trim();
+    if (!t) return "";
+    let dev = "";
+    for (const k in DEVISES) if (t.toUpperCase().includes(k)) { dev = DEVISES[k]; break; }
+    const nums = (t.match(/\d[\d\s.,]*\s*[kK]?/g) || [])
+      .map(x => {
+        const k = /[kK]\s*$/.test(x);
+        const n = parseFloat(x.replace(/[\s,]/g, "").replace(/[kK]$/, ""));
+        return isNaN(n) ? null : (k ? n : n / 1000);
+      }).filter(n => n !== null && n > 0);
+    if (!nums.length) return t;
+    const fmt = n => dev + (n >= 10 ? Math.round(n) : Math.round(n * 10) / 10) + "K";
+    return nums.length > 1 ? `${fmt(nums[0])} \u2013 ${fmt(nums[nums.length - 1])}` : fmt(nums[0]);
+  }
+
   const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   // une URL non http(s) ne doit jamais atterrir dans un href : « javascript: » s'exécuterait
   // dans le contexte du site et pourrait siphonner localStorage (profil, CV, candidatures)
@@ -208,10 +230,10 @@
       const loc = r.v && r.p ? `${r.v}, ${r.p}`
         : (r.p || (faux || !brut ? (r.g === "Unspecified" ? "" : r.g) : brut.split(/[;•|]/)[0].trim()));
       li.innerHTML = `<a class="job" href="${esc(safeUrl(r.u))}" target="_blank" rel="noopener">
-        <div class="t">${esc(r.t)}</div>
-        <div class="r">${r["$"] ? `<span class="sal">${esc(r["$"])}</span> · ` : ""}${r.d ? fmtDate(r.d) : `<span title="This company does not publish a posting date. This is when the role first appeared on its careers page.">${T.seen} ${fmtDate(r.n)}</span>`}${n !== null && n <= 3 ? `<span class="new">${T.new}</span>` : ""}</div>
+        <div class="t">${esc(cleanTitle(r.t))}</div>
+        <div class="r">${r["$"] ? `<span class="sal">${esc(fmtSalary(r["$"]))}</span> · ` : ""}${r.d ? (daysAgo(r.d) <= 0 ? `<span class="jd-today">${fmtDate(r.d)}</span>` : fmtDate(r.d)) : `<span title="This company does not publish a posting date. This is when the role first appeared on its careers page.">${T.seen} ${fmtDate(r.n)}</span>`}${n !== null && n <= 3 ? `<span class="new">${T.new}</span>` : ""}</div>
         <div class="s"><b>${esc(r.s)}</b>${loc ? " · " + esc(loc) : ""}</div>
-        <div class="tags">${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}</div>
+        <div class="tags">${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}${r.a ? `<span class="tag via">via ${esc(r.a)}</span>` : ""}</div>
       </a>`;
       // une seule rangée de pied : étoile, correspondance, investisseurs — pour ne pas
       // ajouter 60 px de hauteur à chaque offre.

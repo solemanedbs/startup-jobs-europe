@@ -1,3 +1,34 @@
+/* ------------------------------------------------------------------
+   Pont vers le design system Traction (20/10).
+   Les anciens noms de variables pointent vers les tokens officiels, pour que
+   tout le CSS existant adopte la palette et les polices sans être réécrit d'un
+   bloc. Les règles seront reprises composant par composant ensuite.
+   ------------------------------------------------------------------ */
+:root{
+  --bg:var(--canvas);
+  --fg:var(--ink);
+  --muted:var(--ink-muted);
+  --faint:var(--ink-subtle);
+  --card:var(--surface);
+  --acc:var(--night);
+  --acc-fg:var(--on-night);
+  --acc-bg:var(--night-soft);
+  --warm:var(--coral-text);
+  --warm-bg:var(--coral-soft);
+  --ok:var(--success);
+  --tag:var(--surface-sunken);
+  --shadow:var(--shadow-pop);
+  --f-display:var(--font-display);
+  --f-ui:var(--font-sans);
+  --f-mono:var(--font-mono);
+  --t-xs:11px; --t-sm:13px; --t-md:15px; --t-lg:18px; --t-xl:30px; --t-2xl:36px; --t-3xl:40px;
+  --lh-tight:1.2; --lh:1.47;
+  --s1:var(--space-1); --s2:var(--space-2); --s3:var(--space-3); --s4:var(--space-4);
+  --s5:var(--space-5); --s6:var(--space-6); --s8:var(--space-8); --s10:var(--space-10);
+  --s12:var(--space-12);
+  --r-sm:var(--radius-sm); --r-md:var(--radius-md); --r-pill:var(--radius-pill);
+  --ctl:var(--layout-control-height); --ctl-sm:32px;
+}
 /* Feuille principale — toutes les valeurs viennent de tokens.css */
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -259,3 +290,11 @@ h1.mark{margin:0;font-size:inherit;max-width:none}
 /* réserver la place de l'étoile sur la première ligne, sinon elle mord sur le titre */
 .job .t{padding-right:46px}
 @media(max-width:640px){.job .t{padding-right:52px}}
+
+/* ---- design system : ligne d'offre ---- */
+.jd-today{color:var(--coral-text);font-weight:600}
+.job .r{font:var(--text-numeric);color:var(--ink-subtle)}
+.job .t{font:var(--text-title);color:var(--ink)}
+.job .s{font:var(--text-body-s);color:var(--ink-muted)}
+.job .sal{font:var(--text-numeric);color:var(--ink-muted)}
+.tag.via{color:var(--ink-subtle);background:transparent;border:1px solid var(--line)}
