@@ -8,15 +8,15 @@
   const blocs = [...document.querySelectorAll(".alpha-block")];
   const liens = [...document.querySelectorAll(".alphanav a")];
   const cpt = document.getElementById("scount");
-  const base = cpt ? cpt.textContent : "";
+  const base = cpt ? cpt.innerHTML : "";
 
   function appliquer(k, pousser) {
     let total = 0;
     blocs.forEach(b => {
       let vus = 0;
-      b.querySelectorAll("li").forEach(li => {
-        const ok = !k || li.dataset.k === k;
-        li.hidden = !ok;
+      b.querySelectorAll(".coitem").forEach(el => {
+        const ok = !k || el.dataset.k === k;
+        el.hidden = !ok;
         if (ok) vus++;
       });
       b.hidden = vus === 0;
@@ -24,11 +24,14 @@
       const l = b.dataset.letter;
       liens.forEach(a => { if (a.dataset.letter === l) a.hidden = vus === 0; });
     });
-    tabs.forEach(t => t.classList.toggle("on", (t.dataset.k || "") === (k || "")));
+    tabs.forEach(t => t.setAttribute("aria-selected",
+      (t.dataset.k || "") === (k || "") ? "true" : "false"));
     if (cpt) {
-      const nom = k ? (tabs.find(t => t.dataset.k === k) || {}).textContent.replace(/\s*\d+\s*$/, "").trim() : "";
-      cpt.textContent = k
-        ? `${total} ${nom} companies hiring right now. The number is how many roles each has open today.`
+      const ico = window.trIcon ? window.trIcon("building", 14) : "";
+      const nom = k ? ((tabs.find(t => t.dataset.k === k) || {}).textContent || "")
+        .replace(/\s*[\d,]+\s*$/, "").trim().toLowerCase() : "";
+      cpt.innerHTML = k
+        ? `${ico}<span class="tr-num">${total.toLocaleString("en-GB")}</span> ${nom} companies · the number is how many roles each has open today`
         : base;
     }
     if (pousser) {

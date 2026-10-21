@@ -37,7 +37,35 @@
   }
   function quand(r) {
     const n = jours(r.d || r.n);
-    return n === null ? "" : n <= 0 ? "today" : n === 1 ? "yesterday" : n < 30 ? n + "d ago" : Math.round(n / 30) + "mo ago";
+    return n === null ? "" : n <= 0 ? "Today" : n === 1 ? "yesterday" : n < 7 ? n + "d ago" : Math.round(n / 7) + "w ago";
+  }
+
+  /* Noms des systèmes de recrutement, comme leurs éditeurs les écrivent.
+     Même table que fmt.py : « via Ashby » doit s'écrire pareil partout. */
+  const ATS = {"ashby":"Ashby","bamboohr":"BambooHR","breezy":"Breezy","greenhouse":"Greenhouse","join":"Join","lever":"Lever","personio":"Personio","pinpoint":"Pinpoint","recruitee":"Recruitee","rippling":"Rippling","smartrecruiters":"SmartRecruiters","teamtailor":"Teamtailor","workable":"Workable","workday":"Workday","dover":"Dover","factorial":"Factorial","homerun":"Homerun","notion":"Notion"};
+  const fmtAts = n => ATS[String(n || "").toLowerCase()] || n;
+  const ico = (nom, t) => window.trIcon ? window.trIcon(nom, t) : "";
+  function marque(nom) {
+    const w = String(nom || "?").replace(/[^A-Za-z0-9 ]/g, " ").trim().split(/\s+/);
+    const i = w.length > 1 ? w[0][0] + w[1][0] : (w[0] || "?").slice(0, 2);
+    return `<span class="tr-mark tr-mark-md" aria-hidden="true">${esc(i.toUpperCase())}</span>`;
+  }
+  /* Composant JobRow du design system — même structure que la page d'accueil. */
+  function ligne(r) {
+    const loc = r.v && r.p ? `${r.v}, ${r.p}` : (r.p || r.l || "");
+    const d = quand(r), neuve = d === "Today";
+    const tags = [];
+    if (r.c && LAB[r.c]) tags.push(`<span class="tr-badge tr-badge-outline">${esc(LAB[r.c])}</span>`);
+    if (r.k && SECT[r.k]) tags.push(`<span class="tr-badge tr-badge-outline">${esc(SECT[r.k])}</span>`);
+    if (r.a) tags.push(`<span class="tr-badge tr-badge-neutral">via ${esc(fmtAts(r.a))}</span>`);
+    return `<article class="tr-jobrow">${marque(r.s)}<div class="tr-jobrow-main">` +
+      `<a class="tr-jobrow-title" href="${esc(safeUrl(r.u))}" target="_blank" rel="noopener">${esc(r.t)}</a>` +
+      `<div class="tr-jobrow-meta"><span class="tr-jobrow-company">${esc(r.s)}</span>` +
+      (loc ? `<span>${ico("map-pin", 14)}${esc(loc)}</span>` : "") + `</div>` +
+      (tags.length ? `<div class="tr-jobrow-tags">${tags.join("")}</div>` : "") +
+      `</div><div class="tr-jobrow-side">` +
+      (neuve ? `<span class="tr-jobrow-new">Today</span>`
+             : `<span class="tr-jobrow-date">${esc(d)}</span>`) + `</div></article>`;
   }
 
   function appliquer() {
@@ -49,12 +77,13 @@
     const res = DATA.filter(f);
     const actif = !!(t || cat.value || sect.value || country.value || city.value);
     grouped.hidden = actif; out.hidden = !actif;
-    count.textContent = actif ? `${res.length} role${res.length === 1 ? "" : "s"} match` : "";
+    count.innerHTML = actif
+      ? `${ico("briefcase", 14)}<span class="tr-num">${res.length.toLocaleString("en-GB")}</span> role${res.length === 1 ? "" : "s"} match`
+      : "";
     if (!actif) return;
-    out.innerHTML = res.length ? res.map(r => `<li><a class="job" href="${esc(safeUrl(r.u))}" target="_blank" rel="noopener">
-      <div class="t">${esc(r.t)}</div>
-      <div class="s"><b>${esc(r.s)}</b>${r.l ? " · " + esc(r.l) : ""} · ${esc(quand(r))}</div></a></li>`).join("")
-      : `<li class="empty">No role matches these filters.</li>`;
+    out.innerHTML = res.length ? res.map(ligne).join("")
+      : `<div class="tr-empty"><span class="tr-empty-icon">${ico("search", 20)}</span>` +
+        `<h3>No role matches</h3><p>No role at this fund's portfolio matches these filters.</p></div>`;
     // les listes dépendantes se resserrent sur la sélection courante
     const gardeC = country.value, gardeV = city.value;
     remplir(country, compte("p", r => !cat.value || r.c === cat.value), "All countries");

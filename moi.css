@@ -1,3 +1,25 @@
+/* ------------------------------------------------------------------
+   My space n'est pas encore passé au design system : ses règles emploient les
+   anciens noms de variables. On les redéfinit ici, et ici seulement, pour que
+   style.css reste du design system pur. À retirer quand cette page sera
+   reprise avec SideNav / ScreenProfile / ScreenApplications.
+   ------------------------------------------------------------------ */
+body{
+  --bg:var(--canvas); --fg:var(--ink); --muted:var(--ink-muted); --faint:var(--ink-subtle);
+  --card:var(--surface); --acc:var(--night); --acc-fg:var(--on-night); --acc-bg:var(--night-soft);
+  --warm:var(--coral-text); --warm-bg:var(--coral-soft); --ok:var(--success); --tag:var(--surface-sunken);
+  --f-display:var(--font-display); --f-ui:var(--font-sans); --f-mono:var(--font-mono);
+  --t-xs:11px; --t-sm:13px; --t-md:15px; --t-lg:18px; --t-xl:30px; --t-2xl:36px;
+  --lh:1.47;
+  --s1:var(--space-1); --s2:var(--space-2); --s3:var(--space-3); --s4:var(--space-4);
+  --s5:var(--space-5); --s6:var(--space-6); --s8:var(--space-8); --s10:var(--space-10);
+  --s12:var(--space-12);
+  --r-sm:var(--radius-sm); --r-md:var(--radius-md); --r-pill:var(--radius-pill);
+  --ctl:var(--layout-control-height); --ctl-sm:32px;
+  font-family:var(--font-sans); background:var(--canvas); color:var(--ink);
+}
+.wrap{max-width:1020px;margin:0 auto;padding:0 var(--space-5)}
+
 /* Espace personnel — mêmes jetons que le job board */
 .tabs{display:flex;align-items:center;gap:var(--s2);margin:var(--s5) auto var(--s2);flex-wrap:wrap}
 .tab{font:inherit;font-size:var(--t-sm);height:var(--ctl);padding:0 var(--s4);display:inline-flex;align-items:center;gap:var(--s2);

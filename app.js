@@ -11,8 +11,8 @@
     askCv: "Not applied yet? Tailor your CV for this role →"
   };
   const SYN = [[/\b(biz ?dev|bizdev)\b/g, "business develop"], [/\bsdr\b/g, "sales development"], [/\bbdr\b/g, "business development representative"], [/\bae\b/g, "account executive"], [/\bcsm\b/g, "customer success"], [/\bkam\b/g, "key account"], [/\bpm\b/g, "product manager"]];
-  const cache = {}; let meta, rows = [], all = [], shown = 0, lastGrp = null, remoteOn = false, savedOn = false, matchOn = false;
-  const GRP = n => n === null ? "Date unknown" : n <= 0 ? "Today" : n <= 7 ? "This week" : n <= 30 ? "This month" : "Earlier";
+  const cache = {}; let meta, rows = [], all = [], shown = 0, remoteOn = false, savedOn = false, matchOn = false;
+  let NBFONDS = null;
   // comparaison de dates de calendrier, pas de durées : sinon une offre publiée aujourd'hui
   // compte pour « 1 jour » dès qu'on consulte la page l'après-midi (bug du 05/10)
   const midnight = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || ""); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
@@ -48,57 +48,104 @@
   const num = n => n.toLocaleString("en-GB");
   const track = path => { try { window.goatcounter && window.goatcounter.count({ path, title: path, event: true }); } catch (e) {} };
 
+  // ---- couche d'interface : le panneau du design system coche des cases et presse des
+  // segments, là où il y avait des <select>. Les filtres à cases sont donc multiples.
+  /* Noms des systèmes de recrutement, comme leurs éditeurs les écrivent.
+     Même table que fmt.py : « via Ashby » doit s'écrire pareil partout. */
+  const ATS = {"ashby":"Ashby","bamboohr":"BambooHR","breezy":"Breezy","greenhouse":"Greenhouse","join":"Join","lever":"Lever","personio":"Personio","pinpoint":"Pinpoint","recruitee":"Recruitee","rippling":"Rippling","smartrecruiters":"SmartRecruiters","teamtailor":"Teamtailor","workable":"Workable","workday":"Workday","dover":"Dover","factorial":"Factorial","homerun":"Homerun","notion":"Notion"};
+  const fmtAts = n => ATS[String(n || "").toLowerCase()] || n;
+  const ico = (n, t) => window.trIcon ? window.trIcon(n, t) : "";
+  const coches = cle => [...document.querySelectorAll(`input[data-f="${cle}"]:checked`)].map(i => i.value);
+  function cocher(cle, vals) {
+    const set = new Set(vals);
+    document.querySelectorAll(`input[data-f="${cle}"]`).forEach(i => { i.checked = set.has(i.value); });
+  }
+  const segment = id => { const b = document.querySelector(`#${id} button[aria-pressed="true"]`); return b ? b.dataset.v : ""; };
+  function poserSegment(id, v) {
+    document.querySelectorAll(`#${id} button`).forEach(b =>
+      b.setAttribute("aria-pressed", b.dataset.v === v ? "true" : "false"));
+  }
+  /* Une case à cocher du système, avec son compteur aligné à droite. */
+  function caseFiltre(cle, val, label, compte, coche) {
+    return `<label class="tr-check"><input type="checkbox" data-f="${esc(cle)}" value="${esc(val)}"${coche ? " checked" : ""}>` +
+           `<span>${esc(label)}</span>` +
+           (compte != null ? `<span class="tr-check-count">${num(compte)}</span>` : "") + `</label>`;
+  }
+  /* Les listes longues (pays, villes, secteurs) se replient : six entrées puis « Show all ». */
+  const PLI = 6;
+  function listePliee(hote, bouton, cle, entrees, choisis, mot, filtre) {
+    const el = $(hote), bt = $(bouton);
+    const sel = new Set(choisis);
+    const q = (filtre || "").trim().toLowerCase();
+    let vus = entrees.filter(([v]) => !q || v.toLowerCase().includes(q));
+    // ce qui est coché reste visible même hors des six premiers, sinon on ne peut plus décocher
+    const tete = vus.filter(([v]) => sel.has(v));
+    const reste = vus.filter(([v]) => !sel.has(v));
+    const ouvert = el.dataset.ouvert === "1";
+    const liste = ouvert ? tete.concat(reste) : tete.concat(reste.slice(0, Math.max(0, PLI - tete.length)));
+    el.innerHTML = liste.map(([v, c]) => caseFiltre(cle, v, v, c, sel.has(v))).join("")
+      || `<p class="tr-field-hint">No ${mot} matches.</p>`;
+    const cachees = vus.length - liste.length;
+    bt.hidden = cachees <= 0 && !ouvert;
+    bt.textContent = ouvert ? `Show fewer ${mot}` : `Show all ${num(vus.length)} ${mot}`;
+    bt.onclick = () => { el.dataset.ouvert = ouvert ? "0" : "1"; apply(); };
+  }
+
   // ---- filtres en cascade : région → pays → ville
   function fillRegions(st, q, maxAge) {
-    const el = $("#region"), cur = el.value;
-    // comptes recalculés sur les filtres actifs : sinon « Europe (10 104) » contredit « 24 552 roles »
-    let m = null, total = meta.total;
-    if (st && all.length) {
-      m = new Map(); total = 0;
-      all.forEach(r => { if (matches(r, st, q, maxAge, "region")) { total++; if (r.g) m.set(r.g, (m.get(r.g) || 0) + 1); } });
-    }
-    el.innerHTML = `<option value="">All locations (${num(total)})</option>`;
-    meta.regions.forEach(([g, n]) => {
-      if (g === "Multiple locations" || g === "Unspecified") return;
-      const o = document.createElement("option"); o.value = g;
-      o.textContent = `${g} (${num(m ? (m.get(g) || 0) : n)})`; el.appendChild(o);
+    // comptes recalculés sur les filtres actifs : sinon « EMEA 10 104 » contredit « 24 552 roles »
+    let m = new Map();
+    if (st && all.length) all.forEach(r => { if (matches(r, st, q, maxAge, "region") && r.g) m.set(r.g, (m.get(r.g) || 0) + 1); });
+    document.querySelectorAll("#region button").forEach(b => {
+      const v = b.dataset.v;
+      const c = v ? m.get(v) : [...m.values()].reduce((a, x) => a + x, 0);
+      b.textContent = b.dataset.label || b.textContent;
+      if (!b.dataset.label) b.dataset.label = b.textContent;
+      if (c != null) b.innerHTML = `${esc(b.dataset.label)} <span class="tr-chip-count">${num(c)}</span>`;
     });
-    el.value = cur;
   }
-  function fillCountries(region) {
-    const el = $("#country"), cur = el.value;
-    el.innerHTML = `<option value="">${region ? "All countries in " + region : "All countries"}</option>`;
-    meta.pays.filter(([p]) => !region || meta.pays_region[p] === region)
-      .forEach(([p, n]) => { const o = document.createElement("option"); o.value = p; o.textContent = `${p} (${num(n)})`; el.appendChild(o); });
-    el.value = [...el.options].some(o => o.value === cur) ? cur : "";
+  function fillCountries(region, choisis) {
+    const e = meta.pays.filter(([p]) => !region || meta.pays_region[p] === region);
+    listePliee("#countries", "#morecountry", "country", e, choisis, "countries", $("#qcountry").value);
   }
-  function fillCities(country, region) {
-    const el = $("#city"), cur = el.value;
-    el.innerHTML = `<option value="">${country ? "All cities in " + country : "All cities"}</option>`;
-    meta.villes.filter(([c]) => {
+  function fillCities(countries, region, choisis) {
+    const cs = new Set(countries);
+    const e = meta.villes.filter(([c]) => {
       const p = meta.ville_pays[c]; if (!p) return false;
-      if (country) return p === country;
+      if (cs.size) return cs.has(p);
       return !region || meta.pays_region[p] === region;
-    }).forEach(([c, n]) => { const o = document.createElement("option"); o.value = c; o.textContent = `${c} (${num(n)})`; el.appendChild(o); });
-    el.value = [...el.options].some(o => o.value === cur) ? cur : "";
+    });
+    listePliee("#cities", "#morecity", "city", e, choisis, "cities", $("#qcity").value);
   }
 
   async function load(cat) {
-    const cats = cat === "all" ? Object.keys(meta.categories) : [cat];
+    const cats = (!cat || !cat.length) ? Object.keys(meta.categories) : cat;
     const parts = await Promise.all(cats.map(async c => { if (!cache[c]) cache[c] = await (await fetch(`data/${c}.json?v=${meta.date}`)).json(); return cache[c]; }));
     return parts.flat();
   }
+  // cat / country / city / sector sont désormais des listes : le panneau du design system
+  // coche des cases, donc on peut en choisir plusieurs. Les anciennes URL à valeur unique
+  // continuent de marcher, une valeur seule étant une liste d'un élément.
+  const liste = v => (v || "").split(",").map(x => x.trim()).filter(Boolean);
   function state() {
     const p = new URLSearchParams(location.hash.slice(1));
-    return { q: p.get("q") || "", cat: p.get("cat") || "all", region: p.has("region") ? p.get("region") : "", country: p.get("country") || "", city: p.get("city") || "", sector: p.get("sector") || "", saved: p.get("saved") === "1", match: p.get("match") === "1",
-             age: p.get("age") || "30", fonds: p.get("fonds") || "", remote: p.get("remote") === "1", noscale: false, salary: p.get("salary") === "1" };
+    const cat = liste(p.get("cat")).filter(c => c !== "all");
+    return { q: p.get("q") || "", where: p.get("where") || "", cat, region: p.get("region") || "",
+             country: liste(p.get("country")), city: liste(p.get("city")), sector: liste(p.get("sector")),
+             saved: p.get("saved") === "1", match: p.get("match") === "1",
+             age: p.get("age") || "30", fonds: p.get("fonds") || "",
+             remote: p.get("remote") === "1", noscale: false, salary: p.get("salary") === "1" };
   }
   function push(st) {
     const p = new URLSearchParams();
-    if (st.q) p.set("q", st.q); if (st.cat !== "all") p.set("cat", st.cat);
-    if (st.region) p.set("region", st.region); if (st.country) p.set("country", st.country); if (st.city) p.set("city", st.city);
+    if (st.q) p.set("q", st.q); if (st.where) p.set("where", st.where);
+    if (st.cat.length) p.set("cat", st.cat.join(","));
+    if (st.region) p.set("region", st.region);
+    if (st.country.length) p.set("country", st.country.join(","));
+    if (st.city.length) p.set("city", st.city.join(","));
+    if (st.sector.length) p.set("sector", st.sector.join(","));
     if (st.age !== "30") p.set("age", st.age);
-    if (st.fonds) p.set("fonds", st.fonds); if (st.sector) p.set("sector", st.sector);
+    if (st.fonds) p.set("fonds", st.fonds);
     if (st.saved) p.set("saved", "1"); if (st.match) p.set("match", "1");
     if (st.remote) p.set("remote", "1"); if (st.salary) p.set("salary", "1");
     history.replaceState(null, "", location.pathname + (p.toString() ? "#" + p.toString() : ""));
@@ -109,9 +156,10 @@
   // est toujours exactement ce que le clic donnera
   function matches(r, st, q, maxAge, ignore) {
     if (ignore !== "region" && st.region && r.g !== st.region) return false;
-    if (st.country && r.p !== st.country) return false;
-    if (st.city && r.v !== st.city) return false;
-    if (st.sector && r.k !== st.sector) return false;
+    if (st.country.length && !st.country.includes(r.p)) return false;
+    if (st.city.length && !st.city.includes(r.v)) return false;
+    if (st.sector.length && !st.sector.includes(r.k)) return false;
+    if (st.where && !norm(`${r.v || ""} ${r.p || ""} ${r.l || ""} ${r.g || ""}`).includes(norm(st.where))) return false;
     if (st.saved && !saved.has(r.u)) return false;
     if (st.remote && !r.r) return false;
     if (st.noscale && r.b) return false;
@@ -125,47 +173,99 @@
     const s2 = Object.assign({}, st, over);
     return all.reduce((n, r) => n + (matches(r, s2, q, +s2.age) ? 1 : 0), 0);
   };
+  /* Les chiffres du chapeau, et les puces « filtres actifs » du composant ActiveFilters.
+     Ils remplacent les quatre cartes de statistiques : l'écran de recherche du design
+     system met les chiffres dans la phrase, pas dans des encarts. */
   function pulse(st, q) {
-    $("#p-today").textContent = num(countIf(st, q, { age: "0" }));
-    $("#p-week").textContent  = num(countIf(st, q, { age: "7" }));
-    $("#p-sal").textContent   = num(countIf(st, q, { salary: true }));
-    $("#p-rem").textContent   = num(countIf(st, q, { remote: true }));
-    const co = new Set(); all.forEach(r => { if (matches(r, st, q, +st.age)) co.add(r.s); });
-    $("#p-co").textContent = num(co.size); $("#p-funds").textContent = num(meta.fonds.length);
-    $("#pulse").hidden = false;
-    document.querySelectorAll(".pchip").forEach(b => {
-      const k = b.dataset.p;
-      b.classList.toggle("on", (k === "today" && st.age === "0") || (k === "week" && st.age === "7") || (k === "salary" && st.salary) || (k === "remote" && st.remote));
+    const co = new Set();
+    let nb = 0;
+    all.forEach(r => { if (matches(r, st, q, +st.age)) { nb++; co.add(r.s); } });
+    $("#p-total").textContent = num(nb);
+    $("#p-co").textContent = num(co.size);
+    // les fonds réellement représentés dans les données, pas la liste plafonnée de meta
+    if (NBFONDS === null) {
+      const f = new Set();
+      all.forEach(r => (r.f || "").split(" ; ").forEach(x => { x = x.trim(); if (x) f.add(x); }));
+      NBFONDS = f.size;
+    }
+    $("#p-funds").textContent = num(NBFONDS);
+  }
+  const LABFAM = { sales: "Sales & business development", tech: "Tech & data",
+                   ops: "Operations, finance & marketing", leadership: "Leadership", autre: "Other roles" };
+  const LABAGE = { "0": "Posted today", "7": "Last 7 days", "30": "Last 30 days", "60": "Last 60 days", "999": "Any date" };
+  function activeFilters(st) {
+    const items = [];
+    if (st.q) items.push(["q", `“${st.q}”`]);
+    if (st.where) items.push(["where", st.where]);
+    st.cat.forEach(c => items.push([`cat:${c}`, LABFAM[c] || c]));
+    if (st.region) items.push(["region", st.region]);
+    st.country.forEach(c => items.push([`country:${c}`, c]));
+    st.city.forEach(c => items.push([`city:${c}`, c]));
+    st.sector.forEach(k => items.push([`sector:${k}`, (meta.secteurs && meta.secteurs[k]) || k]));
+    if (st.age !== "30") items.push(["age", LABAGE[st.age] || st.age]);
+    if (st.salary) items.push(["salary", "Salary shown"]);
+    if (st.remote) items.push(["remote", "Remote"]);
+    if (st.saved) items.push(["saved", "Saved only"]);
+    const box = $("#active");
+    box.innerHTML = items.map(([k, l]) =>
+      `<button type="button" class="tr-chip" aria-pressed="true" data-x="${esc(k)}">${esc(l)}` +
+      `<span class="tr-chip-x" aria-label="Remove">${ico("x", 12)}</span></button>`).join("")
+      + (items.length ? '<button type="button" class="tr-active-clear" id="clearall">Clear all</button>' : "");
+    const fc = $("#filcount");
+    fc.hidden = !items.length; fc.textContent = items.length ? `${items.length}` : "";
+    // le badge de chaque groupe du panneau : combien y sont cochés
+    const parGroupe = { cat: st.cat.length, country: st.country.length, city: st.city.length,
+                        sector: st.sector.length, region: st.region ? 1 : 0,
+                        age: st.age !== "30" ? 1 : 0, sal: st.salary ? 1 : 0, fund: st.fonds ? 1 : 0 };
+    document.querySelectorAll("[data-n]").forEach(b => {
+      const c = parGroupe[b.dataset.n] || 0;
+      b.hidden = !c; b.textContent = c;
     });
   }
 
   function apply(reason) {
-    const st = { q: $("#q").value.trim(), cat: $("#cat").value, region: $("#region").value, country: $("#country").value, city: $("#city").value, sector: $("#sector").value, saved: savedOn, match: matchOn,
-                 age: $("#age").value, fonds: state().fonds, remote: remoteOn, noscale: false, salary: $("#salary").checked };
+    const st = { q: $("#q").value.trim(), where: $("#qwhere").value.trim(),
+                 cat: coches("cat"), region: segment("region"),
+                 country: coches("country"), city: coches("city"), sector: coches("sector"),
+                 saved: savedOn, match: matchOn, age: segment("age") || "30",
+                 fonds: state().fonds, remote: remoteOn, noscale: false, salary: $("#salary").checked };
     const fb = $("#fundbar");
     if (fb) { fb.hidden = !st.fonds; if (st.fonds) $("#fundname").textContent = st.fonds; }
-    push(st); if (reason) track(`filter/${reason}/${st[reason] === true ? "on" : st[reason] === false ? "off" : st[reason] || "-"}`);
+    push(st);
+    if (reason) track(`filter/${reason}`);
     const q = norm(st.q); const maxAge = +st.age;
     fillRegions(st, q, maxAge);
+    fillCountries(st.region, st.country);
+    fillCities(st.country, st.region, st.city);
+    fillSectors(all, st.sector);
     rows = all.filter(r => matches(r, st, q, maxAge));
     if (st.match && aProfil()) rows.sort((a, b) => score(b) - score(a) || (b.d || b.n || "").localeCompare(a.d || a.n || ""));
+    else if ($("#sort") && $("#sort").value === "company") rows.sort((a, b) => (a.s || "").localeCompare(b.s || ""));
     else rows.sort((a, b) => (b.d || b.n || "").localeCompare(a.d || a.n || ""));
-    pulse(st, q);
-    shown = 0; lastGrp = null; $("#list").innerHTML = ""; more();
-    $("#count").textContent = `${num(rows.length)} ${T.offers(rows.length)}`;
+    pulse(st, q); activeFilters(st);
+    shown = 0; $("#list").innerHTML = ""; more();
+    $("#count").textContent = num(rows.length);
+    $("#total").textContent = num(rows.length);
+    const sd = $("#sheetdone"); if (sd) sd.textContent = `Show ${num(rows.length)} roles`;
   }
   let FUNDS = {};
   fetch("data/funds.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).then(m => { FUNDS = m; })
     .catch(() => {});
 
-  function fillSectors(rowsAll, cur) {
+  function fillSectors(rowsAll, choisis) {
     const m = new Map();
     rowsAll.forEach(r => { if (r.k && r.k !== "unclassified") m.set(r.k, (m.get(r.k) || 0) + 1); });
     const L = (meta && meta.secteurs) || {};
+    const sel = new Set(choisis || []);
     const ord = [...m.entries()].sort((a, b) => b[1] - a[1]);
-    $("#sector").innerHTML = `<option value="">All sectors</option>` +
-      ord.map(([k, n]) => `<option value="${esc(k)}">${esc(L[k] || k)} (${n})</option>`).join("");
-    $("#sector").value = cur || "";
+    const el = $("#sectors"), bt = $("#moresector");
+    const ouvert = el.dataset.ouvert === "1";
+    const tete = ord.filter(([k]) => sel.has(k)), reste = ord.filter(([k]) => !sel.has(k));
+    const vus = ouvert ? tete.concat(reste) : tete.concat(reste.slice(0, Math.max(0, 5 - tete.length)));
+    el.innerHTML = vus.map(([k, c]) => caseFiltre("sector", k, L[k] || k, c, sel.has(k))).join("");
+    bt.hidden = ord.length <= vus.length && !ouvert;
+    bt.textContent = ouvert ? "Show fewer sectors" : `Show all ${ord.length} sectors`;
+    bt.onclick = () => { el.dataset.ouvert = ouvert ? "0" : "1"; apply(); };
   }
 
   /* Offres gardées : une simple liste d'URL dans le navigateur, rien ne sort. */
@@ -180,7 +280,7 @@
   }
   function refreshSavedBtn() {
     const b = $("#savedbtn"); if (!b) return;
-    b.querySelector("b").textContent = saved.size;
+    $("#savedn").textContent = saved.size;
     b.hidden = saved.size === 0 && !state().saved;
   }
 
@@ -217,119 +317,211 @@
     return Math.min(100, Math.round(100 * acc / REF));
   }
 
+  /* Composant JobRow du design system : monogramme, titre, méta avec icônes, étiquettes,
+     puis date et étoile dans la colonne de droite. Mêmes classes que les pages générées. */
+  function marque(nom) {
+    const w = String(nom || "?").replace(/[^A-Za-z0-9 ]/g, " ").trim().split(/\s+/);
+    const i = w.length > 1 ? w[0][0] + w[1][0] : (w[0] || "?").slice(0, 2);
+    return `<span class="tr-mark tr-mark-md" aria-hidden="true">${esc(i.toUpperCase())}</span>`;
+  }
   function more() {
     const frag = document.createDocumentFragment();
     rows.slice(shown, shown + PAGE).forEach(r => {
-      const n = daysAgo(r.d || r.n);
-      const g = GRP(n);
-      if (g !== lastGrp) { const h = document.createElement("li"); h.className = "grp"; h.textContent = g; frag.appendChild(h); lastGrp = g; }
-      const li = document.createElement("li");
-      // un lieu inconnu n'est pas une information : on n'affiche pas d'étiquette plutôt qu'un « Unspecified » en couleur
+      const nj = daysAgo(r.d || r.n);
+      // un lieu inconnu n'est pas une information : mieux vaut rien qu'un « Unspecified »
       const brut = (r.l || "").trim();
       const faux = /^(\d+\s+locations?|multiple locations|various|unspecified)$/i.test(brut);
       const loc = r.v && r.p ? `${r.v}, ${r.p}`
         : (r.p || (faux || !brut ? (r.g === "Unspecified" ? "" : r.g) : brut.split(/[;•|]/)[0].trim()));
-      li.innerHTML = `<a class="job" href="${esc(safeUrl(r.u))}" target="_blank" rel="noopener">
-        <div class="t">${esc(cleanTitle(r.t))}</div>
-        <div class="r">${r["$"] ? `<span class="sal">${esc(fmtSalary(r["$"]))}</span> · ` : ""}${r.d ? (daysAgo(r.d) <= 0 ? `<span class="jd-today">${fmtDate(r.d)}</span>` : fmtDate(r.d)) : `<span title="This company does not publish a posting date. This is when the role first appeared on its careers page.">${T.seen} ${fmtDate(r.n)}</span>`}${n !== null && n <= 3 ? `<span class="new">${T.new}</span>` : ""}</div>
-        <div class="s"><b>${esc(r.s)}</b>${loc ? " · " + esc(loc) : ""}</div>
-        <div class="tags">${r.r ? `<span class="tag">${T.remoteTag}</span>` : ""}${r.b ? `<span class="tag">${T.scale}</span>` : ""}${r.a ? `<span class="tag via">via ${esc(r.a)}</span>` : ""}</div>
-      </a>`;
-      // une seule rangée de pied : étoile, correspondance, investisseurs — pour ne pas
-      // ajouter 60 px de hauteur à chaque offre.
-      const foot = document.createElement("div"); foot.className = "jobfoot";
+      const sal = fmtSalary(r["$"]);
+      const dateur = r.d ? fmtDate(r.d)
+        : `${T.seen} ${fmtDate(r.n)}`;
+      const art = document.createElement("article");
+      art.className = "tr-jobrow";
+      const tags = [];
+      if (r.c && LABFAM[r.c]) tags.push(`<span class="tr-badge tr-badge-outline">${esc(LABFAM[r.c])}</span>`);
+      if (r.k && meta.secteurs && meta.secteurs[r.k]) tags.push(`<span class="tr-badge tr-badge-outline">${esc(meta.secteurs[r.k])}</span>`);
+      if (r.r) tags.push(`<span class="tr-badge tr-badge-outline">Remote</span>`);
+      if (r.a) tags.push(`<span class="tr-badge tr-badge-neutral">via ${esc(fmtAts(r.a))}</span>`);
+      if (matchOn && aProfil()) {
+        const sc = score(r);
+        if (sc >= 20) tags.push(`<span class="tr-badge tr-badge-brand">${sc}% match</span>`);
+      }
+      art.innerHTML = marque(r.s) +
+        `<div class="tr-jobrow-main">` +
+          `<a class="tr-jobrow-title job" href="${esc(safeUrl(r.u))}" target="_blank" rel="noopener">${esc(cleanTitle(r.t))}</a>` +
+          `<div class="tr-jobrow-meta">` +
+            `<span class="tr-jobrow-company">${esc(r.s)}</span>` +
+            (loc ? `<span>${ico("map-pin", 14)}${esc(loc)}</span>` : "") +
+            (sal ? `<span class="tr-jobrow-salary">${ico("banknote", 14)}${esc(sal)}</span>` : "") +
+          `</div>` +
+          (tags.length ? `<div class="tr-jobrow-tags">${tags.join("")}</div>` : "") +
+        `</div>` +
+        `<div class="tr-jobrow-side">` +
+          (nj !== null && nj <= 0 ? `<span class="tr-jobrow-new">${T.today}</span>`
+                                  : `<span class="tr-jobrow-date">${esc(dateur)}</span>`) +
+        `</div>`;
+      // étoile : l'IconButton du système, dans la colonne de droite
       const btn = document.createElement("button");
-      btn.type = "button"; btn.className = "star" + (saved.has(r.u) ? " on" : "");
+      btn.type = "button"; btn.className = "tr-iconbtn tr-iconbtn-sm";
       const majBtn = () => {
         const on = saved.has(r.u);
-        btn.classList.toggle("on", on);
         btn.setAttribute("aria-pressed", on ? "true" : "false");
-        btn.setAttribute("aria-label", on ? "Remove from saved roles" : "Save this role");
-        btn.textContent = on ? "\u2605" : "\u2606";
+        btn.setAttribute("aria-label", on ? "Saved" : "Save role");
+        btn.title = btn.getAttribute("aria-label");
+        btn.innerHTML = ico("bookmark", 16);
       };
       majBtn();
       btn.addEventListener("click", () => {
         toggleSave(r); majBtn();
-        if (savedOn && !saved.has(r.u)) li.remove();
+        if (savedOn && !saved.has(r.u)) art.remove();
         track("save");
       });
-      li.appendChild(btn);
-      if (matchOn && aProfil()) {
-        const sc = score(r);
-        if (sc >= 20) { const c = document.createElement("span"); c.className = "mscore"; c.textContent = sc + "%"; foot.appendChild(c); }
-      }
+      art.querySelector(".tr-jobrow-side").appendChild(btn);
+      // les investisseurs, en pied de ligne : c'est le maillage vers les pages /funds/
       const back = (r.f || "").split(" ; ").map(x => x.trim()).filter(Boolean);
       if (back.length) {
-        const d = document.createElement("span"); d.className = "backers";
-        d.innerHTML = "backed by " + back.map(n => FUNDS[n]
-          ? `<a href="funds/${encodeURIComponent(FUNDS[n])}/">${esc(n)}</a>` : esc(n)).join(" \u00b7 ");
-        foot.appendChild(d);
+        const d = document.createElement("div"); d.className = "backers";
+        d.innerHTML = ico("landmark", 13) + "Backed by " + back.map(x => FUNDS[x]
+          ? `<a href="funds/${encodeURIComponent(FUNDS[x])}/">${esc(x)}</a>` : esc(x)).join(", ");
+        art.querySelector(".tr-jobrow-main").appendChild(d);
       }
-      if (foot.childNodes.length) li.appendChild(foot);
-      frag.appendChild(li);
+      frag.appendChild(art);
     });
     $("#list").appendChild(frag); shown += PAGE;
+    $("#shown").textContent = num(Math.min(shown, rows.length));
     $("#more").hidden = shown >= rows.length;
-    if (!rows.length) $("#list").innerHTML = `<li class="empty">${T.empty}</li>`;
+    $("#track").style.width = Math.max(2, Math.min(100, Math.round(100 * Math.min(shown, rows.length) / (rows.length || 1)))) + "%";
+    $("#loadmore").hidden = !rows.length;
+    if (!rows.length) {
+      $("#list").innerHTML = `<div class="tr-empty"><span class="tr-empty-icon">${ico("search", 20)}</span>` +
+        `<h3>No role matches</h3><p>${T.empty}</p>` +
+        `<button type="button" class="tr-btn tr-btn-secondary" id="emptyreset">Clear all filters</button></div>`;
+      const er = $("#emptyreset"); if (er) er.addEventListener("click", () => $("#reset").click());
+    }
   }
-  async function refresh(reason) { all = await load($("#cat").value); fillSectors(all, $("#sector").value || state().sector); apply(reason); }
+  async function refresh(reason) { all = await load(coches("cat")); apply(reason); }
 
   (async () => {
     meta = await (await fetch("data/meta.json?t=" + Date.now(), { cache: "no-store" })).json();
     $("#meta-date").textContent = new Date(meta.date).toLocaleDateString("en-GB", { day: "numeric", month: "long" });
     const st = state();
-    fillRegions(); $("#region").value = st.region;
-    fillCountries(st.region); $("#country").value = st.country;
-    fillCities(st.country, st.region); $("#city").value = st.city;
-    $("#q").value = st.q; $("#cat").value = st.cat; $("#age").value = st.age;
+    $("#q").value = st.q; $("#qwhere").value = st.where;
+    cocher("cat", st.cat);
+    poserSegment("region", st.region); poserSegment("age", st.age);
     remoteOn = st.remote; $("#salary").checked = st.salary;
     savedOn = st.saved; matchOn = st.match && aProfil();
-    $("#sector").innerHTML = '<option value="">All sectors</option>';
+    // les listes dépliantes se remplissent une première fois pour que les cases de l'URL existent
+    fillCountries(st.region, st.country); cocher("country", st.country);
+    fillCities(st.country, st.region, st.city); cocher("city", st.city);
 
-    $("#cat").addEventListener("change", () => refresh("cat"));
-    $("#region").addEventListener("change", () => { fillCountries($("#region").value); fillCities($("#country").value, $("#region").value); apply("region"); });
-    $("#country").addEventListener("change", () => { fillCities($("#country").value, $("#region").value); apply("country"); });
-    [["#city", "city"], ["#age", "age"], ["#salary", "salary"], ["#sector", "sector"]].forEach(([s, k]) => $(s).addEventListener("change", () => apply(k)));
-    let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
-    $("#q").addEventListener("change", () => { if ($("#q").value.trim()) track("search"); });
-    $("#more").addEventListener("click", more);
-    // Repli des filtres sur mobile : le bouton affiche combien sont actifs, pour qu'on
-    // sache ce qui est appliqué sans déplier.
-    const ft = $("#filtoggle"), ff = $("#filters");
-    const majFiltres = () => {
-      const st = state();
-      const n = [st.q, st.cat !== "all" ? st.cat : "", st.region,
-                 st.country, st.city, st.sector, st.age !== "30" ? st.age : "",
-                 st.salary ? "1" : "", st.remote ? "1" : ""].filter(Boolean).length;
-      $("#filcount").textContent = n ? `${n} active` : "";
-    };
-    ft.addEventListener("click", () => {
-      const ouvert = ff.classList.toggle("ouvert");
-      ft.setAttribute("aria-expanded", ouvert ? "true" : "false");
+    // les cases et les segments : un seul écouteur délégué sur le panneau
+    const ff = $("#filters");
+    ff.addEventListener("change", e => {
+      const i = e.target.closest("input[data-f]");
+      if (i) return refresh(i.dataset.f === "cat" ? "cat" : i.dataset.f);
+      if (e.target.id === "salary") return apply("salary");
     });
-    majFiltres();
-    ff.addEventListener("change", majFiltres);
-    $("#q").addEventListener("input", majFiltres);
-    $("#savedbtn").addEventListener("click", () => { savedOn = !savedOn; $("#savedbtn").classList.toggle("on", savedOn); apply("saved"); });
-    $("#matchbtn").addEventListener("click", () => { matchOn = !matchOn; $("#matchbtn").classList.toggle("on", matchOn); apply("match"); });
-    // le bouton de tri n'apparaît que si le profil est assez rempli pour que le calcul ait un sens
-    $("#matchbtn").hidden = !aProfil(); $("#matchhint").hidden = aProfil();
-    $("#matchbtn").classList.toggle("on", matchOn); $("#savedbtn").classList.toggle("on", savedOn);
+    ff.addEventListener("click", e => {
+      const seg = e.target.closest(".tr-seg button");
+      if (seg) {
+        poserSegment(seg.parentElement.id, seg.dataset.v);
+        return apply(seg.parentElement.id);
+      }
+      const tete = e.target.closest(".tr-fgroup-head");
+      if (tete) {   // FilterGroup : l'en-tête replie son corps et retourne le chevron
+        const ouvert = tete.getAttribute("aria-expanded") === "true";
+        tete.setAttribute("aria-expanded", ouvert ? "false" : "true");
+        const corps = tete.nextElementSibling;
+        if (corps) corps.hidden = ouvert;
+        const chev = tete.querySelector(".tr-icon");
+        if (chev) chev.outerHTML = ico(ouvert ? "chevron-right" : "chevron-down", 14);
+      }
+    });
+    let tp; ["#qcountry", "#qcity"].forEach(sel => $(sel).addEventListener("input", () => {
+      clearTimeout(tp); tp = setTimeout(() => apply(), 120);
+    }));
+    let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
+    $("#qwhere").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => apply(), 150); });
+    $("#searchbar").addEventListener("submit", e => { e.preventDefault(); apply(); if ($("#q").value.trim()) track("search"); });
+    $("#sort").addEventListener("change", () => {
+      matchOn = $("#sort").value === "match" && aProfil();
+      apply("sort");
+    });
+    $("#more").addEventListener("click", more);
+    $("#reset").addEventListener("click", () => {
+      history.replaceState(null, "", location.pathname);
+      ["cat", "country", "city", "sector"].forEach(k => cocher(k, []));
+      poserSegment("region", ""); poserSegment("age", "30");
+      $("#q").value = ""; $("#qwhere").value = ""; $("#qcountry").value = ""; $("#qcity").value = "";
+      $("#salary").checked = false; remoteOn = false; savedOn = false; matchOn = false;
+      $("#savedbtn").setAttribute("aria-pressed", "false");
+      refresh("reset");
+    });
+    // ActiveFilters : chaque puce se retire d'un clic
+    $("#active").addEventListener("click", e => {
+      if (e.target.closest("#clearall")) return $("#reset").click();
+      const ch = e.target.closest("[data-x]"); if (!ch) return;
+      const [k, v] = ch.dataset.x.split(":");
+      if (k === "q") $("#q").value = "";
+      else if (k === "where") $("#qwhere").value = "";
+      else if (k === "region") poserSegment("region", "");
+      else if (k === "age") poserSegment("age", "30");
+      else if (k === "salary") $("#salary").checked = false;
+      else if (k === "remote") remoteOn = false;
+      else if (k === "saved") { savedOn = false; $("#savedbtn").setAttribute("aria-pressed", "false"); }
+      else {
+        const i = document.querySelector(`input[data-f="${k}"][value="${v}"]`);
+        if (i) i.checked = false;
+      }
+      if (k === "cat") refresh("cat"); else apply("chip");
+    });
+    // les raccourcis du chapeau
+    document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => {
+      history.replaceState(null, "", location.pathname + "#" + b.dataset.preset);
+      const s2 = state();
+      cocher("cat", s2.cat); cocher("country", s2.country);
+      fillCountries(s2.region, s2.country); cocher("country", s2.country);
+      if (s2.sector.length) { $("#sectors").dataset.ouvert = "1"; }
+      refresh("preset").then(() => { cocher("sector", s2.sector); apply(); });
+      track("preset");
+    }));
+    // Tiroir de filtres sur mobile : il monte du bas, le fond est verrouillé, et
+    // le bouton du pied annonce combien d'offres la sélection laisse.
+    const ft = $("#filtoggle");
+    function tiroir(ouvrir) {
+      ff.classList.toggle("ouvert", ouvrir);
+      document.body.classList.toggle("sheet-on", ouvrir);
+      ft.setAttribute("aria-expanded", ouvrir ? "true" : "false");
+      if (ouvrir) majTiroir();
+    }
+    const majTiroir = () => { $("#sheetdone").textContent = `Show ${num(rows.length)} roles`; };
+    ft.addEventListener("click", () => tiroir(!ff.classList.contains("ouvert")));
+    $("#sheetclose").addEventListener("click", () => tiroir(false));
+    $("#sheetdone").addEventListener("click", () => tiroir(false));
+    $("#reset2").addEventListener("click", () => $("#reset").click());
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && ff.classList.contains("ouvert")) tiroir(false);
+    });
+    document.addEventListener("click", e => {   // clic sur le voile
+      if (!ff.classList.contains("ouvert")) return;
+      if (ff.contains(e.target) || ft.contains(e.target)) return;
+      if (e.clientY && document.body.classList.contains("sheet-on")) tiroir(false);
+    });
+    $("#savedbtn").addEventListener("click", () => {
+      savedOn = !savedOn;
+      $("#savedbtn").setAttribute("aria-pressed", savedOn ? "true" : "false");
+      apply("saved");
+    });
+    if (aProfil()) $("#optmatch").hidden = false;
+    if (matchOn) $("#sort").value = "match";
     refreshSavedBtn();
     $("#fundclear").addEventListener("click", e => {          // retirer le filtre fonds venu d'une page /funds/
       e.preventDefault();
-      const p = new URLSearchParams(location.hash.slice(1)); p.delete("fonds");
-      history.replaceState(null, "", location.pathname + (p.toString() ? "#" + p.toString() : ""));
+      const pp = new URLSearchParams(location.hash.slice(1)); pp.delete("fonds");
+      history.replaceState(null, "", location.pathname + (pp.toString() ? "#" + pp.toString() : ""));
       apply();
     });
-    document.querySelectorAll(".pchip").forEach(b => b.addEventListener("click", () => {
-      const k = b.dataset.p, on = b.classList.contains("on");
-      if (k === "today") $("#age").value = on ? "30" : "0";
-      else if (k === "week") $("#age").value = on ? "30" : "7";
-      else if (k === "salary") $("#salary").checked = !on;
-      else if (k === "remote") remoteOn = !on;
-      apply("pulse-" + k);
-    }));
 
     // ---- suivi de candidature : on retient l'offre ouverte, puis on demande dès que la personne revient
     let asked = new Set(), pending = null;
@@ -338,7 +530,7 @@
     const savePending = () => { try { pending ? sessionStorage.setItem("sj.pending", JSON.stringify(pending)) : sessionStorage.removeItem("sj.pending"); } catch (e) {} };
     const saveAsked = () => { try { localStorage.setItem("sj.asked", JSON.stringify([...asked].slice(-400))); } catch (e) {} };
     $("#list").addEventListener("click", e => {
-      const a = e.target.closest("a.job"); if (!a) return;
+      const a = e.target.closest("a.tr-jobrow-title"); if (!a) return;
       const href = a.getAttribute("href"); const r = rows.find(x => x.u === href);
       if (!r || asked.has(r.u)) return;
       pending = { u: r.u, s: r.s, t: r.t, l: r.l || r.p, at: Date.now() }; savePending();
@@ -348,13 +540,20 @@
       if (!pending || document.hidden || document.querySelector(".ask")) return;
       if (Date.now() - (pending.at || 0) < 2500) { clearTimeout(window.__sjT); window.__sjT = setTimeout(askBar, 2500); return; }
       const r = pending;
-      const box = document.createElement("div"); box.className = "ask"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true");
-      box.innerHTML = '<div class="ask-box"><div class="ask-ico">&#10003;</div>' +
-        '<h3>' + T.ask + ' <b>' + esc(r.s) + '</b>?</h3>' +
-        '<p>' + esc(r.t) + (r.l ? ' &middot; ' + esc(r.l) : '') + '<br>' + T.askSub + '</p>' +
-        '<div class="ask-btns"><button class="y" data-a="y">' + T.askY + '</button>' +
-        '<button data-a="l">' + T.askL + '</button><button data-a="n">' + T.askN + '</button></div>' +
-        '<a class="ask-cv" href="moi/#cv" data-a="cv">' + T.askCv + '</a></div>';
+      // composant Dialog du design system : voile, en-tête avec croix, corps, pied d'actions
+      const box = document.createElement("div"); box.className = "tr-scrim ask";
+      box.innerHTML = '<div class="tr-dialog" role="dialog" aria-modal="true" aria-labelledby="trdlg">' +
+        '<div class="tr-dialog-head"><div><h2 id="trdlg">' + T.ask + ' ' + esc(r.s) + '?</h2>' +
+        '<p>' + esc(cleanTitle(r.t)) + (r.l ? ' · ' + esc(r.l) : '') + '</p></div>' +
+        '<button type="button" class="tr-iconbtn tr-iconbtn-sm" data-a="n" aria-label="Close" title="Close">' + ico("x", 16) + '</button></div>' +
+        '<div class="tr-dialog-body"><p style="margin:0;font-size:14px;color:var(--ink-muted)">' + T.askSub + '</p>' +
+        '<a class="tr-callout tr-callout-neutral" href="moi/#cv" data-a="cv" style="text-decoration:none">' +
+        ico("file-text", 18) + '<span class="tr-callout-body">' + T.askCv + '</span></a></div>' +
+        '<div class="tr-dialog-foot">' +
+        '<button type="button" class="tr-btn tr-btn-ghost" data-a="n">' + T.askN + '</button>' +
+        '<button type="button" class="tr-btn tr-btn-secondary" data-a="l">' + T.askL + '</button>' +
+        '<button type="button" class="tr-btn tr-btn-primary y" data-a="y">' + T.askY + '</button>' +
+        '</div></div>';
       document.body.appendChild(box);
       const close = () => { box.remove(); document.removeEventListener("keydown", onKey); };
       const onKey = e => { if (e.key === "Escape") { close(); pending = null; savePending(); } };
@@ -370,7 +569,10 @@
         }
         if (a === "y" && window.SJ) {
           SJ.addApp({ co: r.s, po: r.t, u: r.u, lieu: r.l });
-          box.querySelector(".ask-box").innerHTML = '<div class="ask-ico">&#10003;</div><h3 class="ask-done">' + T.added + '</h3><p><a href="moi/#crm">' + T.space + ' &rarr;</a></p>';
+          box.querySelector(".tr-dialog").innerHTML =
+            '<div class="tr-dialog-body"><div class="tr-empty">' +
+            '<span class="tr-empty-icon">' + ico("check", 20) + '</span>' +
+            '<h3>' + T.added + '</h3><p><a href="moi/#crm">' + T.space + ' →</a></p></div></div>';
           setTimeout(close, 2000); track("apply/yes");
         } else { close(); track("apply/" + a); }
         if (a !== "l") { asked.add(r.u); saveAsked(); }
