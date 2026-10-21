@@ -206,3 +206,11 @@
   .tr-fundrow-head{grid-template-areas:"nom vol";row-gap:0}
   .tr-fundrow-head > span:nth-child(3){display:none}
 }
+
+/* ---------- Region et Posted : des puces qui s'étalent en largeur ----------
+   Le contrôle segmenté du système tient cinq libellés courts sur une ligne ; avec
+   « North America » et « Latin America » il déborde dans une colonne de 280 px.
+   Les puces du système se replient naturellement. */
+.chipwrap{display:flex;flex-wrap:wrap;gap:6px}
+.chipwrap .tr-chip{flex:0 1 auto}
+.chipwrap .tr-chip .tr-chip-count:empty{display:none}

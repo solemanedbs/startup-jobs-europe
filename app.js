@@ -12,7 +12,7 @@
   };
   const SYN = [[/\b(biz ?dev|bizdev)\b/g, "business develop"], [/\bsdr\b/g, "sales development"], [/\bbdr\b/g, "business development representative"], [/\bae\b/g, "account executive"], [/\bcsm\b/g, "customer success"], [/\bkam\b/g, "key account"], [/\bpm\b/g, "product manager"]];
   const cache = {}; let meta, rows = [], all = [], shown = 0, remoteOn = false, savedOn = false, matchOn = false;
-  let NBFONDS = null;
+  let NBFONDS = null, TOUT = null;   // TOUT : le jeu complet, pour les compteurs absolus
   // comparaison de dates de calendrier, pas de durées : sinon une offre publiée aujourd'hui
   // compte pour « 1 jour » dès qu'on consulte la page l'après-midi (bug du 05/10)
   const midnight = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || ""); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
@@ -98,10 +98,9 @@
     if (st && all.length) all.forEach(r => { if (matches(r, st, q, maxAge, "region") && r.g) m.set(r.g, (m.get(r.g) || 0) + 1); });
     document.querySelectorAll("#region button").forEach(b => {
       const v = b.dataset.v;
-      const c = v ? m.get(v) : [...m.values()].reduce((a, x) => a + x, 0);
-      b.textContent = b.dataset.label || b.textContent;
-      if (!b.dataset.label) b.dataset.label = b.textContent;
-      if (c != null) b.innerHTML = `${esc(b.dataset.label)} <span class="tr-chip-count">${num(c)}</span>`;
+      const c = v ? (m.get(v) || 0) : [...m.values()].reduce((a, x) => a + x, 0);
+      const cpt = b.querySelector(".tr-chip-count");
+      if (cpt) cpt.textContent = num(c);
     });
   }
   function fillCountries(region, choisis) {
@@ -121,7 +120,11 @@
   async function load(cat) {
     const cats = (!cat || !cat.length) ? Object.keys(meta.categories) : cat;
     const parts = await Promise.all(cats.map(async c => { if (!cache[c]) cache[c] = await (await fetch(`data/${c}.json?v=${meta.date}`)).json(); return cache[c]; }));
-    return parts.flat();
+    const out = parts.flat();
+    // le premier chargement ramène toutes les familles : on garde ce jeu complet pour
+    // que les compteurs des raccourcis restent absolus même après un filtrage
+    if (!TOUT && cats.length === Object.keys(meta.categories).length) TOUT = out;
+    return out;
   }
   // cat / country / city / sector sont désormais des listes : le panneau du design system
   // coche des cases, donc on peut en choisir plusieurs. Les anciennes URL à valeur unique
@@ -155,6 +158,7 @@
   // prédicat unique : la liste et les compteurs du pouls passent par là, donc un chiffre annoncé
   // est toujours exactement ce que le clic donnera
   function matches(r, st, q, maxAge, ignore) {
+    if (st.cat && st.cat.length && !st.cat.includes(r.c)) return false;
     if (ignore !== "region" && st.region && r.g !== st.region) return false;
     if (st.country.length && !st.country.includes(r.p)) return false;
     if (st.city.length && !st.city.includes(r.v)) return false;
@@ -193,6 +197,21 @@
   const LABFAM = { sales: "Sales & business development", tech: "Tech & data",
                    ops: "Operations, finance & marketing", leadership: "Leadership", autre: "Other roles" };
   const LABAGE = { "0": "Posted today", "7": "Last 7 days", "30": "Last 30 days", "60": "Last 60 days", "999": "Any date" };
+  /* Le volume de chaque raccourci, calculé sur les données chargées : un bouton qui
+     annonce son chiffre dit aussi s'il vaut le clic. */
+  function compterPresets() {
+    document.querySelectorAll("[data-preset]").forEach(b => {
+      let v = {}; try { v = JSON.parse(b.dataset.preset); } catch (e) { return; }
+      const st = { q: "", where: "", cat: v.cat || [], region: v.region || "",
+                   country: v.country || [], city: v.city || [], sector: v.sector || [],
+                   saved: false, match: false, age: v.age || "30", fonds: "",
+                   remote: !!v.remote, noscale: false, salary: !!v.salary };
+      const c = (TOUT || all).reduce((t, r) => t + (matches(r, st, "", +st.age) ? 1 : 0), 0);
+      const cpt = b.querySelector(".tr-chip-count");
+      if (cpt) cpt.textContent = num(c);
+    });
+  }
+
   function activeFilters(st) {
     const items = [];
     if (st.q) items.push(["q", `“${st.q}”`]);
@@ -242,7 +261,7 @@
     if (st.match && aProfil()) rows.sort((a, b) => score(b) - score(a) || (b.d || b.n || "").localeCompare(a.d || a.n || ""));
     else if ($("#sort") && $("#sort").value === "company") rows.sort((a, b) => (a.s || "").localeCompare(b.s || ""));
     else rows.sort((a, b) => (b.d || b.n || "").localeCompare(a.d || a.n || ""));
-    pulse(st, q); activeFilters(st);
+    pulse(st, q); activeFilters(st); compterPresets();
     shown = 0; $("#list").innerHTML = ""; more();
     $("#count").textContent = num(rows.length);
     $("#total").textContent = num(rows.length);
@@ -423,7 +442,7 @@
       if (e.target.id === "salary") return apply("salary");
     });
     ff.addEventListener("click", e => {
-      const seg = e.target.closest(".tr-seg button");
+      const seg = e.target.closest(".chipwrap button");
       if (seg) {
         poserSegment(seg.parentElement.id, seg.dataset.v);
         return apply(seg.parentElement.id);
@@ -476,16 +495,33 @@
       }
       if (k === "cat") refresh("cat"); else apply("chip");
     });
-    // les raccourcis du chapeau
-    document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => {
-      history.replaceState(null, "", location.pathname + "#" + b.dataset.preset);
-      const s2 = state();
-      cocher("cat", s2.cat); cocher("country", s2.country);
-      fillCountries(s2.region, s2.country); cocher("country", s2.country);
-      if (s2.sector.length) { $("#sectors").dataset.ouvert = "1"; }
-      refresh("preset").then(() => { cocher("sector", s2.sector); apply(); });
+    /* Raccourcis du chapeau. Chaque bouton porte sa sélection en JSON : on la pose
+       sur les contrôles, on recharge si la famille change, puis on applique. Passer
+       par l'URL ne marchait pas — apply() réécrit le hash depuis le DOM juste après. */
+    async function preset(v) {
+      ["cat", "country", "city", "sector"].forEach(k => cocher(k, v[k] || []));
+      poserSegment("region", v.region || "");
+      poserSegment("age", v.age || "30");
+      $("#q").value = v.q || ""; $("#qwhere").value = v.where || "";
+      $("#salary").checked = !!v.salary;
+      remoteOn = !!v.remote;
+      if (v.sector && v.sector.length) $("#sectors").dataset.ouvert = "1";
+      if (v.country && v.country.length) $("#countries").dataset.ouvert = "1";
+      fillCountries(v.region || "", v.country || []);
+      all = await load(v.cat && v.cat.length ? v.cat : []);
+      fillSectors(all, v.sector || []);
+      cocher("sector", v.sector || []);
+      cocher("country", v.country || []);
+      apply("preset");
+      const sh = document.querySelector(".shell");
+      if (sh) window.scrollTo({ top: sh.offsetTop - 16, behavior: "smooth" });
       track("preset");
-    }));
+    }
+    document.querySelectorAll("[data-preset]").forEach(b => {
+      let v = {}; try { v = JSON.parse(b.dataset.preset); } catch (e) {}
+      b.addEventListener("click", () => preset(v));
+    });
+
     // Tiroir de filtres sur mobile : il monte du bas, le fond est verrouillé, et
     // le bouton du pied annonce combien d'offres la sélection laisse.
     const ft = $("#filtoggle");
