@@ -475,6 +475,7 @@
       $("#q").value = ""; $("#qwhere").value = ""; $("#qcountry").value = ""; $("#qcity").value = "";
       $("#salary").checked = false; remoteOn = false; savedOn = false; matchOn = false;
       $("#savedbtn").setAttribute("aria-pressed", "false");
+      document.querySelectorAll("[data-preset]").forEach(x => x.setAttribute("aria-pressed", "false"));
       refresh("reset");
     });
     // ActiveFilters : chaque puce se retire d'un clic
@@ -519,7 +520,12 @@
     }
     document.querySelectorAll("[data-preset]").forEach(b => {
       let v = {}; try { v = JSON.parse(b.dataset.preset); } catch (e) {}
-      b.addEventListener("click", () => preset(v));
+      b.addEventListener("click", () => {
+        // la puce cliquée s'allume : sans retour visuel on croit que rien ne s'est passé
+        document.querySelectorAll("[data-preset]").forEach(x =>
+          x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+        preset(v);
+      });
     });
 
     // Tiroir de filtres sur mobile : il monte du bas, le fond est verrouillé, et
