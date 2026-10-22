@@ -20,20 +20,24 @@
 .statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
 
-/* ---------- checklist de démarrage ---------- */
-.startlist{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3)}
-.startitem{display:flex;align-items:center;gap:var(--space-3);text-align:left;
-           padding:var(--space-3) var(--space-4);border:1px solid var(--line);
-           border-radius:var(--radius-md);background:var(--surface);color:var(--ink);
-           font:500 14px/20px var(--font-sans);cursor:pointer;min-height:48px}
-.startitem:hover{border-color:var(--line-strong)}
-.startdot{display:grid;place-items:center;width:22px;height:22px;flex:none;
-          border-radius:var(--radius-pill);background:var(--surface-sunken);
-          color:var(--ink-muted);font:500 12px/1 var(--font-mono)}
-.startok{margin-left:auto;color:var(--success);display:none}
-.startitem.done .startdot{background:var(--success);color:var(--on-night)}
-.startitem.done .startok{display:inline-flex}
-.startitem.done > span:nth-child(2){color:var(--ink-muted);text-decoration:line-through}
+/* ---------- carte d'amorçage ----------
+   Elle dit d'abord ce qu'on y gagne, puis mène d'un bouton là où il reste du
+   travail. La progression est en dessous, discrète : c'est un repère, pas la
+   consigne. */
+.start .tr-card-body{padding:var(--space-6)}
+.startpitch{margin:0;font-size:16px;line-height:24px;color:var(--ink);max-width:60ch}
+.startprog{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-5);
+           padding-top:var(--space-4);border-top:1px solid var(--line)}
+.startitem{display:inline-flex;align-items:center;gap:8px;padding:0 10px;min-height:32px;
+           border:0;background:none;color:var(--ink-subtle);cursor:pointer;
+           font:500 13px/1 var(--font-sans);border-radius:var(--radius-sm)}
+.startitem:hover{background:var(--surface-sunken);color:var(--ink)}
+.startdot{display:grid;place-items:center;width:18px;height:18px;flex:none;
+          border-radius:var(--radius-pill);border:1px solid var(--line-strong);
+          background:var(--surface);color:transparent}
+.startitem.done{color:var(--ink-muted)}
+.startitem.done .startdot{background:var(--success);border-color:var(--success);
+                          color:var(--on-night)}
 
 /* ---------- dépôt du CV ---------- */
 .drop{display:flex;flex-direction:column;align-items:center;gap:var(--space-2);
@@ -95,7 +99,6 @@ pre#prompt{margin:var(--space-3) 0 0;padding:var(--space-4);background:var(--sur
 }
 @media (max-width:820px){
   .grid2{grid-template-columns:1fr}
-  .startlist{grid-template-columns:1fr}
   #apps{min-width:760px}
   #apps .tr-input,#apps .tr-select{height:38px;font-size:14px}
   .tr-sidenav a{min-height:44px}

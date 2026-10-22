@@ -381,13 +381,46 @@
   });
 
   /* ---- checklist de démarrage : disparaît quand les trois sont faits ---- */
+  /* La carte d'amorçage mène la personne là où il reste du travail, et dit d'abord
+     ce qu'elle y gagne. Trois corvées numérotées faisaient fuir : le dépôt de CV est
+     le seul endroit qui travaille à sa place, c'est donc lui qu'on met en avant. */
+  const AMORCE = {
+    x: ["Drop my CV", "profil", "#drop",
+        "Drop your CV once. Traction turns it into a bank of facts you keep — then every " +
+        "job ad gets a CV built from it, in one copy-paste. No account: it all stays in " +
+        "this browser."],
+    pr: ["Add a project", "projets", null,
+         "Your profile is in. Now add one thing you actually built or ran — it goes into " +
+         "every CV you tailor, and onto the page you can share. One is enough to start."],
+    apps: ["Log an application", "crm", null,
+           "Your material is ready. Log one application and this space starts showing where " +
+           "each one stands, and which ones have been waiting too long."]
+  };
   function renderStart() {
     const done = { x: D.x.length > 0, pr: D.pr.length > 0, apps: D.apps.length > 0 };
     const all = done.x && done.pr && done.apps;
     $("#start").hidden = all;
     $$("#start .startitem").forEach(b => b.classList.toggle("done", !!done[b.dataset.s]));
     const pr = $("#nPr"); if (pr) pr.textContent = D.pr.length;
+    if (all) return;
+    // la première étape non faite décide du message et du bouton
+    const k = ["x", "pr", "apps"].find(c => !done[c]);
+    const [label, ecran, ancre, pitch] = AMORCE[k];
+    $("#startgolabel").textContent = label;
+    $("#startpitch").textContent = pitch;
+    $("#startgo").dataset.go = ecran;
+    $("#startgo").dataset.ancre = ancre || "";
   }
+  // le bouton d'amorçage : on bascule d'écran, puis on amène au bon endroit
+  const sg = $("#startgo");
+  if (sg) sg.addEventListener("click", () => {
+    const b = $$(".tr-sidenav a[data-t]").find(x => x.dataset.t === sg.dataset.go);
+    if (b) b.click();
+    const a = sg.dataset.ancre && $(sg.dataset.ancre);
+    if (a) { a.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => a.focus(), 300); }
+    else { const add = { projets: "#addpr", crm: "#addapp" }[sg.dataset.go]; if (add && $(add)) $(add).click(); }
+  });
+
   // les liens de la checklist et de l'avertissement ouvrent le bon onglet
   document.addEventListener("click", e => {
     const a = e.target.closest("[data-go]"); if (!a) return;
