@@ -302,7 +302,10 @@
     : "";
   function renderBoard() {
     const f = SJ.funnel();
-    $("#b-empty").hidden = f.sent > 0;
+    // la carte d'amorçage porte déjà le message et l'action tant que les trois étapes
+    // ne sont pas faites : inutile d'empiler un second encart vide en dessous
+    const amorce = !(D.x.length && D.pr.length && D.apps.length);
+    $("#b-empty").hidden = f.sent > 0 || amorce;
     $("#b-data").hidden = f.sent === 0;
     if (!f.sent) return;
     // composant Pipeline : une barre proportionnelle puis la légende chiffrée
@@ -408,17 +411,18 @@
     const [label, ecran, ancre, pitch] = AMORCE[k];
     $("#startgolabel").textContent = label;
     $("#startpitch").textContent = pitch;
-    $("#startgo").dataset.go = ecran;
+    $("#startgo").dataset.ecran = ecran;
     $("#startgo").dataset.ancre = ancre || "";
   }
   // le bouton d'amorçage : on bascule d'écran, puis on amène au bon endroit
   const sg = $("#startgo");
   if (sg) sg.addEventListener("click", () => {
-    const b = $$(".tr-sidenav a[data-t]").find(x => x.dataset.t === sg.dataset.go);
+    const cible = sg.dataset.ecran;        // lu avant toute action : renderStart le réécrit
+    const b = $$(".tr-sidenav a[data-t]").find(x => x.dataset.t === cible);
     if (b) b.click();
     const a = sg.dataset.ancre && $(sg.dataset.ancre);
     if (a) { a.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => a.focus(), 300); }
-    else { const add = { projets: "#addpr", crm: "#addapp" }[sg.dataset.go]; if (add && $(add)) $(add).click(); }
+    else { const add = { projets: "#addpr", crm: "#addapp" }[cible]; if (add && $(add)) $(add).click(); }
   });
 
   // les liens de la checklist et de l'avertissement ouvrent le bon onglet
