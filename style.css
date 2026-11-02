@@ -21,11 +21,20 @@
 /* ---------- liste d'entreprises (index A–Z, pages secteur) ----------
    Le système n'a pas de composant pour une liste de 4 600 noms : on reprend
    son monogramme, sa ligne survolée et sa police chiffrée. */
+/* Le fond de la grille ne peut pas servir de séparateur : quand la dernière
+   rangée est incomplète, les cases vides restent grises. Chaque ligne porte donc
+   son propre filet, et les filets voisins se superposent dans l'espace de 1 px. */
 .colist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-        gap:1px;background:var(--line);border:1px solid var(--line);
+        gap:1px;background:var(--surface);border:1px solid var(--line);
         border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-6)}
 .coitem{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3) var(--space-4);
-        background:var(--surface);color:var(--ink);text-decoration:none;min-width:0}
+        background:var(--surface);color:var(--ink);text-decoration:none;min-width:0;
+        outline:1px solid var(--line)}
+
+/* Dix-huit onglets font 2 193 px : sans cette règle la barre élargit toute la
+   page et le site défile horizontalement (constaté sur /startups/ le 02/11). */
+.tr-tabs{max-width:100%;overflow-x:auto;scrollbar-width:none}
+.tr-tabs::-webkit-scrollbar{display:none}
 .coitem:hover{background:var(--surface-hover);text-decoration:none}
 .coname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
         font:500 14px/20px var(--font-sans)}
@@ -80,8 +89,7 @@
   .tr-footer-in{grid-template-columns:1fr;gap:var(--space-6);
                 padding:var(--space-8) var(--space-4) var(--space-6)}
   .tr-footer-legal{flex-direction:column;gap:4px;padding:var(--space-4)}
-  .tr-tabs{overflow-x:auto;scrollbar-width:none}
-  .tr-tabs::-webkit-scrollbar{display:none}
+
   .tr-table-wrap{overflow-x:auto}
 }
 @media (max-width:480px){
