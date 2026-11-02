@@ -42,6 +42,12 @@
 .alpha-block{scroll-margin-top:var(--space-10)}
 .alpha-block h2.alpha{margin:0 0 var(--space-2)}
 
+/* Deux blocs côte à côte qui se partagent la largeur. auto-fit et non auto-fill :
+   avec auto-fill la grille crée quatre pistes de 260 px et deux tableaux se
+   retrouvent tassés sur la moitié gauche de la page. */
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+     gap:var(--space-4);align-items:start}
+
 /* ---------- grille de tuiles (SectorTile, raccourcis du 404) ---------- */
 .sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--space-4)}
 
@@ -85,7 +91,7 @@
   .tr-jobrow-meta{gap:2px 10px;font-size:13px}
   .tr-jobrow-side{flex-direction:column;align-items:flex-end;gap:var(--space-2)}
   .colist{grid-template-columns:1fr}
-  .sgrid{grid-template-columns:1fr}
+  .sgrid,.duo{grid-template-columns:1fr}
   .tr-footer-in{grid-template-columns:1fr;gap:var(--space-6);
                 padding:var(--space-8) var(--space-4) var(--space-6)}
   .tr-footer-legal{flex-direction:column;gap:4px;padding:var(--space-4)}
