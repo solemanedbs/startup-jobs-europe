@@ -1,0 +1,24 @@
+# Traction
+
+> Open roles at venture-backed startups, read every morning directly from each
+> company's own careers page. Free, no account, no recruiters, no paid listings.
+> 46,307 open roles at 4,326 funded companies, as of 2026-11-15.
+
+Every figure on this site is a count, never an estimate or a model. Roles come
+from the companies' own applicant tracking systems (ashby, bamboohr, breezy, greenhouse, join, lever
+and others). A role that is taken down disappears here the next morning.
+
+## Data and reports
+- [Observatory](https://tractionjobs.com/observatory/): original counts on startup hiring, free to quote
+- [Which ATS startups use](https://tractionjobs.com/observatory/ats-market-share/): share across 4,326 venture-backed companies, rebuilt daily
+
+## Browse
+- [All open roles](https://tractionjobs.com/)
+- [Companies A-Z](https://tractionjobs.com/startups/): one page per company, with every role it has open
+- [By sector](https://tractionjobs.com/sectors/): 16 end markets
+- [By investor](https://tractionjobs.com/funds/): roles grouped by the fund that backed the company
+- [By role and country](https://tractionjobs.com/pages/)
+
+## About
+- [How it works](https://tractionjobs.com/how-it-works/): where the roles come from
+- [Contact and corrections](https://tractionjobs.com/mentions/): corrections are made the same day
