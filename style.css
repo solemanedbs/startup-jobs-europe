@@ -48,6 +48,17 @@
 .duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
      gap:var(--space-4);align-items:start}
 
+/* ---------- bloc de reponses directes (observatoire) ----------
+   Les moteurs generatifs extraient une reponse, pas une page : la question en
+   toutes lettres, la reponse juste derriere, rien entre les deux. */
+.qa-wrap{border:1px solid var(--line);border-radius:var(--radius-lg);
+         background:var(--surface);padding:var(--space-5)}
+.qa+.qa{margin-top:var(--space-4);padding-top:var(--space-4);
+        border-top:1px solid var(--line)}
+.qa-q{margin:0 0 4px;font:600 15px/22px var(--font-sans);color:var(--ink)}
+.qa-a{margin:0;font:400 15px/23px var(--font-sans);color:var(--ink-muted)}
+.qa-a strong{color:var(--ink)}
+
 /* ---------- barres de l'observatoire ----------
    Un graphique lisible sans JavaScript et sans image : la piste et le jus
    prennent les mêmes jetons que le reste, donc le thème sombre suit tout seul. */
