@@ -1,81 +1,81 @@
 country,open_roles
-United States,25707
-United Kingdom,3995
-Germany,2573
-Canada,2509
-India,1960
-France,1379
-Spain,669
-Netherlands,541
-Australia,473
-Mexico,418
-Singapore,399
-Poland,385
-Brazil,373
-Israel,371
-Switzerland,312
-Sweden,293
-Italy,291
-Ireland,255
-Japan,242
-Portugal,206
-Belgium,197
-United Arab Emirates,182
-Philippines,179
-Ukraine,169
-Denmark,164
-China,148
-Malaysia,126
-Czechia,113
-Finland,110
-Austria,107
-Hong Kong,99
-Argentina,93
-Norway,92
-Egypt,91
-South Africa,89
-Taiwan,89
-Lithuania,84
-Colombia,71
-South Korea,67
-Hungary,61
-Romania,60
-Peru,60
-Luxembourg,58
-Bulgaria,57
-Costa Rica,56
-Thailand,54
-Indonesia,54
-Saudi Arabia,53
-Kenya,47
-Nigeria,46
-Serbia,41
-Vietnam,38
-Estonia,37
+United States,23209
+United Kingdom,3842
+Germany,2583
+Canada,2391
+India,1421
+France,1338
+Spain,665
+Netherlands,530
+Australia,449
+Brazil,360
+Mexico,359
+Israel,356
+Singapore,348
+Poland,345
+Switzerland,308
+Sweden,286
+Italy,274
+Ireland,222
+Japan,215
+Portugal,195
+Belgium,190
+Ukraine,168
+United Arab Emirates,167
+Philippines,164
+Denmark,157
+Finland,111
+Austria,108
+Malaysia,105
+Czechia,103
+Norway,95
+South Africa,92
+Hong Kong,92
+Egypt,89
+Argentina,83
+Lithuania,81
+China,78
+Taiwan,68
+Colombia,62
+South Korea,61
+Luxembourg,59
+Romania,59
+Hungary,54
+Bulgaria,53
+Indonesia,51
+Saudi Arabia,48
+Nigeria,48
+Thailand,46
+Costa Rica,45
+Kenya,45
+Peru,40
+Serbia,40
+Estonia,35
+Vietnam,35
 Pakistan,35
-Chile,34
-Cyprus,32
+Cyprus,31
 Türkiye,31
+Chile,31
 Kazakhstan,30
 Slovenia,30
 Latvia,27
-Greece,27
 New Zealand,24
-Jordan,21
+Greece,22
+Jordan,20
 Uganda,19
-Slovakia,19
+Slovakia,16
 Tunisia,15
-Croatia,12
+Croatia,11
 Iceland,11
 Morocco,10
 Malta,9
 Panama,6
-Ghana,6
 Albania,5
+Ghana,5
 Senegal,5
-Qatar,4
 Kuwait,4
 Sri Lanka,4
+Qatar,3
 Uruguay,3
 North Macedonia,2
 Côte d'Ivoire,2
@@ -83,4 +83,3 @@ Cameroon,2
 Bangladesh,1
 Ecuador,1
 Nepal,1
-Lebanon,1
