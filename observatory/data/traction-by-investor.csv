@@ -1,980 +1,1003 @@
 fund,open_roles_in_portfolio
-IVP,1932
-SV Angel,1853
-Sapphire Ventures,1626
-Khosla Ventures,1451
-ICONIQ,1257
-Founders Circle Capital,1226
-8VC,1193
-Felicis Ventures,1066
-Manhattan Venture Partners,1035
-Index Ventures,1017
-CRV,992
-Next Legacy Partners,920
-Founders Fund,919
-"Geodesic Investments, L.L.C",880
-Abstract,848
-Avf Management LLC,842
-Greycroft,821
-"137 Ventures Management, LLC",803
-Salesforce Ventures,738
-NewView Capital,723
-Accel,719
-Accel Partners,719
-Notable Capital,697
-Glynn Capital Management,686
-Spark Capital,660
-Collaborative Fund,652
-"Mantis Capital Management, LLC",639
-Warburg Pincus,638
-"Scribble Ventures Management, LLC",631
-DCVC,605
-Coatue,604
-Entrée Capital,581
-"Village Global Management, L.L.C.",580
-BoxGroup,577
-Initialized Capital,566
-A* Capital,557
-Felix Capital,547
-83North,547
-WAGMI Ventures,544
-Proof-of-Concept & Early Stage Equity Fund,544
-NEA Partners,538
-G Squared,536
-Homebrew,523
-Northzone,515
-Northzone Ventures,515
-Foresite Capital,512
-"Acrew Capital Management, L.P.",506
-Air Street Capital,504
-Bosch Ventures,499
-Robert Bosch Venture Capital,499
-"Pear Ventures Management, LLC",496
-Prime Movers Lab LLC,485
-Hummingbird Ventures,477
-Union Square Ventures,471
-Black Flag,460
-"Catalio Capital Management, LP",453
-Lockheed Martin Ventures,451
-Forerunner Ventures,446
-Comcast Ventures,443
-Summit Partners,440
-American Express Ventures,439
-"Madrona Venture Group, LLC",438
-Redalpine Capital,431
-Redalpine Ventures,431
-Clocktower Technology Ventures,431
-Mouro Capital,429
-Santander InnoVentures,429
-MS&AD Ventures,427
-Gradient Ventures,425
-"Chemistry Ventures Management, LLC",424
-"Operator Collective Management, L.L.C.",419
-Alpha Partners,414
-General Catalyst,407
-Moonshots Capital,400
-Floodgate,400
-"Rosecliff Venture Management, LLC",399
-"Flex Capital Management, L.L.C.",397
-Picus Capital,396
-Kleiner Perkins,391
-BMW i Ventures,386
-Bling Capital,382
+IVP,1922
+SV Angel,1781
+Sapphire Ventures,1604
+Founders Circle Capital,1379
+ICONIQ,1301
+Khosla Ventures,1252
+8VC,1239
+Manhattan Venture Partners,1055
+Felicis Ventures,1029
+Index Ventures,995
+CRV,983
+Founders Fund,893
+"Geodesic Investments, L.L.C",855
+Abstract,823
+Avf Management LLC,818
+Greycroft,806
+"137 Ventures Management, LLC",797
+Warburg Pincus,764
+Next Legacy Partners,756
+Accel,741
+Accel Partners,741
+NewView Capital,739
+Salesforce Ventures,727
+Notable Capital,713
+Glynn Capital Management,710
+Spark Capital,646
+"Mantis Capital Management, LLC",622
+"Acrew Capital Management, L.P.",619
+"Scribble Ventures Management, LLC",619
+Collaborative Fund,616
+DCVC,597
+Coatue,589
+Foresite Capital,580
+Entrée Capital,574
+Comcast Ventures,571
+"Village Global Management, L.L.C.",570
+G Squared,558
+Initialized Capital,552
+BoxGroup,541
+83North,539
+Felix Capital,535
+WAGMI Ventures,534
+A* Capital,534
+Proof-of-Concept & Early Stage Equity Fund,530
+NEA Partners,524
+Homebrew,512
+Prime Movers Lab LLC,511
+Bosch Ventures,505
+Robert Bosch Venture Capital,505
+Northzone,505
+Northzone Ventures,505
+Air Street Capital,497
+"Pear Ventures Management, LLC",488
+"Catalio Capital Management, LP",487
+Hummingbird Ventures,471
+Clocktower Technology Ventures,463
+"Madrona Venture Group, LLC",457
+Union Square Ventures,455
+Black Flag,451
+Lockheed Martin Ventures,448
+Summit Partners,443
+Floodgate,438
+Gradient Ventures,435
+Forerunner Ventures,430
+American Express Ventures,423
+JMI Equity,422
+Mouro Capital,414
+Santander InnoVentures,414
+Redalpine Capital,413
+Redalpine Ventures,413
+"Operator Collective Management, L.L.C.",411
+"Chemistry Ventures Management, LLC",407
+Alpha Partners,405
+General Catalyst,400
+Moonshots Capital,390
+"Flex Capital Management, L.L.C.",389
+Picus Capital,384
 New Ground Ventures,381
-Sequoia Capital,376
-QED Investors,371
-AlleyCorp,364
-Energy Impact Partners,363
-Funders Club Management,358
-Elefund,354
-"Fifty Years II GP, LLC",354
-Kuos Investment II LLC,347
-Advaita Capital,339
-"Friends & Family Capital Management, LLC",338
-Innovation Endeavors III Advisers LLC,336
-Craft Ventures,336
-CapitalG,336
-"Millennium New Horizons Management, LLC",333
-Valor Capital Group,327
-JMI Equity,321
-Commerce Ventures,320
-Teamworthy Group LLC,316
-Founders Future,315
-Lauder Partners,315
-Ulu Ventures,313
-"3Spoke Management, LLC",304
-Bain Capital Ventures,304
-Anthemis Group,302
-Anthemis Insurance Venture Growth,302
-Canaan Partners,302
-Omnes Capital,299
-Playground Global,298
-Earlybird,296
-Earlybird UNI-X,296
-EarlyBird Venture Capital,296
-"Earlybird ""Digital West"" Fund",296
+Kleiner Perkins,380
+BMW i Ventures,378
+Bling Capital,377
+Sequoia Capital,369
+Energy Impact Partners,367
+QED Investors,365
+"Millennium New Horizons Management, LLC",361
+CapitalG,359
+Lobby Capital,358
+O.G.Tech,358
+AlleyCorp,356
+Icon Ventures,355
+Funders Club Management,348
+Advaita Capital,335
+Craft Ventures,335
+"Fifty Years II GP, LLC",332
+Anthemis Group,330
+Anthemis Insurance Venture Growth,330
+Omnes Capital,330
+Innovation Endeavors III Advisers LLC,324
+Valor Capital Group,324
+Lifeline Ventures,320
+Expansion Ventures,320
+Kuos Investment II LLC,317
+Elefund,316
+MS&AD Ventures,316
+Commerce Ventures,314
+Lauder Partners,313
+Earlybird,309
+Earlybird UNI-X,309
+EarlyBird Venture Capital,309
+"Earlybird ""Digital West"" Fund",309
+Ulu Ventures,307
+"Friends & Family Capital Management, LLC",307
+Dreamers Management LLC,306
+Founders Future,305
+Teamworthy Group LLC,303
+Canaan Partners,298
+Playground Global,297
+Kluz Ventures,296
 Aurum Partners LLC,296
-Omers Ventures Europe,295
-Lifeline Ventures,294
-S32,293
-"Construct Capital Management, LLC",293
-Cross Culture Ventures,286
-Balderton Capital,285
-Balderton Growth,285
-ISAI Cap Venture,285
-ISAI Venture,285
-Mac Venture Capital,281
-ISAI,281
-Nyca Partners,280
-Phoenix Court Group,277
-Contrary LLC,274
-Digital Currency Group,274
-Third Point Ventures,270
-Type One Ventures,270
-Quadrille Capital,270
-Lobby Capital,267
-Left Lane Capital,267
-Ballistic Ventures,266
-"Good Friends, LLC.",263
-Activant Capital Group LLC,262
-Visionaries Club,261
-Sempervirens Ventures LLC,258
-JamJar Investments,257
-"Up Partners Management Company, LLC",257
-Target Global,257
-Nokia Growth Partners,256
-"Avid Ventures Management, LLC",255
-Aglaé Ventures,254
-Owl Ventures,251
-Upper90,250
-O.G.Tech,249
-Rally Ventures,248
-Factorial Funds Management LLC,246
-Sozo Ventures,246
-Drive Capital,245
-Icon Ventures,244
-Toyota Ventures,244
-Core Innovation Capital,243
-Space Angels,241
-One Way Ventures,241
-Founder Collective,239
-"J2 Ventures Advisors, LLC",233
-Alumni Ventures,232
-Launch Angels,232
-Eniac Ventures,232
-Serena Capital,230
-Serena Data Ventures,230
-Starbridge Venture Capital LLC,229
-"Mns Global Capital Managers, LLC",227
+Nyca Partners,293
+S32,292
+Visionaries Club,291
+Omers Ventures Europe,289
+Dag Ventures,289
+"Construct Capital Management, LLC",287
+Type One Ventures,286
+Bain Capital Ventures,285
+"Up Partners Management Company, LLC",284
+ISAI Cap Venture,283
+ISAI Venture,283
+Cross Culture Ventures,282
+ISAI,279
+ARCH Venture Partners,278
+Sozo Ventures,277
+Mac Venture Capital,277
+Balderton Capital,277
+Balderton Growth,277
+Contrary LLC,270
+Quadrille Capital,267
+Digital Currency Group,266
+Phoenix Court Group,266
+Rally Ventures,265
+Third Point Ventures,264
+Evolution Equity Partners,264
+Left Lane Capital,262
+"Sherpacapital, LLC",259
+Activant Capital Group LLC,259
+Alumni Ventures,258
+Launch Angels,258
+"Good Friends, LLC.",257
+Transformation Capital,254
+JamJar Investments,254
+Nokia Growth Partners,254
+Sempervirens Ventures LLC,253
+Omega Funds,251
+Peterson Ventures,251
+Starbridge Venture Capital LLC,250
+"Rosecliff Venture Management, LLC",249
+Ballistic Ventures,248
+Target Global,248
+Aglaé Ventures,246
+Owl Ventures,245
+Factorial Funds Management LLC,244
+Sofinnova Investments,244
+"Avid Ventures Management, LLC",244
+Toyota Ventures,242
+"Webb Investment Network Management, LLC",242
+Upper90,242
+Drive Capital,241
+Earlybird Digital East Fund,237
+"Harmony Partners Management Company, LLC",234
+Core Innovation Capital,233
+One Way Ventures,232
+Founder Collective,231
+Space Angels,229
+Eniac Ventures,228
+"J2 Ventures Advisors, LLC",228
 Paladin European Cyber Fund,226
-"Sherpacapital, LLC",225
-"Snowpoint Ventures Management, LLC",224
-Earlybird Digital East Fund,222
-Seraphim Space,222
-Dreamers Management LLC,220
-"Harmony Partners Management Company, LLC",220
-Runa Capital,217
-Peterson Ventures,217
-Transformation Capital,215
-Inspired Capital Partners,214
-Denver Angels,213
-Great Oaks Management Company LLC,210
-Hf Scale Partners LLC,210
-Sofinnova Investments,209
-Matrix Partners India,208
-Teampact.ventures,207
-Afore Capital,207
-Matrix,206
-Seedcamp,206
-Saltoun Capital Partners Management LLC,204
-Vsquared Ventures,203
-"Lynett Capital Management, LLC",203
-Crosslink Capital,203
-"Imaginary Venture Capital Management, L.P.",201
-Middlegame Ventures,201
-Adams Street Partners,200
-ARCH Venture Partners,200
-Dawn Capital,199
-Keidan Management INC.,198
-Link Ventures,196
-New Stack Ventures,196
-"Hyde Park Angels, INC.",196
-"Basis Set Ventures, LLC",196
-Acton Capital,195
-Mayfield Fund,195
-Paradigm,195
-"Stellar Ventures Management, LLC",192
-Lerer Hippeau,191
-Kluz Ventures,190
-8090 Industries LLC,188
-Castle Island Ventures,188
-Crane Ventures,187
-Walden Catalyst,187
+Serena Capital,225
+Serena Data Ventures,225
+Great Oaks Management Company LLC,225
+"Mns Global Capital Managers, LLC",220
+Service Provider Capital,219
+Obvious Ventures,215
+Denver Angels,214
+Seraphim Space,210
+Sixthirty Ventures,209
+Hf Scale Partners LLC,209
+Inspired Capital Partners,207
+"Lifeforce Capital Management, LLC",206
+Echo Health Ventures,205
+Seedcamp,205
+Matrix Partners India,205
+Runa Capital,204
+National Venture Development,204
+Afore Capital,203
+Saltoun Capital Partners Management LLC,203
+Matrix,203
+Vsquared Ventures,202
+"Lynett Capital Management, LLC",201
+Teampact.ventures,198
+"Heavybit, LLC",196
+Dawn Capital,196
+Crosslink Capital,196
+Adams Street Partners,194
+"Hyde Park Angels, INC.",194
+"Imaginary Venture Capital Management, L.P.",193
+Keidan Management INC.,193
+"Trident Capital, INC.",193
+Lerer Hippeau,192
+"Snowpoint Ventures Management, LLC",192
+Mayfield Fund,192
+Link Ventures,191
+New Stack Ventures,191
+"Stellar Ventures Management, LLC",190
+Middlegame Ventures,190
+Acton Capital,189
+"3Spoke Management, LLC",188
+"Basis Set Ventures, LLC",187
 Talon Management Company LLC Dba Brave Capital,187
-"Outsiders Venture Partners, LLC",186
-Kibo Ventures,186
-"E14 Management, LLC",185
-Service Provider Capital,185
-Cross Creek Advisors,183
-"The Gp Manager, LLC",182
-Uncork Capital,182
-BlueYard Capital,181
-BlueYard Crypto,181
-Allianz X,181
-Urban Innovation Management LLC,179
-Singular,177
-Matchstick Ventures,176
-Archerman Capital Management LLC,176
+OpenOcean,187
+Open Ocean,187
+Capital Factory,186
+Paradigm,185
+8090 Industries LLC,184
+"E14 Management, LLC",184
+"Outsiders Venture Partners, LLC",183
+Clearsky Advisors LLC,183
+Allianz X,182
+Cross Creek Advisors,182
+"Cohen Circle Fintech Ventures Management, LLC",181
+Crane Ventures,181
+Castle Island Ventures,181
+Walden Catalyst,181
+Uncork Capital,181
+BlueYard Capital,179
+BlueYard Crypto,179
+Kibo Ventures,178
+Urban Innovation Management LLC,175
+Kickstart,175
+Archerman Capital Management LLC,175
 Mercuri,174
-Rps Management LLC,172
-"Lifeforce Capital Management, LLC",171
-Vine One Ventures LP,170
-Maveron,170
-Echo Health Ventures,169
-Episode 1,169
-Episode1,169
-Venture51 Capital Partners LLC,168
-"Heavybit, LLC",167
-"Tau Ventures, LLC",166
-Luxembourg · Fund services,166
-Project A Ventures,166
-Signalfire,165
-The Engine Funds,165
-Angel Invest,165
-Kaya VC,164
-Storm Ventures,164
+"Hlm Management CO., LLC",173
+"The Gp Manager, LLC",173
+M33 Growth LLC,172
+Iris,172
+Iris Ventures,172
+IrisNext,172
+"Javelin Venture Partners Management, LLC",172
+Singular,171
+Matchstick Ventures,170
+"Aspect Management, LLC",170
+IA Capital Group,169
+Episode 1,168
+Episode1,168
+Maveron,167
+Luxembourg · Fund services,165
+Rps Management LLC,165
+Vine One Ventures LP,164
+Venture51 Capital Partners LLC,164
 GMG Ventures,163
-U.S. Venture Partners,161
-Maven Ventures,160
-"Refactor Capital, LLC",160
+Project A Ventures,163
+Signalfire,162
+U.S. Venture Partners,162
+Ten Eleven,161
+"Tau Ventures, LLC",160
 "Riot Ventures Management, LLC",160
-Compound,159
-"Red Dog Capital Management, LLC",158
-"Summit Peak Investments, LLC",157
-Expansion Ventures,156
-Project A,156
-Fifth Wall Real Estate Technology European Fund,156
-Ovni Capital,155
-Embark Management LLC,155
-National Venture Development,154
-MMC Greater London Fund,153
-MMC Ventures,153
-Blockchain Capital,153
-"Cantos Ventures, LLC",153
-Sixthirty Ventures,152
-Ethos Manager LLC,152
-Vanedge Capital,151
-Kindred Capital,151
-Endeavor Catalyst,150
-Ridge Ventures,150
-AltaIR Capital,150
-Longitude Capital,149
-"Cohen Circle Fintech Ventures Management, LLC",149
-C4 Ventures,149
-Frazier Healthcare,148
-"Launchpad Capital Management Company, LLC",148
-Broadscale Group LLC,147
-Thursday Ventures,147
-CommerzVentures,147
-Creator Ventures,146
-Elaia,146
-Elaia Delta Fund,146
-Elaia Ventures,146
-.406 Ventures,145
-Signal Peak Ventures,145
-Ossian Capital,145
+Maven Ventures,159
+Level Equity,159
+"Questmark Management CO., INC.",159
+Doorga Capital,159
+Angel Invest,159
+The Engine Funds,157
+Interplay Ventures Early Stage Management LLC,156
+Bay City Capital LLC,155
+"Summit Peak Investments, LLC",155
+Ethos Manager LLC,155
+MMC Greater London Fund,154
+MMC Ventures,154
+Stelac Capital Partners LLC,154
+Ovni Capital,154
+Compound,153
+Project A,152
+Fifth Wall Real Estate Technology European Fund,151
+"Red Dog Capital Management, LLC",151
+Longitude Capital,150
+Carbide Ventures,149
+Blockchain Capital,148
+Embark Management LLC,147
+August Capital,146
+Endeavor Catalyst,146
+Ridge Ventures,146
+Thursday Ventures,146
+Creator Ventures,145
+C4 Ventures,145
+Vanedge Capital,145
+Kaya VC,145
 "Pioneer Square Investment Advisor, LLC",145
-Whitestar Capital,144
-Hack VC,144
-Sip Global Tech Opportunity Manager LLC,143
-RTP Global,143
-IA Capital Group,142
-Fika Management LLC,141
-"Motive Capital Management, LLC",140
-Stelac Capital Partners LLC,140
-"Moxxie Ventures Management, LLC",139
-Neva,139
-Neva Finventures,139
-Liquid 2 Ventures,139
-Dag Ventures,138
-Tech Square Ventures,138
+Sip Global Tech Opportunity Manager LLC,144
+Broadscale Group LLC,144
+AltaIR Capital,144
+CommerzVentures,144
+Kindred Capital,143
+Oak Investment Partners,141
+Signal Peak Ventures,141
+Elaia,141
+Elaia Delta Fund,141
+Elaia Ventures,141
+.406 Ventures,140
+Fika Management LLC,140
+Ossian Capital,140
+Runway Growth Capital,139
+Tsvc Management LLC,139
+Whitestar Capital,138
 Asymmetric Capital Partners,138
-Kickstart,138
-"Next Coast Ventures, LLC",137
-"Humbition Management, LLC",137
-CVS Health Ventures,137
-"Sav Management Company, LLC",136
-Navitas Capital,136
-Tsvc Management LLC,136
-Designer Fund,136
-Omega Funds,135
-Redstick Ventures LLC,135
-Menlo Ventures,135
-"Audacious Management Company, LLC",135
-August Capital,134
-Orange Ventures,134
-"Webb Investment Network Management, LLC",133
-"Aspect Management, LLC",133
-Clearsky Advisors LLC,132
-Highland Europe,131
-Mercury Fund,131
-"Resolute.Vc, LLC",131
-"Acadian Ventures Management, LLC",131
-Hoxton Ventures,129
-Evolution Equity Partners,128
-Market One Capital,128
-Obvious Ventures,127
-"Javelin Venture Partners Management, LLC",126
-Doorga Capital,126
+RTP Global,138
+"Launchpad Capital Management Company, LLC",138
+CVS Health Ventures,136
+"Humbition Management, LLC",135
+"Motive Capital Management, LLC",134
+"Sav Management Company, LLC",134
+Tech Square Ventures,134
+"Moxxie Ventures Management, LLC",132
+Navitas Capital,132
+Hack VC,132
+Neva,132
+Neva Finventures,132
+Redstick Ventures LLC,131
+Ttv Capital,131
+Voyager Capital LLC,131
+Menlo Ventures,130
+Mercury Fund,130
+"Next Coast Ventures, LLC",129
+"Audacious Management Company, LLC",129
+Highland Europe,128
+Designer Fund,128
+Colle Capital Partners,127
 Slauson &#038; Co.,125
-Struck Capital Management LLC,125
-Fca Health Innovations II Management LLC,125
-Evli Growth Partners,124
-Autopilot Management Company LLC,124
-Mindset Consulting,124
+NextView Ventures,124
+"Capybara Management, LLC",124
+Orange Ventures,124
+Corazon Group LLC,124
 Lontra Ventures,124
-Ten Eleven,123
-Four Rivers Group,123
-Corazon Group LLC,123
-Newion,122
+Hoxton Ventures,124
+"Resolute.Vc, LLC",123
 DCM Ventures,122
-OTB Ventures,121
+Evli Growth Partners,121
+Fca Health Innovations II Management LLC,121
 Maple VC LLC,121
-La Famiglia,120
-Iris,120
-Iris Ventures,120
-IrisNext,120
-Foundry,119
-Lux Capital,119
-"River Cities Management, INC.",119
+Four Rivers Group,120
+"Refactor Capital, LLC",120
+Struck Capital Management LLC,120
+Mindset Consulting,120
+OTB Ventures,120
+"Lateral Capital Advisors, LLC",120
+Autopilot Management Company LLC,118
+Presidio Ventures,117
 Concept Ventures,117
-FRST,117
-Swift Ventures,116
-10x Founders,116
-Sarona Ventures,116
-JAZZ Venture Partners,115
-Interplay Ventures Early Stage Management LLC,115
-"Zigg Capital Management Company, LLC",115
-Galion.exe,115
-Mercato Partners,114
-Amity Ventures,114
-Battery Ventures,113
-Rabo Frontier Ventures,113
-"Adverb Ventures Management, LLC",112
-Oyster Ventures,111
-Ahren,110
-UVC Partners,110
-Caffeinated Capital,109
-EQT Growth,109
-"Time Bio Management, LLC",108
-"Bam Ventures Management, LLC",108
-Capnamic,108
-Capnamic Ventures,108
-"Progression Fund II GP, LLC",107
-Dolby Family Ventures LLC,107
-11.2 Capital,107
-Alven Capital,106
-Elizabeth Street Ventures,106
-"Structural Capital Management Company II, LP",105
+"River Cities Management, INC.",117
+La Famiglia,116
+Mercato Partners,115
+Market One Capital,115
+Lux Capital,114
+Swift Ventures,114
+"Zigg Capital Management Company, LLC",114
+Galion.exe,114
+Newion,113
+JAZZ Venture Partners,112
+Foundry,112
+"Bam Ventures Management, LLC",112
+10x Founders,112
+Frazier Healthcare,111
+Rabo Frontier Ventures,111
+Amity Ventures,111
+Liquid 2 Ventures,111
+Ahren,111
+Sarona Ventures,111
+FRST,110
+Oyster Ventures,109
+"Cantos Ventures, LLC",109
+"Adverb Ventures Management, LLC",109
+LionBird,108
+UVC Partners,108
+Emblem,107
+Battery Ventures,107
+"Gsv Ventures Management, LLC",107
+Caffeinated Capital,107
+EQT Growth,107
+"Progression Fund II GP, LLC",106
+11.2 Capital,106
+Capnamic,106
+Capnamic Ventures,106
+"Time Bio Management, LLC",105
+Akkadian Ventures,105
 K Fund,105
 KFund,105
-Origin Ventures,104
-Runway Growth Capital,104
-Bay City Capital LLC,103
-"Next Level Ventures, LLC",103
-Akkadian Ventures,103
-General Purpose Venture Capital,103
-Halogen Ventures Partners LLC,102
-Celtic House Asia Partners,102
-"Pathbreaker Ventures II, LLC",102
-Educapital,102
-Copper Sky Capital,101
-YL Ventures,101
-Nightdragon Administrative LLC,100
-Blg Advisor LLC,100
-"Gsv Ventures Management, LLC",100
-Backed.vc,99
-Cannage Capital,98
-Voyager Capital LLC,98
+Origin Ventures,103
+"Draper Management Company, LLC",103
+Silverton Partners,103
+Jam Special Opportunity Ventures,103
+"Structural Capital Management Company II, LP",103
+"Pathbreaker Ventures II, LLC",103
+Alven Capital,102
+Elizabeth Street Ventures,102
+Nightdragon Administrative LLC,101
+General Purpose Venture Capital,101
+Celtic House Asia Partners,100
+Halogen Ventures Partners LLC,99
+Copper Sky Capital,99
+Educapital,99
+"Next Level Ventures, LLC",98
+Dolby Family Ventures LLC,98
 Future Energy Ventures,98
-Illuminate Financial,97
-Alpha Intelligence Capital,97
-Vendep Capital,97
-Silverton Partners,97
+YL Ventures,98
+Blg Advisor LLC,97
 MFV Partners,97
-Next Frontier Capital,97
-Backed,97
-Congruent Ventures,97
-Supernova,97
-Ttv Capital,96
-Expeditions,95
-Hanaco Venture Capital,95
-Entourage,95
-Colle Capital Partners,95
-"Amplify.La Partners, L.L.C.",95
-FJ Labs,94
-"Work-Bench Management, LLC",94
-Fuel Ventures,93
-Cogito Capital,93
+Cannage Capital,97
+Ignition Ventures,96
+"Bronze Capital Management, LLC",96
+Congruent Ventures,96
+Backed.vc,95
+"Smm Corporate Management, LLC",95
+Mango Capital Management LLC,95
+Next Frontier Capital,95
+Alpha Intelligence Capital,94
+Entourage,93
+Backed,93
+"Amplify.La Partners, L.L.C.",93
+Expeditions,92
 Valia Ventures,92
-Tq Ventures LLC,92
 "Eastlink Capital Management, LLC",92
-Level Equity,91
-Detroit Venture Partners,91
-"Entrepreneurs Roundtable Accelerator, LLC",91
-Capital Factory,91
-"Mxv Capital, LLC",91
-"Altai Ventures Advisors, LLC",90
-First Round Capital,90
-Giant Ventures,90
-Titanium VC,90
-Blindspot Ventures Management Co,90
-"Cadenza Ventures Management Company, LLC",90
+Tq Ventures LLC,91
+Fusion Fund Silicon Valley LLC,91
+Kohfounders,91
+"Cadenza Ventures Management Company, LLC",91
+Atlas Venture,90
+Detroit Venture Partners,90
+Illuminate Financial,90
+Hanaco Venture Capital,90
+FJ Labs,90
+"Work-Bench Management, LLC",90
+Cogito Capital,90
 Cortado Ventures,90
-a16z crypto,90
-Large Ventures,89
-Fusion Fund Silicon Valley LLC,89
-Vorwerk Ventures,89
-"Think+ Ventures Management, LLC",89
-Planven Entrepreneur Ventures,88
-Recharge Thematic Ventures Management LLC,88
-Cadron Capital Partners Fund Manager LLC,88
-High-Tech Gründerfonds,88
-4DX Ventures,87
+"Altai Ventures Advisors, LLC",89
+Giant Ventures,89
+Fuel Ventures,89
+Supernova,89
+"Mxv Capital, LLC",89
+Large Ventures,88
+Blindspot Ventures Management Co,88
+a16z crypto,88
 Alpine Space Ventures,87
-"Civilization Ventures Management, LLC",87
-Snatched Ventures,87
-"Amplo Management, L.L.C.",86
-"Meridian Street Capital, LLC",86
-Kirenaga Partners,85
-"Draper Management Company, LLC",85
-Mango Capital Management LLC,85
-Redstone,85
-Angular Ventures,85
+"Entrepreneurs Roundtable Accelerator, LLC",87
+"Think+ Ventures Management, LLC",87
+First Round Capital,86
+Vendep Capital,86
+Recharge Thematic Ventures Management LLC,86
+Nexus Venture Partners,86
+Cadron Capital Partners Fund Manager LLC,86
+Vorwerk Ventures,86
+Snatched Ventures,86
+"BV Mgmt, LLC",86
+Republic Labs,86
+4DX Ventures,85
+"Meridian Street Capital, LLC",85
+Titanium VC,85
+Accomplice,84
 Decheng Capital LLC,84
-Nexus Venture Partners,84
-"BV Mgmt, LLC",84
-Quantonation,84
-"Omx Ventures, LLC",83
-Lumia Capital,83
-"Lateral Capital Advisors, LLC",83
-"Waverley Capital Management, LLC",83
-Geekdom,82
-Futuristic.VC,82
-"Aurelia Foundry Management Company, LLC",82
-"Razor'S Edge Ventures II, LLC",81
-Flourish Ventures,81
-Mosaic Ventures,81
+Planven Entrepreneur Ventures,84
+"Amplo Management, L.L.C.",84
+"Civilization Ventures Management, LLC",84
+"Omx Ventures, LLC",84
+High-Tech Gründerfonds,84
+Geekdom,83
+Kirenaga Partners,83
+Inveready,83
+Angular Ventures,83
+Redstone,82
+Quantonation,82
 "Wonder Ventures Management, LLC",81
 Questa Capital,81
-Augmentum,81
-Augmentum Fintech,81
-Sista,81
+Deerfield Management Company,81
+"Aurelia Foundry Management Company, LLC",81
 Canvas Prime,80
-ParaFi Capital,80
-Unpopular Ventures,80
-"First Spark Ventures, LLC",80
-"Civ Investment Management, LLC",79
-Better Capital,79
-DIG Ventures,79
-Electric Capital,79
-"K5 Global Technology, LLC",78
+"Razor'S Edge Ventures II, LLC",80
+"Pruven Management Company, LLC",80
+Lumia Capital,80
+Aperture Management LLC,79
+Futuristic.VC,79
+"First Spark Ventures, LLC",79
+Augmentum,79
+Augmentum Fintech,79
+Sista,79
+Alsop Louie Partners,78
+"Civ Investment Management, LLC",78
+Unpopular Ventures,78
+Flourish Ventures,78
 "Camford Capital Management, LLC",78
-Atlantic Bridge Capital,78
-Concentric,78
-Emergent Medical Partners,77
-Keen Venture Partners,77
-"Scop Ventures, LLC",77
+DIG Ventures,78
+"Working Capital GP, LLC",77
+Mosaic Ventures,77
+"Waverley Capital Management, LLC",77
 "Step Ahead Capital, LLC",77
-"Expa EC3 Mgmt, LLC",76
-Matterwave Ventures,76
-Glilot Capital Partners,75
-Earlybird Digital West,74
-Syndicate One,74
-Scale Venture Partners,74
-"Base Venture Management, INC.",74
-Parkway Venture Capital,74
-LionBird,74
-"Merus Capital Management Company, LLC",74
-Graphene Ventures,73
-In-Q-Tel Inc.,73
-Lightstone Ventures,73
-Deerfield Management Company,73
-Heartfelt,73
-Draper Esprit,72
-Molten Ventures,72
-"Ansa Capital Management, LLC",72
-Creas Impacto,72
-"Garuda Ventures Management, LLC",72
-Glasswing Ventures,72
-Ventech,72
-Inovo VC,72
-Inovo Venture Partners,72
-"Hlm Management CO., LLC",71
-Thornapple River Capital,71
-Emblem,71
-Primary Ventures,71
-Robin Capital,71
+Emergent Medical Partners,76
+"K5 Global Technology, LLC",76
+Parkway Venture Capital,76
+TransLink Capital,75
+"Garuda Ventures Management, LLC",75
+Electric Capital,75
+"Gefinor Capital Management, INC.",74
+Keen Venture Partners,74
+"Expa EC3 Mgmt, LLC",74
+Columbia Capital,74
+"Scop Ventures, LLC",74
+ParaFi Capital,73
+Syndicate One,73
+Scale Venture Partners,73
+Atlantic Bridge Capital,73
+"Merus Capital Management Company, LLC",73
+Glasswing Ventures,73
+Matterwave Ventures,73
+Glilot Capital Partners,73
+Earlybird Digital West,72
+Graphene Ventures,72
+Activate Venture Partners,72
+In-Q-Tel Inc.,72
+Lightstone Ventures,72
+"Base Venture Management, INC.",72
+"Hwvp Management Company, L.L.C.",72
+Energize Ventures LLC,72
+Heartfelt,72
+Concentric,72
+OCA Ventures,71
+Creas Impacto,71
 Almanac Management LLC,70
-Volition Capital,70
-Accomplice,70
-Wind,70
-7wire Ventures,69
+Better Capital,70
+"Ansa Capital Management, LLC",70
+Robin Capital,70
+Inovo VC,70
+Inovo Venture Partners,70
+Blackhorn Ventures,69
 Oxx,69
 Zetta Venture Partners,69
-"Hwvp Management Company, L.L.C.",69
+Primary Ventures,69
+Draper Esprit,68
+Molten Ventures,68
+Volition Capital,68
 Red & Blue Ventures,68
-Cavalry Ventures,68
-"Smith Point Capital, LLC",68
-"Adit Ventures Management, LLC",67
-OCA Ventures,67
-ManchesterStory Group,67
-"Blue Collective, LLC",66
-"Flying Fish Management, LLC",66
-Montage Ventures,66
-"Thompson Hutton, LLC",66
+"Thompson Hutton, LLC",67
+33N Ventures,67
+Scout Ventures,67
+The Vertical Group,67
+Cavalry Ventures,67
 "Equitage Ventures, L.L.C.",66
-Unless Management LP,66
-Greenfield Partners,66
+ManchesterStory Group,66
 Merantix Capital,66
 Merantix,66
+Greenfield Partners,66
+"Blue Collective, LLC",65
+Fulcrum Equity Partners,65
+"Adit Ventures Management, LLC",65
+Thornapple River Capital,65
+Unless Management LP,65
 Quona Capital,65
-Jam Special Opportunity Ventures,65
-Prelude Ventures,65
 Group 11,65
-"Working Capital GP, LLC",65
+Wind,65
+Ventech,65
 TheVentureCity,65
-Coefficient Capital,64
-Eutopia,64
-"Communitas Capital Partners, LLC",64
-aVenture,64
+7wire Ventures,64
+Montage Ventures,64
 Mangrove Capital Partners,64
-Brighteye Ventures,64
 Joyance Partners,64
-"Innovius Capital Management, LLC",64
-byFounders,63
-Adara Ventures,63
-Energize Ventures LLC,63
-Novirian Capital LLC,63
-Quadri Ventures,63
-CoinFund,63
-Kurma Partners,62
-"Pruven Management Company, LLC",62
-Alsop Louie Partners,62
-M33 Growth LLC,61
+Emirats · Immobilier,63
+Coefficient Capital,63
+"Communitas Capital Partners, LLC",63
+RPM Ventures,63
+"Smith Point Capital, LLC",63
+"Innovius Capital Management, LLC",63
+byFounders,62
+"Flying Fish Management, LLC",62
+Adara Ventures,62
+CoinFund,62
+Kurma Partners,61
 Endeit Capital,61
+Eutopia,61
 World Fund,61
-The Westly Group,61
-Barcamper Ventures,61
-Primo Climate,61
-Outset Capital,61
+Prelude Ventures,61
+Grotech Management Company,61
 "Ardent Venture Partners, LLC",60
+aVenture,60
+Barcamper Ventures,60
+Primo Climate,60
 Playfair Capital,60
-7percent Ventures,60
+Novirian Capital LLC,60
 JME Ventures,60
-Change Ventures,60
 Vireo Ventures,60
-Cardinal Partners,59
+Storm Ventures,60
+Luxembourg · Asset servicing,59
 "Agent Capital, LLC",59
-Emerge,59
-Emerge Education,59
-Scout Ventures,59
-201 Ventures,59
-Presidio Ventures,59
+The Westly Group,59
 Restive Ventures,59
 Venture Studio Investment Management LLC,59
+Quadri Ventures,59
+Outset Capital,59
+Foundamental,59
 Counteract,59
-Humla Ventures LLC,58
-"25Madison Ventures Management Company, LLC",58
-Skagerak Capital,58
+SquareOne,58
+Cardinal Partners,58
+Emerge,58
+Emerge Education,58
+Robot Ventures,58
+201 Ventures,58
 Tregaron Capital,58
-TransLink Capital,58
+7percent Ventures,58
 TIIN Capital,58
 Peak State Investment Advisor Limited,57
-Robot Ventures,57
-Anacapa Capital Management LLC,57
-Emerald,57
-Emerald Technology Ventures,57
+"25Madison Ventures Management Company, LLC",57
+OTV,57
 "Volta Energy Technologies, LLC",57
-Forestay Capital,57
-Syn Ventures Management LLC,57
 "Alta Partners III, INC.",57
-Prudence,57
-Republic Labs,57
-Foundamental,57
-DvH Ventures,57
+Acorn Pacific Ventures,57
 "Iterative Capital, LLC",56
-Pi Labs,56
-Volution,56
-SmartFin Capital,56
-SmartFin Growth,56
+Emerald,56
+Emerald Technology Ventures,56
+Syn Ventures Management LLC,56
+Skagerak Capital,56
 Connecticut Innovations,56
-Acorn Pacific Ventures,56
-"Christopher & CO., LLC",55
-Norrksen Evolve,55
-Norrsken,55
-Norrsken Founders Fund,55
-Norrsken VC,55
+Humla Ventures LLC,55
+TLV Opportunity,55
+TLV Partners,55
+RET Ventures,55
+Anacapa Capital Management LLC,55
+RockawayX,55
 Scottish Equity Partners,55
-"Ludlow Management Group, LLC",55
-Rho Capital Partners,55
 NordicNinja,55
-Maor,55
-Maor Investments,55
-RET Ventures,54
-Morpheus Advisors,54
-Grit Ventures LLC,54
+DvH Ventures,55
+Swan & Legend,54
+Brighteye Ventures,54
+Volution,54
+Forestay Capital,54
 Search Fund Partners,54
+Rho Capital Partners,54
+"Christopher & CO., LLC",53
+Pi Labs,53
 Motley Fool Ventures,53
 Brewer Lane Ventures,53
-RockawayX,53
+Norrksen Evolve,53
+Norrsken,53
+Norrsken Founders Fund,53
+Norrsken VC,53
+"Bgv III Partners, LLC",53
+FirstMile Ventures,53
+Grit Ventures LLC,53
+"Ludlow Management Group, LLC",53
 MGV,53
+Prudence,53
+Maor,53
+Maor Investments,53
 Relevance Ventures,53
-Kohfounders,52
+"Notation Capital Management, LLC",52
 betacluster Ventures,52
+SmartFin Capital,52
+SmartFin Growth,52
 Tapestry,52
-13Books Capital,52
-Element Ventures,52
-"Trident Capital, INC.",51
-10D,51
-Atlas Venture,50
-42CAP,50
-SovereignAI,50
+Morpheus Advisors,51
+Pine Brook,51
+R7 Partners,50
+10D,50
 Cowboy Ventures,50
-Point Nine Capital,50
-Cyberstarts,48
-Calm/Storm,48
-Fondo Artificial Intelligence,48
-Blackhorn Ventures,48
-"Yes VC Management Company, LLC",48
-Idinvest Growth Fund,47
-Idinvest Partners,47
-Aleph,47
-Presto Ventures,47
-Companyon Ventures,47
-1414 Ventures,47
-Rialto Ventures,47
+Point Nine Capital,49
+42CAP,48
+Aleph,48
+SovereignAI,48
+Moderne Ventures,48
+B3 Capital Management Inc,48
+13Books Capital,48
+Element Ventures,48
 "Nanodimension, INC.",47
-"Post Oak Energy Capital, LP",47
-"Pearl Energy Investment Management, LLC",47
-"Charge VC Management, LLC",46
+Cyberstarts,47
+Calm/Storm,47
+Fondo Artificial Intelligence,47
+Mutual Capital Partners Funds,46
+Idinvest Growth Fund,46
+Idinvest Partners,46
+Companyon Ventures,46
 Unruly Capital,46
+P1 Ventures,46
 Wwb Asset Management LLC,46
-Sound Media Ventures,46
-Outliers Venture Capital,46
+1414 Ventures,46
+Rialto Ventures,46
+First Star Ventures,46
+Caesar Ventures,46
+"Post Oak Energy Capital, LP",46
+"Pearl Energy Investment Management, LLC",46
 Innovestor,46
-P1 Ventures,45
-"Bgv III Partners, LLC",45
-Caesar Ventures,45
-First Star Ventures,45
+"Charge VC Management, LLC",45
+Sound Media Ventures,45
+Outliers Venture Capital,45
 New Markets Venture Partners,44
-"Data Point Management Company, LLC",44
 GIMIC Ventures,44
 Shorewind Capital LLC,44
-Indico Blue Fund,44
-Indico Capital Partners,44
-"Questmark Management CO., INC.",43
-Inveready,43
+Eleven Ventures,44
+Presto Ventures,43
 IN-Ventures,43
 "Ritual Capital Management Company, LLC",43
-Korelya Capital,43
-Racine²,43
-r24,43
-B3 Capital Management Inc,43
+Tandem Management Services,43
+Change Ventures,43
+Indico Blue Fund,43
+Indico Capital Partners,43
 Equal Opportunity Ventures,42
 Capdecisif,42
-Samaipata,42
-Tandem Management Services,42
+"Data Point Management Company, LLC",42
+Korelya Capital,42
+Brook Venture Management,42
 Five Seasons Ventures,42
-Northern Light Venture Capital,42
-Eudemian Ventures,41
-SquareOne,41
-FORWARD.one,41
+Racine²,42
+r24,42
+"Yes VC Management Company, LLC",42
 InReach Ventures,41
+Samaipata,41
 Chicago Ventures,41
 "Noemis Ventures Management, LLC",41
+Draper Frontier,41
 "The Data Tribe, LLC",41
 Thomson Reuters Ventures,41
+"Lewis & Clark Venture Capital, LLC",40
+Globespan Capital Partners,40
 "Prospect Management CO. II, LLC",40
 "Lvpmc, LLC",40
-"Venture Guides Management, L.P.",40
+FORWARD.one,40
+"Council Capital Management, LLC",40
+"Collinson Howe & Lennox II, LLC",40
+Encap Investments L.P.,40
 Dell Technologies Capital,40
-"Avx Management, LLC",40
-SKY VC,40
 Nina Capital,40
-Salesforce Europe Trailblazer Fund,40
-Aperture Management LLC,39
+Illumina Ventures,39
 Targeted Venture Management LLC,39
+Flare Capital Partners,39
 Speedinivest,39
-"Convective Capital Management, LLC",39
-Connect Ventures,39
+Opus Capital Group LLC,39
+"Venture Guides Management, L.P.",39
 "Boston Seed Capital Management, L.L.C.",39
+Connect Ventures,39
+"Avx Management, LLC",39
 Brightstone Venture Partners 2 LLC,39
+SKY VC,39
+Salesforce Europe Trailblazer Fund,39
 "Reno Seed Advisors, LLC",39
-"Abs Capital Partners, INC.",38
+Eudemian Ventures,38
+"Mesa Verde Ventures II, LLC",38
 Boost Capital Partners,38
 Plum Alley Investments,38
 "Jam Fund, LLC",38
-PSV Hafnium,38
 Emirats · Fintech,38
-TLV Opportunity,38
-TLV Partners,38
-Draper Frontier,38
 Sole Source Capital LLC,38
-RPM Ventures,38
-Illumina Ventures,37
+Northern Light Venture Capital,38
+"Abs Capital Partners, INC.",37
 Generator Ventures,37
-"Longevity Vision Investment Advisors, LLC",37
 Accion Ventures,37
-New Era Capital,37
+Sunstone Partners,37
+"Madison West Ventures, LLC",37
+"Visionnaire Ventures, LLC",37
 AI Capital,37
 360 Capital,37
-High Alpha,37
-Quest Venture Partners,37
 Carbon Direct Capital Management LLC,36
 Verb Ventures,36
-Crossbeam Venture Partners,36
-Sunstone Partners,36
-Columbia Capital,36
-Apeiron Ventures,36
-NextView Ventures,36
-"Nct Gp I, LLC",36
-Align Ventures,36
-Eleven Ventures,36
+"Longevity Vision Investment Advisors, LLC",36
+"Blue Bear Investment Group, LLC",36
+PSV Hafnium,36
+New Era Capital,36
+High Alpha,36
+Quest Venture Partners,36
+Stratim Partners LLC,36
 Trinity Ventures,35
-Lemnos Labs INC.,35
+BlackSheep Ventures,35
+Eureka! Venture,35
 "Leap Forward Ventures, LLC",35
 Golden Seeds,35
 Konvoy,35
-Collector Ventures / NFT,35
+Apeiron Ventures,35
 360CP,35
-Open Ocean,35
-OpenOcean,35
 Ev Management Company,35
 CareQuest Innovation Partners,35
-Polytech Ecosystem Ventures,35
-"Gefinor Capital Management, INC.",34
-Eurazeo,34
+Trestle Partners,35
+Lemnos Labs INC.,34
 Ajim Capital,34
-Atlantic Foodlabs,34
 "Tia Ventures Management, LLC",34
 Capmont Technology,34
 Fondo Boost Innovation,34
-Wing,34
-Activate Venture Partners,33
-HCVC,33
-Hardware Club,33
-Fusion,33
-Altira Group LLC,33
-Material Impact,33
-NewBuild.VC,33
+"Wasatch Management Partners, L.L.C.",34
+Courtside Ventures,34
+Eurazeo,33
+Atlantic Foodlabs,33
+"Convective Capital Management, LLC",33
+Collector Ventures / NFT,33
 Eka Ventures,33
-Apex Ventures,33
-"Archer Venture Capital II GP, LLC",33
 "Rebel Management, LLC",33
-"Wasatch Management Partners, L.L.C.",33
-Courtside Ventures,33
-University Bridge Fund,33
-Carbide Ventures,32
-"Ankona Management, LLC",32
-Fulcrum Equity Partners,32
+"Nct Gp I, LLC",33
+Wing,33
+Polytech Ecosystem Ventures,33
+"Dolphin Capital Group, LLC",33
+Fusion,32
+Altira Group LLC,32
 Coparion,32
-Cocoa Ventures,32
-Blossom Capital,32
+Material Impact,32
+NewBuild.VC,32
+Apex Ventures,32
+"Archer Venture Capital II GP, LLC",32
 4Founders Capital,32
+University Bridge Fund,32
 Allegion Ventures,32
-Daphni,31
-Daphni Blue,31
-Daphni Yellow,31
-Fly Ventures,31
+Align Ventures,32
+HCVC,31
+Hardware Club,31
 UNIIQ,31
-Tomahawk,31
 Failup Ventures,31
-"Biospring Management Partners, L.P.",31
-IBB Ventures,31
+"Ankona Management, LLC",31
+Crossbeam Venture Partners,31
 Planet A Ventures,31
-UV T-Growth,31
-United Ventures,31
-Better Ventures Central LLC,31
+Cocoa Ventures,31
 "Oss Capital, LLC",31
 1984 Ventures,31
 "Accelmed Partners II Management, LLC",31
+"Allos Venture Management Company, LTD.",31
 Auxxo,31
-Long River Capital Management II LLC,31
-Icebreaker,30
-"Capybara Management, LLC",30
+Fly Ventures,30
+Tomahawk,30
 Antler Elevate,30
 Antler Nordics,30
-Rockstart,30
+IBB Ventures,30
 Autotech Ventures,30
-Identity.vc,30
 TechVision Fonds,30
-"Innovating Capital Management, LLC",30
 Advancit Capital Advisors LLC,30
-Armilar,30
-Armilar NOS 5G,30
-Armilar Venture Partners,30
+Long River Capital Management II LLC,30
 V3 Ventures,30
+Daphni,29
+Daphni Blue,29
+Daphni Yellow,29
 Cardumen Capital,29
 Nsv Management LLC,29
 Venbio Partners LLC,29
+Icebreaker,29
+Rockstart,29
 KOMPAS VC,29
 Kompas Ventures,29
-2150,29
-2150VC,29
 MedMountain Ventures,29
 "Boulder Food Group, LLC",29
-Carrick Capital Partners,29
+UV T-Growth,29
+United Ventures,29
+Better Ventures Central LLC,29
+Armilar,29
+Armilar NOS 5G,29
+Armilar Venture Partners,29
 Aif Management LLC,29
 Simon Capital,29
 Lince Capital,29
-Trestle Partners,29
 "Reign Ventures Management, LLC",29
-The Vertical Group,28
+"Biospring Management Partners, L.P.",28
 Invest-NL,28
-Pangaea Ventures US INC.,28
-Future Ventures,28
 Starship Ventures,28
+"Acadian Ventures Management, LLC",28
+Blossom Capital,28
 INKEF Capital,28
-Stratim Partners LLC,28
-"New Voices Advisors, LLC",28
-eLab Ventures,27
+"Innovating Capital Management, LLC",28
 "Zelkova Management, LLC",27
+Pangaea Ventures US INC.,27
+Future Ventures,27
+2150,27
+2150VC,27
 Hyde Park Venture Partners,27
-eCAPITAL,27
-eCAPITAL Cybersecurity Fund,27
-eCAPITAL Fund,27
-Future Positive Capital,27
 Arbor Ventures,27
+Carrick Capital Partners,27
 Distributed Ventures,27
 Bynd Venture Capital,27
-Emirats · Immobilier,27
 Kapor Capital,27
-Newtopia VC,26
+Cottonwood Technology Fund,26
+Red Dot Capital Partners,26
 Rustic Canyon,26
 "Barrel Ventures Management, LLC",26
+"Tectonic Ventures Management, LLC",26
+Richmond Global Ventures,26
 Radian Capital LLC,26
-"Be Better Tomorrow, LLC",26
+Identity.vc,26
 Exceptional Ventures,26
 Revo Capital,26
 "Gvp Climate, LLP",26
 Renegade Partners,26
 JOIN Capital,26
-"Play Time Sports-Tech Holdco, LLC",26
-Stride Ventures,26
+"New Voices Advisors, LLC",26
+eLab Ventures,25
 European Circular Bioeconomy Fund,25
-1Confirmation,25
+Newtopia VC,25
 "Anzu Partners, LLC",25
-Richmond Global Ventures,25
+eCAPITAL,25
+eCAPITAL Cybersecurity Fund,25
+eCAPITAL Fund,25
 "Azolla Management Company, LP",25
-backtrace capital,25
-Fuse,25
-Braemar Energy Ventures LLC,25
+"Be Better Tomorrow, LLC",25
 Allegro Venture Partners,25
+Armavir Partners LLC,25
+Gvm Advisors LLC,25
 Luminar Ventures,25
-XPRESS Ventures,25
-Twin Track Ventures,24
-Era Ventures,24
+Advantage Capital Partners,24
+1Confirmation,24
 Novak Biddle Venture Partners,24
 Socially Financed,24
+backtrace capital,24
+Braemar Energy Ventures LLC,24
 "Sinewave Ventures, LLC",24
 SuperSeed,24
 First Momentum Ventures,24
 DMG Ventures,24
-"Tectonic Ventures Management, LLC",24
 "Narya Capital Management, LLC",24
-Level Ventures Management LLC,23
-"Blue Bear Investment Group, LLC",23
+XPRESS Ventures,24
+Twin Track Ventures,23
 Atomic Labs,23
-Peninsula Ventures,23
-"Pv V GP, LLC",23
+Fuse,23
 3VC,23
 Innovation Nest,23
-Armavir Partners LLC,23
-Gvm Advisors LLC,23
-Ferocity Capital,23
+Stride Ventures,23
 SeedRocket 4Founders Capital,23
-YZR Capital,22
 Blue Horizon Ventures,22
 Ground Squirrel Ventures,22
+Era Ventures,22
+Bethnal Green Ventures,22
 SPOROS Platform,22
 Dallas Venture Capital,22
-SET Ventures,22
-Uebermonger Ventures,22
-Übermorgen Ventures,22
+Peninsula Ventures,22
+"Pv V GP, LLC",22
 Borderless Capital,22
-Springrock Management,22
+"Play Time Sports-Tech Holdco, LLC",22
+Level Ventures Management LLC,21
 "Point Judith Management Company, LLC",21
+YZR Capital,21
 Equal Ventures,21
-Green Generation Fund,21
+SET Ventures,21
 Boston Global Ventures,21
 Juvo Ventures,21
 "Schematic Ventures, LLC",21
-Proptech1 Ventures,21
 Emergence Capital Partners,21
-Clover,21
-Overwater Ventures LLC,21
-Bethnal Green Ventures,21
 "Roo Capital Management I, LLC",21
 Beat Ventures,21
 "Kreate Capital Management, LLC",21
-Oyster Bay,20
-At One Ventures,20
-AV8 Ventures,20
-OTV,20
 "Egateway Capital, LLC",20
-Grotech Management Company,20
+"Vela Partners Management, LLC",20
+Green Generation Fund,20
+Uebermonger Ventures,20
+Übermorgen Ventures,20
 Marker Financial Advisors LLC,20
 "Building Ventures, LLC",20
 Systemiq Capital,20
-Twelve Below,20
-Moneta Venture Capital,20
-DFF Ventures,20
-Ignia Partners,20
-Oak Investment Partners,19
-"Baukunst Management Company, LLC",19
+Proptech1 Ventures,20
+Springrock Management,20
+Ferocity Capital,20
+Oyster Bay,19
+At One Ventures,19
 "Authentic Ventures Investment Manager, LLC",19
-Simplyhealth Ventures,19
-Toloka LLC,19
-Volta Ventures,19
+AV8 Ventures,19
 "Good Growth Capital Management, LLC",19
 Main Set,19
 Han River Zium,19
-AlphaDrive,19
-"Vela Partners Management, LLC",19
 Marathon Ventures,19
 "Brick & Mortar Ventures Management, LLC",19
+Twelve Below,19
 Innovation Industries,19
 Strategic Partners Fund,19
+Clover,19
+Moneta Venture Capital,19
+Overwater Ventures LLC,19
+DFF Ventures,19
+Sc Management LLC,19
 Eight Roads Ventures,19
+"Baukunst Management Company, LLC",18
+Simplyhealth Ventures,18
+Toloka LLC,18
 Shield Capital,18
 "Techoperators, LLC",18
 "Asymmetric Technologies, LLC",18
-RAISE,18
-Raise Ventures,18
+Volta Ventures,18
 Indaco Venture Partners,18
-Brook Venture Management,18
 CRE Venture Capital,18
-Sc Management LLC,18
+Ignia Partners,18
 Energy Ventures,17
 Balnord,17
-Octave Ventures LLC,17
 AM Ventures,17
+AlphaDrive,17
 "Maywic GP, LLC",17
 Aurora Management LLC,17
 "Team Ignite Management, LLC",17
-Enertech Capital,17
-"Volo Earth Ventures Management, LLC",17
-"Growth Street Management, LLC",17
-JobsOhio Ventures,17
 GHARAGE Ventures,17
-"Bramalea Partners, LLC",17
 BitStone Capital,17
-SIX Fintech Ventures,16
-Luminous Ventures,16
+Octave Ventures LLC,16
+Alpaca VC,16
 Juxtapose,16
-"Tvc Capital Management, LLC",16
+RAISE,16
+Raise Ventures,16
+Enertech Capital,16
 iD4 Ventures,16
+"Volo Earth Ventures Management, LLC",16
 Spintop Ventures,16
 "Band of Angels Acorn Fund, LLC",16
 Front Porch Venture Partners,16
@@ -983,19 +1006,19 @@ La Poste Ventures,16
 Kraynos Capital Management LLC,16
 Hatteras Venture Partners,16
 "Noosphere Ventures Management Company, LLC",16
-Catalyst Investors,15
-33N Ventures,15
-Alpaca VC,15
+"Buoyant Ventures Management, LLC",15
+SIX Fintech Ventures,15
+"Iselect Fund Management, LLC",15
+Luminous Ventures,15
+"Tvc Capital Management, LLC",15
+"Growth Street Management, LLC",15
 Dunbar Capital,15
 Portal Ventures,15
+"Bramalea Partners, LLC",15
 Gilmartin Capital LLC,15
-Swan & Legend,15
-Advantage Capital Partners,14
-SR One Capital Management,14
 Lock 8 Partners,14
 Portfolia,14
-Triventures,14
-R7 Partners,14
+Catalyst Investors,14
 "Fab Co-Creation Services, LLC",14
 "Vesta Ventures GP, LLC",14
 Heartcore Capital,14
@@ -1003,10 +1026,11 @@ Jerusalem Venture Partners,14
 Grandbanks Capital INC.,14
 DIP Capital,14
 Frontline Ventures,14
-"Notation Capital Management, LLC",13
+Qiming Venture Partners,14
+JobsOhio Ventures,14
 Anamcara,13
-FirstMile Ventures,13
-Starburst Ventures,13
+"E12 Venture Capital, LLC",13
+Triventures,13
 Castle Creek Launchpad,13
 Refinery Ventures,13
 Sustainable Future Ventures,13
@@ -1014,106 +1038,99 @@ Satgana,13
 SNÖ Ventures,13
 Chartline Capital Partners,13
 Rethink Ventures,13
-Prediction Capital,13
 Valhalla Ventures Management Company LLC,13
 Hivemind Capital Partners LLC,13
-Cornerstone VC,13
 Hiro Capital,13
-The Venture Reality Fund,13
 Averin Capital,13
 Abstraction Capital Management LLC,13
 Greencode Ventures,13
-Qiming Venture Partners,13
-"Allos Venture Management Company, LTD.",13
-4impact Capital,13
 "Digitx Management CO., LLC",12
+SR One Capital Management,12
 Great North Ventures,12
 Meron Capital,12
 Beliade,12
 Longevity Funds 2 LLC,12
-Seeder,12
+Starburst Ventures,12
 Symbol,12
-Tioga Capital,12
 PhotonVentures,12
+Prediction Capital,12
+Cornerstone VC,12
 Butterfly Ventures,12
 14Peaks Capital,12
-Moderne Ventures,12
+The Venture Reality Fund,12
 "Resolve Growth Partners Management CO., LLC",12
-"Treo Ventures, LLC",12
 BonVenture,12
-Elevator Ventures,12
 Superhero Capital,12
 "Creative Ventures GP, LLC",11
 ForgePoint Capital,11
 Saturn Management LLC,11
+Seeder,11
 People Ventures,11
-"Mtvp Management, LLC",11
-"Iselect Fund Management, LLC",11
-Norwich Ventures,11
-"E12 Venture Capital, LLC",11
 Phx Manco,11
+Tioga Capital,11
 "Acvc Management, LLC",11
 "Regeneration.Vc, LLC",11
 Course Corrected VC,11
+Future Positive Capital,11
 Causeway Media Partners,11
-Backstage Capital,11
 The Roda Group Venture Development CO. LLC,11
+"Treo Ventures, LLC",11
 Trind VC,11
 Trind Ventures,11
 Draper B1,11
+4impact Capital,11
 JAL Ventures,10
 Wischoff Ventures,10
-Zintinus,10
 "Breakout Management, LLC",10
+Zintinus,10
 "Epsilon Health Investors, LLC",10
+Norwich Ventures,10
+"Mtvp Management, LLC",10
 1315 Capital,10
-Ananda Impact Ventures,10
 "The Legaltech Fund Management CO., L.L.C.",10
-Better Tomorrow Ventures,10
-Red Dot Capital Partners,10
 ZOHO.VC,10
 "Ecc Advisors, LLC",10
-Deciens Capital,10
 Interactive Venture Partners LLC,10
 Entrepreneur First,10
-Resonance,10
 Greenpoint Partners,10
+Backstage Capital,10
 Mu Ventures,10
 "Knoll Ventures Management, LLC",10
 Ship2B Ventures,10
+Elevator Ventures,10
 33east,10
 CosmiCapital,10
 Realyze Ventures,10
-Cottonwood Technology Fund,9
 Clean Growth Fund,9
-"Tampa Bay Ventures, LLC",9
 Abac Next Ventures,9
 199 Ventures,9
 VentureFriends,9
 Nauta Capital,9
 Regalis Solutions LLC,9
-"Security Leadership Capital Management, L.L.C.",9
+Ananda Impact Ventures,9
+Better Tomorrow Ventures,9
 11 Tribes Ventures,9
 Butterfly Venture,9
-Ex/Ante LLC,9
+Deciens Capital,9
 Norland Capital LP,9
 Lionheart Fund Management LLC,9
+Resonance,9
 ZAKA VC,9
-Blockchain Founders Capital,9
-Longley Capital,9
 RRE Ventures,9
 Moore Venture Partners,9
+"Tampa Bay Ventures, LLC",8
 The Column Group,8
 WARF,8
 Collide Capital,8
-Skyfall Ventures,8
 Silicon Gardens,8
 Revent,8
+Ex/Ante LLC,8
 D2,8
 Clarevia Ventures,8
-"Bronze Capital Management, LLC",8
 Karma Ventures,8
 Sondo Capital,8
+Blockchain Founders Capital,8
+Longley Capital,8
 Accelerator Ventures,8
 FortySix Venture Capital,8
 B2Venture,8
@@ -1123,16 +1140,16 @@ Peakbridge,8
 Axeleo Capital,8
 Axeleo Green Tech,8
 Axeleo Proptech,8
+"Mirae Asset Capital Life Science, INC.",7
 UCL Technology Fund,7
-New Leaf Venture Partners,7
 Switch Ventures,7
 Viewpoint Ventures,7
 Labrador Ventures,7
+"General Inception Management, LLC",7
 Katalyst.Ventures,7
 "El Cap Holdings Capital Partners, LLC",7
 Dcode Capital Management LLC,7
-GO Capital,7
-Rooks Nest Ventures,7
+Skyfall Ventures,7
 TechnoFounders,7
 Northern Gritstone,7
 Method Capital LLC,7
@@ -1142,40 +1159,39 @@ DBL Partners,7
 Greater Colorado Ventures,7
 Maniv Mobility,7
 Mustard Seed MAZE,7
+"Hbse Management, LLC",7
 Stillmark Management LLC,7
 "Missionpoint Capital Partners, LLC",7
 Masia,7
 Puzzle Ventures,7
+New Leaf Venture Partners,6
 Vertical Venture Partners,6
 Mairs &#038; Power VC,6
-"General Inception Management, LLC",6
 "Grand Ventures GP, LLC",6
 Kembara,6
 "Incisive Venture Capital, LLC",6
+"Security Leadership Capital Management, L.L.C.",6
 "Angeleno Group, LLC",6
-Mutual Capital Partners Funds,6
+GO Capital,6
+Rooks Nest Ventures,6
 "Vitalizevc Management, LLC",6
 Vault Fund LP,6
-Beiersdorf Innovation Fund,6
 SINTEF Venture,6
 Kost Capital,6
 Fairpoint Capital,6
 "Ranch Ventures Management, LLC",6
 Fil Rouge Capital,6
-"Hbse Management, LLC",6
-Incore Invest,6
 "Royal Street Ventures Management Company, LLC",6
 Mercia Technologies,6
 Metis Ventures,6
 SHIFT Invest,6
 Kcrise Capital,6
-Act Venture Capital,6
+Access Venture Partners III L.P.,6
 "Cid Capital, INC.",6
 neoteq ventures,6
 Champel Capital,5
-Phoenix Venture Partners,5
-"Mirae Asset Capital Life Science, INC.",5
 Lunar Ventures,5
+Azul Ocean Ventures Fund Gp LLC,5
 Maven 11,5
 Maven11,5
 DeBa Ventures,5
@@ -1185,9 +1201,11 @@ AIP Seed,5
 Node.vc,5
 Yellow Rocks,5
 Leta Capital,5
+Beiersdorf Innovation Fund,5
 Vektor Partners,5
 GR Capital,5
 Ring Capital,5
+Incore Invest,5
 RUNI Ventures,5
 Rise PropTech,5
 "Goat Rodeo Capital Advisors, LLC",5
@@ -1198,13 +1216,12 @@ How Women Invest,5
 CincyTech,5
 New Atlantic Ventures,5
 McKinney Innovation Fund,5
-Access Venture Partners III L.P.,5
+Act Venture Capital,5
 Montlake Capital,5
 Remus Capital,5
+"Amr Action Fund GP, LLC",4
 "Innovate Partners, LLC",4
-Invivium Capital,4
-RiverVest Venture Partners,4
-Vida Ventures,4
+Phoenix Venture Partners,4
 MPM BioImpact,4
 Mpm Asset Management LLC,4
 Novartis Venture Fund,4
@@ -1215,14 +1232,12 @@ Kickfund,4
 1kx,4
 Blq Invest,4
 Ocean 14 Capital,4
-Varsity VC,4
 "Helios Climate Ventures, LLC",4
 Fraunhofer Tech Transfer Fund,4
 Metavallon VC,4
 Inflection Managing Partner INC.,4
 Crescendo Venture Partners,4
 Repsol Corporate Venturing,4
-London Venture Partners,4
 Science Creates Ventures,4
 "Hemi Ventures, LLC",4
 Caduceus Capital Partners,4
@@ -1235,34 +1250,37 @@ Swanlaab Giza Venture Fund,4
 Rocket Internet Capital Partners,4
 Cultivation Capital,4
 Revolution,4
-VI Partners Swiss Innovation,4
 Westlake Village BioPartners,3
+Interlace Ventures,3
 Boot64 Ventures,3
 "Cultivian Sandbox Venture Management, LLC",3
+Varsity VC,3
 Wave Equity Partners,3
 "Greenhouse Capital Management, LLC",3
 Milemark Capital Advisors LP,3
 Behold Ventures,3
 Amplify Partners,3
 NLC,3
+London Venture Partners,3
 Impact Expansion,3
 Longwall Ventures,3
 "Skyview SV2 Management, LLC",3
 LT Capital,3
 "Meritage Holdings, LLC",3
-Seae Ventures,3
 Ground Game Ventures,3
 Medscience Ventures LLC,3
-Flare Capital Partners,3
 A1 Management CO. LLC,3
+VI Partners Swiss Innovation,3
 Gorilla Capital,3
 Uncommon Denominator Management LLC,3
 "Mission Bay Capital Management, INC.",2
+Invivium Capital,2
+RiverVest Venture Partners,2
+Vida Ventures,2
 "Navimed Capital Advisors, LLC",2
 Pulse Investment Partners LLC,2
 1834 Ventures,2
 Brunnur Ventures,2
-"Amr Action Fund GP, LLC",2
 Shift4Good,2
 "Cvc Manager, LLC",2
 Acrobator Ventures,2
@@ -1277,7 +1295,6 @@ Nucleus Capital,2
 Adams Capital Management,2
 Ssm Partners,2
 1st Course Capital,2
-Opus Capital Group LLC,2
 "Grayhawk Capital, LLC",2
 Sentient Ventures,2
 Cambrian Ventures,2
@@ -1291,26 +1308,23 @@ HERAN Partners,2
 GET Fund,2
 Cusp Capital,2
 Una Terra,2
-Ignition Ventures,2
 "Bow Capital Management, LLC",2
 Outlier Grove,1
 "Moment Ventures, LLC",1
 Signia Venture Partners,1
+Seae Ventures,1
 Final Frontier,1
 Vine Street Ventures LLC,1
 Luxembourg · Fintech,1
 "Reformation Management, LLC",1
 Collective Spark,1
 VGames,1
-"Buoyant Ventures Management, LLC",1
 The Footprint Firm,1
 Fintech Ventures Fund,1
 Union Labs,1
 Gather Ventures LLC,1
 Bolsa Social Impacto,1
 MH Ventures,1
-Catalyze Capital,1
-Nordic Foodtech,1
 Xange Digital,1
 Plymouth Growth,1
 Key Investment Partners LLC,1
@@ -1329,7 +1343,6 @@ Octopus Ventures,1
 Synthesis Capital,1
 "Smh Peg Management , LLC",1
 Shilling Founders Fund,1
-Interlace Ventures,1
 Seedstars Youth Wellbeing Ventures,1
 Keiretsu Capital,1
 "City Hill Ventures, LLC",1
