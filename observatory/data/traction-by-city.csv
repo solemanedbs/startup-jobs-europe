@@ -1,235 +1,233 @@
 city,open_roles
-San Francisco,3544
-New York,3262
-London,2183
-Palo Alto,1243
-Los Angeles,832
-Paris,795
-Berlin,771
-Bangalore,691
-Boston,641
-Austin,638
-Munich,599
-Toronto,570
-Washington DC,453
-Chicago,406
-Singapore,346
-Seattle,335
-Tel Aviv,319
-Atlanta,314
-Barcelona,264
-Denver,260
-Dallas,248
-Amsterdam,238
-Houston,212
-Pune,209
-Vancouver,203
-Stockholm,202
-Mexico City,200
-Sydney,193
-Hyderabad,183
-Madrid,179
-Warsaw,178
-São Paulo,177
-Montreal,176
+San Francisco,3505
+New York,3242
+London,2197
+Palo Alto,1208
+Los Angeles,829
+Paris,794
+Berlin,748
+Bangalore,685
+Austin,631
+Boston,628
+Munich,605
+Toronto,571
+Washington DC,452
+Chicago,411
+Singapore,344
+Seattle,336
+Tel Aviv,315
+Atlanta,313
+Barcelona,270
+Denver,267
+Dallas,253
+Amsterdam,233
+Pune,226
+Houston,209
+Mexico City,203
+Vancouver,198
+Stockholm,194
+Sydney,187
+Madrid,183
+Hyderabad,179
+São Paulo,172
+Montreal,172
 Tokyo,167
-Kitchener,152
-Delhi,139
-Miami,135
-Dublin,134
-Zurich,131
-San Diego,128
-Jersey,120
-Copenhagen,115
-Hamburg,113
-Milan,107
+Warsaw,164
+Kitchener,145
+Delhi,143
+Dublin,136
+Miami,132
+San Diego,130
+Zurich,130
+Jersey,118
+Milan,113
+Copenhagen,112
+Manila,107
+Hamburg,107
+Cambridge,103
 Frankfurt,102
-Cambridge,101
-Lisbon,96
-Salt Lake City,93
-Kuala Lumpur,93
-Kyiv,92
-Hong Kong,91
-Bristol,87
-Dubai,86
-Melbourne,86
-Helsinki,82
-Philadelphia,79
-Vienna,75
-Prague,75
-Cologne,74
-Campinas,72
-Manila,69
-Brisbane,67
-Mumbai,67
-Phoenix,64
+Hong Kong,97
+Kuala Lumpur,95
+Kyiv,94
+Salt Lake City,91
+Dubai,90
+Bristol,88
+Lisbon,86
+Helsinki,85
+Philadelphia,83
+Melbourne,81
+Cologne,77
+Vienna,76
+Prague,72
+Mumbai,69
+Campinas,69
+Manchester,67
 Lausanne,64
-Manchester,64
-Cairo,62
-Kansas City,62
-Nashville,61
+Brisbane,62
+Phoenix,61
+Kansas City,61
+Nashville,60
 Düsseldorf,60
-Budapest,58
-Luxembourg,57
-Chennai,49
-Vilnius,49
+Cairo,59
+Luxembourg,59
+Budapest,59
+Shanghai,50
+Brescia,50
 Ghent,48
-Oslo,48
-Abu Dhabi,48
+Santa Cruz,48
+Chennai,47
+Taipei,47
+Oslo,47
+Vilnius,47
 Buenos Aires,47
-Shanghai,46
-Cape Town,46
-Bordeaux,46
-Santa Cruz,46
-Porto,46
-Taipei,44
-Bangkok,43
+Cape Town,45
+Abu Dhabi,45
+Porto,45
+Bordeaux,44
+Kraków,43
 Aachen,43
-Brescia,42
-Seoul,41
-Riyadh,40
+Riyadh,41
+Bangkok,41
+Seoul,39
 Brussels,38
 Stuttgart,36
 Ottawa,36
-Oakland,33
-Bucharest,32
+Oakland,34
 Reading,32
 Jakarta,32
-Kraków,31
-Sofia,30
-Delft,30
-Belgrade,30
-Almaty,29
-Oxford,29
-Hanoi,29
-Galway,28
-Lagos,28
-The Hague,28
+Lagos,30
+Sofia,29
+Bucharest,29
+Delft,28
+Almaty,28
+Wilmington,28
+Belgrade,28
 Eindhoven,28
 Birmingham,27
-Toulouse,27
-Belfast,27
 Lima,27
-Wilmington,27
-Leeds,26
-Santiago,24
+Oxford,27
+The Hague,27
+Belfast,26
+Hanoi,26
+Toulouse,24
+Leeds,24
+Rome,23
 Bremen,23
 Lyon,23
-Rome,22
-Nicosia,22
-Brighton,22
-Utrecht,21
-Edinburgh,21
-Southampton,20
-Glasgow,19
+Brighton,23
+Edinburgh,22
+Santiago,22
+Nicosia,21
+Tallinn,20
+Glasgow,20
+Utrecht,20
 Cork,19
-Athens,18
-Marseille,18
+Southampton,19
+Marseille,19
+Johannesburg,18
 Nairobi,18
-Tallinn,18
-Milton Keynes,17
-Valencia,16
-Leuven,16
-Johannesburg,16
-Ljubljana,15
-Bratislava,15
-Auckland,15
+Valencia,17
+Leuven,17
+Shenzhen,16
+Auckland,16
+Ahmedabad,16
+Athens,16
+Beijing,15
+Ulm,15
+Milton Keynes,15
+Galway,15
 Antwerp,14
-Shenzhen,14
+Istanbul,14
 Grenoble,14
-Tunis,14
-Dresden,13
+Karlsruhe,14
 Newcastle,13
-Cardiff,13
-Istanbul,13
-Beijing,13
-Florence,13
-Ulm,13
-Karlsruhe,13
-Ahmedabad,12
+Dresden,13
+Riga,13
+Tunis,13
+Ljubljana,13
+Cardiff,12
+Florence,12
 Bern,12
 Nuremberg,12
 Heidelberg,11
-Aarhus,11
-Augsburg,11
 Lille,11
-St. Gallen,11
 Lviv,11
-Rotterdam,11
+St. Gallen,10
 Casablanca,10
+Aarhus,10
 Trondheim,10
 Brno,10
+Augsburg,10
 Reykjavík,10
-Hanover,10
+Bratislava,10
+Rotterdam,10
 Tipperary,9
-Haifa,9
-Norwich,9
-Montpellier,9
+Gdańsk,9
+Hanover,9
 Leiden,8
 Nantes,8
+Nottingham,8
 Sheffield,8
+Norwich,8
 Wrocław,8
-Gdańsk,8
 Seville,8
+Montpellier,8
+Zug,7
 Pardubice,7
 Tampere,7
 Málaga,7
 Kaunas,7
-Riga,7
-Nottingham,7
+Haifa,7
+Malmö,7
 Zagreb,7
 Bologna,7
-Regensburg,7
-Limerick,7
+Strasbourg,7
 Münster,7
 Cluj,6
-Malmö,6
-Panama City,6
+Geneva,6
+Gothenburg,6
+Rennes,6
 Wexford,6
 Kampala,6
-Strasbourg,6
-Gothenburg,5
-Rennes,5
+Regensburg,6
 Zaragoza,5
+Panama City,5
 Tirana,5
 Aix-en-Provence,5
-Zug,4
-Ostrava,4
+Limerick,5
 Turin,4
 Modena,4
 Coimbra,4
 Leipzig,4
 San José,4
-Guernsey,4
-Groningen,3
-Basel,3
-Geneva,3
+Ostrava,3
 Verona,3
 Timișoara,3
-Łódź,3
 Perth,3
 Liverpool,3
 Liège,3
 Freiburg,3
-Kilkenny,3
+Guernsey,3
 Split,2
+Groningen,2
+Basel,2
 Kochi,2
 Poznań,2
 Skopje,2
 Graz,2
-Jaipur,2
 Nice,2
 Doha,2
 Abidjan,2
 Accra,2
+Łódź,2
 Bergen,2
-Bilbao,2
 Turku,1
 Linz,1
 Tartu,1
 Lugano,1
 Dhaka,1
 Padua,1
+Jaipur,1
 Quito,1
 Genoa,1
 Naples,1
@@ -238,6 +236,7 @@ Kathmandu,1
 Yaoundé,1
 Kolkata,1
 Valletta,1
+Kilkenny,1
 Jerusalem,1
 Katowice,1
 Braga,1
