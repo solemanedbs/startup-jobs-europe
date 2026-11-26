@@ -1,199 +1,199 @@
 city,open_roles
-San Francisco,3457
-New York,3230
-London,2215
-Palo Alto,1211
-Los Angeles,822
-Paris,792
-Berlin,725
-Bangalore,681
+San Francisco,3474
+New York,3247
+London,2246
+Palo Alto,1234
+Los Angeles,827
+Paris,784
+Berlin,732
+Bangalore,683
 Boston,630
-Munich,620
-Austin,615
-Toronto,577
-Washington DC,451
-Chicago,413
-Singapore,331
-Seattle,324
-Tel Aviv,320
-Atlanta,309
-Barcelona,272
-Denver,252
-Dallas,251
-Pune,240
+Austin,630
+Munich,628
+Toronto,581
+Washington DC,459
+Chicago,415
+Singapore,340
+Seattle,328
+Tel Aviv,319
+Atlanta,300
+Barcelona,276
+Denver,248
+Dallas,246
 Amsterdam,240
-Houston,200
+Pune,230
+Houston,206
 Mexico City,199
-Vancouver,192
-Stockholm,191
+Madrid,195
+Stockholm,194
+Sydney,192
 Warsaw,190
-Sydney,187
-Madrid,187
-Hyderabad,178
+Vancouver,189
+Hyderabad,183
+São Paulo,183
 Montreal,178
-São Paulo,175
-Tokyo,172
-Dublin,146
-Kitchener,145
-Delhi,138
-Miami,132
-Zurich,131
-San Diego,127
-Copenhagen,113
-Jersey,112
+Tokyo,173
+Dublin,147
+Delhi,140
+Kitchener,138
+Miami,135
+Zurich,132
+San Diego,129
+Jersey,116
+Copenhagen,114
 Milan,111
+Frankfurt,110
 Hamburg,108
-Frankfurt,106
-Kuala Lumpur,101
-Cambridge,93
-Kyiv,93
-Salt Lake City,92
-Dubai,91
+Kuala Lumpur,102
+Kyiv,95
+Cambridge,92
+Salt Lake City,90
 Hong Kong,89
+Dubai,88
+Melbourne,87
+Lisbon,87
 Bristol,86
-Melbourne,84
-Lisbon,84
-Philadelphia,82
-Helsinki,81
-Cologne,80
+Cologne,81
+Helsinki,80
+Philadelphia,80
 Vienna,79
-Manila,75
-Prague,69
-Manchester,68
-Mumbai,67
+Manila,74
+Prague,73
+Manchester,71
+Campinas,68
+Budapest,67
+Brisbane,66
+Mumbai,66
 Lausanne,66
-Campinas,66
-Budapest,64
-Brisbane,63
 Nashville,62
 Cairo,60
-Luxembourg,59
-Phoenix,59
-Düsseldorf,58
-Kansas City,57
-Taipei,52
+Phoenix,60
+Kansas City,59
+Düsseldorf,57
+Taipei,55
+Luxembourg,55
+Shanghai,52
 Ghent,51
-Shanghai,49
-Abu Dhabi,49
-Chennai,48
+Abu Dhabi,50
+Brescia,50
+Oslo,48
 Vilnius,48
-Brescia,48
-Buenos Aires,47
-Oslo,47
+Chennai,47
+Porto,47
+Buenos Aires,46
 Bordeaux,46
-Bangkok,45
 Santa Cruz,45
-Porto,44
+Bangkok,43
 Aachen,43
-Riyadh,41
-Cape Town,41
+Riyadh,40
+Cape Town,40
+Kraków,40
+Seoul,39
 Brussels,39
-Kraków,39
 Stuttgart,37
-Seoul,36
 Oakland,36
-Ottawa,35
+Sofia,34
+Ottawa,34
 Reading,34
 Lagos,33
-Belgrade,32
-Bucharest,32
-Jakarta,32
-Sofia,31
-Wilmington,29
-Birmingham,29
+Bucharest,33
+Belgrade,31
+Lima,30
+Jakarta,30
 Eindhoven,29
 Delft,28
-Oxford,28
+Birmingham,27
 Belfast,27
-Almaty,26
-Lima,26
-Hanoi,26
+Oxford,27
+Hanoi,27
+Wilmington,26
+Rome,26
+The Hague,26
 Leeds,26
-Rome,25
-Lyon,25
-The Hague,25
+Almaty,25
+Lyon,24
 Bremen,23
+Santiago,23
 Toulouse,22
 Edinburgh,22
-Santiago,22
+Utrecht,22
 Glasgow,21
 Nicosia,21
-Brighton,21
 Tallinn,20
-Utrecht,20
-Johannesburg,19
+Brighton,20
 Southampton,19
-Cork,18
-Milton Keynes,17
+Milton Keynes,18
+Istanbul,18
 Marseille,17
-Valencia,17
 Leuven,17
-Beijing,16
+Johannesburg,16
+Valencia,16
 Auckland,16
-Istanbul,16
+Shenzhen,15
 Grenoble,15
 Ljubljana,15
 Riga,15
 Nairobi,15
+Cork,15
 Karlsruhe,15
-Shenzhen,14
+Ahmedabad,14
 Galway,14
 Ulm,14
 Athens,14
-Rotterdam,14
+Beijing,13
 Antwerp,13
-Dresden,13
-Ahmedabad,13
-Leiden,12
+Leiden,13
+Rotterdam,13
+Dresden,12
 Newcastle,12
 Tunis,12
+Cardiff,12
 Florence,12
+Wrocław,11
 Lille,11
 Lviv,11
-Cardiff,11
-Wrocław,11
 Nuremberg,11
 Tipperary,10
 Malmö,10
-Málaga,10
+Casablanca,10
 St. Gallen,10
 Aarhus,10
 Augsburg,10
 Reykjavík,10
 Cluj,9
+Málaga,9
 Seville,9
-Casablanca,9
 Brno,9
 Sheffield,9
 Bratislava,9
-Gdańsk,9
 Hanover,9
 Tampere,8
 Kaunas,8
-Nantes,8
 Trondheim,8
+Gdańsk,8
 Heidelberg,8
+Limerick,7
 Zug,7
-Geneva,7
+Nantes,7
 Rennes,7
 Haifa,7
 Zagreb,7
 Bern,7
 Norwich,7
+Bologna,7
 Münster,7
 Montpellier,7
+Geneva,6
 Gothenburg,6
 Nottingham,6
 Aix-en-Provence,6
 Wexford,6
 Kampala,6
 Strasbourg,6
-Bologna,6
-Panama City,5
 Tirana,5
+Panama City,5
 Regensburg,5
 Zaragoza,4
-Limerick,4
 Modena,4
 Pardubice,4
 Coimbra,4
@@ -213,6 +213,7 @@ Split,2
 Groningen,2
 Basel,2
 Poznań,2
+Turku,2
 Ostrava,2
 Kochi,2
 Graz,2
@@ -221,8 +222,6 @@ Accra,2
 Łódź,2
 Bergen,2
 Guernsey,2
-Kolkata,1
-Turku,1
 Linz,1
 Tartu,1
 Lugano,1
