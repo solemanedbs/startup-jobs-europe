@@ -23,7 +23,13 @@
 /fund.js
   Cache-Control: public, max-age=31536000, immutable
 
+/guess.js
+  Cache-Control: public, max-age=31536000, immutable
+
 /icons.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/match.js
   Cache-Control: public, max-age=31536000, immutable
 
 /moi.css
