@@ -115,11 +115,15 @@
     const mot = bons >= 4 ? "You have done this before."
       : bons >= 2 ? "Respectable." : proches >= 3 ? "Close enough to be dangerous."
       : "The pay ranges are wider than anyone thinks.";
+    /* « 3/5 nailed it, 3/5 within 30% » repetait le meme chiffre des qu'il n'y
+       avait aucun jaune : on ne dit la seconde moitie que si elle ajoute quelque chose */
+    const score = bons === proches
+      ? `${bons}/${TOURS} inside the range.`
+      : `${bons}/${TOURS} inside the range, ${proches}/${TOURS} within 30%.`;
     scene.innerHTML =
       `<p class="tr-overline" style="margin:0 0 var(--space-2)">Your round</p>
        <h2 class="tr-h-l" style="margin:0 0 var(--space-2)">${grille}</h2>
-       <p style="margin:0 0 var(--space-5)"><strong>${bons}/${TOURS} nailed it,
-         ${proches}/${TOURS} within 30%.</strong> ${mot}</p>
+       <p style="margin:0 0 var(--space-5)"><strong>${score}</strong> ${mot}</p>
        <div class="tr-row" style="gap:var(--space-3);flex-wrap:wrap">
          <button type="button" class="tr-btn tr-btn-primary" id="gshare">Copy your grid</button>
          <button type="button" class="tr-btn tr-btn-secondary" id="gagain">Play again</button>
